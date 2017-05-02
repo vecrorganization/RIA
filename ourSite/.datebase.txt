@@ -1,0 +1,5 @@
+mysql -u root -p
+CREATE USER 'admin_ria'@'localhost' IDENTIFIED BY 'ria123';
+CREATE DATABASE db_ria;
+GRANT INSERT ON db_ria.* TO 'admin_ria'@'localhost';
+FLUSH PRIVILEGES;
