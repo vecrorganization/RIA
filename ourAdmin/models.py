@@ -9,11 +9,13 @@ from django.contrib.auth.models import User
 
 class Table(models.Model):
     TAX = "T"
-    CATEGORY = "C"
+    CATEGORY = "CA"
+    COUNTRY = "CO"
 
     TYPE_CHOICES = (
         (TAX, 'Tax'),
-        (CATEGORY, 'Category')
+        (CATEGORY, 'Category'),
+        (COUNTRY, 'Country')
     )
 
     desc = models.CharField('Descripción',max_length=40)
@@ -30,3 +32,26 @@ class Table(models.Model):
 
     def __str__(self):
         return self.get_type_display() + ": " + self.desc
+
+
+class Seller(models.Model):
+    
+    eMail = models.EmailField(max_length=254,primary_key=True)
+    company = models.CharField('Compañía',max_length=100, null=True)
+    legalNum = models.CharField('Num. Legal',max_length=25,null=True)
+    contactName = models.CharField('Nombre de contacto',max_length=100)
+    contactPhone = models.CharField('Telf. de contacto',max_length=25)
+    contactMail = models.EmailField('Mail de contacto',max_length=50)
+    country = models.ForeignKey(Table)
+    city = models.CharField('Ciudad',max_length=50)
+    zipCode = models.CharField('Código postal',max_length=10,null=True)
+    address = models.CharField('Dirección',max_length=50)
+    modifier = models.ForeignKey(User)
+    createDate = models.DateTimeField("Fecha de creación",auto_now_add=True,null=True)
+    modifyDate = models.DateTimeField("Fecha de modificación", null=True)
+
+    class Meta:
+        ordering = ['country']
+
+    def __str__(self):
+        return self.contactName
