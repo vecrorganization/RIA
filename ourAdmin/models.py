@@ -85,6 +85,8 @@ class Prod(models.Model):
     createDate = models.DateField('Fecha de creación',auto_now_add=True)
     modifyDate = models.DateField('Fecha de modificación', null=True)
 
+    def __str__(self):
+        return self.name
 
 '''class MPayment(models.Model):
     cardNumber = models.DecimalField('Numero tarjeta'max_digits=20, validators=[MinValueValidator(0.0)], primary_key=True)
