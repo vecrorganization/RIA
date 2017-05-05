@@ -9,7 +9,7 @@
 <section>
   <h3>Producto 003</h3>
 
-  <form method="post" accept-charset="utf-8" class="form-group" role="form">
+  <form method="post" accept-charset="utf-8" class="form-group" role="form" enctype="multipart/form-data">
     {% csrf_token %}
     <table >
       {% for field in form %}

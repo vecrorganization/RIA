@@ -7,26 +7,29 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 
+User._meta.get_field('email')._unique = True
 
 class Table(models.Model):
     TAX = "T"
     CATEGORY = "CA"
     COUNTRY = "CO"
+    CLASS = "CL"
 
     TYPE_CHOICES = (
         (TAX, 'Tax'),
         (CATEGORY, 'Category'),
-        (COUNTRY, 'Country')
+        (COUNTRY, 'Country'),
+        (CLASS, 'Class')
     )
 
     desc = models.CharField('Descripción',max_length=40)
     type = models.CharField('Tipo', max_length=2,choices=TYPE_CHOICES)
-    refer = models.IntegerField('Referencia',null=True)
-    value1 = models.DecimalField("Valor 1",decimal_places=3,max_digits=9,null=True)
-    value2 = models.DecimalField("Valor 2",decimal_places=3,max_digits=9,null=True)
+    refer = models.IntegerField('Referencia',null=True,blank=True)
+    value1 = models.DecimalField("Valor 1",decimal_places=3,max_digits=9,null=True,blank=True)
+    value2 = models.DecimalField("Valor 2",decimal_places=3,max_digits=9,null=True,blank=True)
     modifier = models.ForeignKey(User)
-    createDate = models.DateTimeField("Fecha de creación",auto_now_add=True,null=True)
-    modifyDate = models.DateTimeField("Fecha de modificación",null=True)
+    createDate = models.DateTimeField("Fecha de creación",auto_now_add=True,null=True,blank=True)
+    modifyDate = models.DateTimeField("Fecha de modificación",null=True,blank=True)
 
     class Meta:
         ordering = ['type']
@@ -55,7 +58,7 @@ class Seller(models.Model):
         ordering = ['country']
 
     def __str__(self):
-        return self.contactName
+        return self.eMail
 
 
 class Prod(models.Model):
@@ -67,12 +70,12 @@ class Prod(models.Model):
                                   decimal_places=3, validators=[MinValueValidator(0.0)])
     category = models.ForeignKey(Table, related_name='category')
     clase = models.ForeignKey(Table, related_name='clase')
-    width = models.DecimalField('Anchura',max_digits=9,
-                                  decimal_places=3, validators=[MinValueValidator(0.0)], null=True)
-    length = models.DecimalField('Longitud',max_digits=9,
-                                  decimal_places=3, validators=[MinValueValidator(0.0)], null=True)
-    height = models.DecimalField('Altura',max_digits=9,
-                                  decimal_places=3, validators=[MinValueValidator(0.0)], null=True)
+    width = models.DecimalField('Anchura',max_digits=9,decimal_places=3, 
+                                    validators=[MinValueValidator(0.0)],null=True,blank=True)
+    length = models.DecimalField('Longitud',max_digits=9,decimal_places=3, 
+                                    validators=[MinValueValidator(0.0)],null=True,blank=True)
+    height = models.DecimalField('Altura',max_digits=9,decimal_places=3, 
+                                    validators=[MinValueValidator(0.0)],null=True,blank=True)
     tax1 = models.ForeignKey(Table, related_name='tax1')
     tax2 = models.ForeignKey(Table, related_name='tax2')
     seller = models.ForeignKey(Seller)
@@ -81,7 +84,7 @@ class Prod(models.Model):
     image_3 = models.ImageField(null=True,blank=True,upload_to='preguntar/')
     image_4 = models.ImageField(null=True,blank=True,upload_to='preguntar/')
     image_5 = models.ImageField(null=True,blank=True,upload_to='preguntar/')
-    modifier = models.ForeignKey(Table, related_name='prod_modifier')
+    modifier = models.ForeignKey(User, related_name='prod_modifier')
     createDate = models.DateField('Fecha de creación',auto_now_add=True)
     modifyDate = models.DateField('Fecha de modificación', null=True)
 

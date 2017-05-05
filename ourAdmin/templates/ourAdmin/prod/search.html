@@ -18,10 +18,10 @@
       </tr>
       <tr>
         <td>
-          <input type="text" name="name" maxlength="100" class="form-control" id="id_name">
+          <input type="text" name="id" maxlength="100" class="form-control" id="id_id">
         </td>
         <td>
-          <input type="text" name="id" maxlength="100" class="form-control" id="id_id">
+          <input type="text" name="name" maxlength="100" class="form-control" id="id_name">
         </td>
       </tr>
     </table>
@@ -49,10 +49,11 @@
       })
       .done(function(data){
         var html = '';               
-        //Add products list to table if list's not empty
+        //add products list to table if list's not empty
         if(data.length > 0){
           for (var i = 0; i < data.length; i++){
-              html +='<tr><td>'+data[i].pk+'</td><td>'+data[i].name+'</td></tr>'
+              html +='<tr><td><a href="/ourAdmin/prodmodify/'+data[i].pk+'">'+data[i].pk+'</a></td>';
+              html +='<td><a href="/ourAdmin/prodmodify/'+data[i].pk+'">'+data[i].name+'</td></tr>';
           }       
           $("#table-prods").html(html);
         }else{
@@ -66,8 +67,8 @@
   });
 
   $(document).ready(function() {
-      //SEARCH
       $("#btn-submit").click(function(){
+        //verify that at least one field is filled
         if (document.getElementById("id_name").value != "" ||
             document.getElementById("id_id").value != "") {
           $("#form-search").submit();

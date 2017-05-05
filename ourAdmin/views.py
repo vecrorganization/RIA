@@ -11,6 +11,7 @@ from django.views.generic import TemplateView, View
 from ourAdmin.models import Prod
 from ourAdmin.forms import ProdForm
 
+
 class ProdSearch(TemplateView):
     """
     Search a Prod 
@@ -22,6 +23,7 @@ class ProdSearch(TemplateView):
         context = super(ProdSearch, self).get_context_data(**kwargs)
         context['Title'] = "Buscar producto"
         return context
+
 
 class ProdSearchAjax(View):
     """
@@ -37,7 +39,8 @@ class ProdSearchAjax(View):
             except:
                 pass
         elif 'name' in post_values and not prods:
-            prods = Prod.objects.filter(name__icontains=int(post_values['name']))
+            #prods = Prod.objects.filter(where="name LIKE "+post_values['name'])
+            prods = Prod.objects.filter(name__icontains=post_values['name'])
 
         data = [{'pk': prod.id, 'name': prod.name} for prod in prods]
         return HttpResponse(json.dumps(data), content_type='application/json')
@@ -66,10 +69,10 @@ class ProdCreateModify(TemplateView):
         post_values = request.POST.copy()
         if 'pk' in kwargs:
             prod = get_object_or_404(Prod, id=int(kwargs['pk']))
-            form = ProdForm(post_values,instance=prod)
+            form = ProdForm(post_values,request.FILES,instance=prod)
             title = "Modificar Prod"
         else:
-            form = ProdForm(post_values)
+            form = ProdForm(post_values,request.FILES)
             title = "Crear Prod"
 
         if form.is_valid():
