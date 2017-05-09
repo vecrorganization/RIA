@@ -17,7 +17,7 @@ class TableSetUp(TestCase):
                     )
         
     
-class TableModelTestCase(ProdSetUp):
+class TableModelTestCase(TableSetUp):
     """
     Test case for Table model object creation
     """
@@ -34,7 +34,7 @@ class TableModelTestCase(ProdSetUp):
                             modifyDate = datetime.now()
                         ))
 
-class TableFormTestCase(ProdSetUp):
+class TableFormTestCase(TableSetUp):
     """
     Test cases for TableForm
     """

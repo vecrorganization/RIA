@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 
 User._meta.get_field('email')._unique = True
+User._meta.get_field('email')._blank = False
 
 class Table(models.Model):
     TAX = "T"

@@ -47,6 +47,22 @@ class ProdSearchAjax(View):
         data = [{'pk': prod.id, 'name': prod.name} for prod in prods]
         return HttpResponse(json.dumps(data), content_type='application/json')
 
+class ProdDeleteAjax(View):
+    """
+    Delete requested Prod
+    """
+
+    def post(self, request, *args, **kwargs):
+        post_values = request.POST.copy()
+        try:
+            Prod.objects.get(id = post_values['pk']).delete()
+            messages.add_message(request, messages.SUCCESS, 'Se elimino correctamente')
+            data={'deleted' : 1}
+        except:
+            messages.add_message(request, messages.ERROR, 'Error: no se realizo la operación')
+            data={'deleted' : 0}
+        
+        return HttpResponse(json.dumps(data), content_type='application/json')
 
 class ProdCreateModify(TemplateView):
     """
@@ -73,13 +89,17 @@ class ProdCreateModify(TemplateView):
             prod = get_object_or_404(Prod, id=int(kwargs['pk']))
             form = ProdForm(post_values,request.FILES,instance=prod)
             title = "Modificar Prod"
+            msg = "Modificación realizada"
         else:
             form = ProdForm(post_values,request.FILES)
             title = "Crear Prod"
+            msg = "Creación exitosa"
 
         if form.is_valid():
+            messages.add_message(request, messages.SUCCESS, msg)
             prod = form.save()
         else:
+            messages.add_message(request, messages.ERROR, 'Error: no se realizo la operación')
             return render_to_response(template_name, {'form':form,'Title':title},
                                       context_instance=RequestContext(request))
 
