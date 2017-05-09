@@ -15,6 +15,21 @@
   },
 
   {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$20000$T4YnkG9O4Sbr$sqlGdwtiwtSWNiAPnDMN8d+DzHGnsDoCYbN3YN8GtZI=",
+      "is_superuser": "t",
+      "username":"isaacg",
+      "first_name": "Isaac",
+      "last_name": "González",
+      "email": "isaacg311@gmail.com",
+      "is_active" : "t",
+      "is_staff": "t"
+    }
+  },
+
+  {
     "model": "ourAdmin.table",
     "pk": 1,
     "fields": {

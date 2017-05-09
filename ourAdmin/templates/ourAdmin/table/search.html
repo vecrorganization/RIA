@@ -1,0 +1,91 @@
+{% extends "ourAdmin/base_ouradmin.html" %}
+{% load static %}
+
+{% block custom_css %}
+{% endblock %}
+
+{% block content %}
+
+<section>
+  <h3>Buscar table</h3>
+  <form method="post" accept-charset="utf-8" class="form-group" role="form" id="form-search" action="{% url 'TableSearchAjax' %}">
+    {% csrf_token %}
+    <table >
+      <tr>
+        <td><b>Tipo </b></td>
+        <td><b>Descripción</b></td>
+      </tr>
+      <tr>
+        <td>
+          <select id="id_type" name="type">
+            <option  value="" selected="selected">---------</option>
+            {% for t in t_choices %}
+              <option value="{{t.0}}">
+                {{t.1}}
+              </option>
+            {% endfor %}
+          </select>
+        </td>
+        <td>
+          <input type="text" name="desc" maxlength="100" class="form-control" id="id_desc">
+        </td>
+      </tr>
+    </table>
+    <button type="button" class="btn" id="btn-submit"><i class="fa fa-check" aria-hidden="true"></i></button>
+
+    <a href="{% url 'TableCreate' %}">
+      <button type="button" class="btn"><i class="fa fa-plus" aria-hidden="true"></i></button>
+    </a>
+  </form>
+
+  <table id="table-table">
+    
+  </table>
+</section>
+
+{% endblock %}
+
+{% block custom_script %}
+
+<script>
+  $( document ).on( 'submit', '#form-search', function(e){
+      $.ajax({
+        url : $( this ).attr( 'action' ),
+        type : $( this ).attr( 'method' ),
+        data : $( this ).serialize(), 
+      })
+      .done(function(data){
+        console.log(data)
+        var html = '';               
+        //add products list to table if list's not empty
+        if(data.length > 0){
+          for (var i = 0; i < data.length; i++){
+              html +='<tr>\
+                        <td>'+data[i].type+'</td><td><a href="/ourAdmin/tablemodify/'+data[i].pk+'">'+data[i].desc+'</a></td>\
+                      </tr>';
+          }       
+          $("#table-table").html(html);
+        }else{
+          $("#table-table").html('<tr><td>No se encontraron tables.</td></tr>');
+        }
+      })
+      .fail(function( jqXHR, textStatus, errorThrown ){
+        console.log("ERROR: ajax");
+      });
+      return false;
+  });
+
+  $(document).ready(function() {
+      $("#btn-submit").click(function(){
+        //verify that at least one field is filled
+        if (document.getElementById("id_type").value != "" ||
+            document.getElementById("id_desc").value != "") {
+          $("#form-search").submit();
+        }else{
+          $("#table-table").html('<tr><td>Debe seleccionar un tipo o escribir una descripción.</td></tr>');
+        }
+      });
+  });
+</script>
+
+{% endblock %} 
