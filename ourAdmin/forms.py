@@ -6,6 +6,10 @@ class ProdForm(forms.ModelForm):
     """
     Ceate or modify a Prod 
     """
+    category = forms.ModelChoiceField(queryset= Table.objects.filter(type=Table.CATEGORY))
+    clase = forms.ModelChoiceField(queryset= Table.objects.filter(type=Table.CLASS))
+    tax1 = forms.ModelChoiceField(queryset= Table.objects.filter(type=Table.TAX))
+    tax2 = forms.ModelChoiceField(queryset= Table.objects.filter(type=Table.TAX))
 
     class Meta:
         model = Prod

@@ -35,14 +35,14 @@ class ProdSearchAjax(View):
     def post(self, request, *args, **kwargs):
         post_values = request.POST.copy()
         prods = []
-        if 'id' in post_values:
-            try:
-                prods = [Prod.objects.get(id=int(post_values['id']))]
-            except:
-                pass
-        elif 'name' in post_values and not prods:
-            #prods = Prod.objects.filter(where="name LIKE "+post_values['name'])
-            prods = Prod.objects.filter(name__icontains=post_values['name'])
+
+        try:
+            #search by id
+            prods = [Prod.objects.get(id=int(post_values['id']))]
+        except:
+            #search by name if it is not ""
+            if 'name' in post_values and post_values['name']:
+                prods = Prod.objects.filter(name__icontains=post_values['name'])
 
         data = [{'pk': prod.id, 'name': prod.name} for prod in prods]
         return HttpResponse(json.dumps(data), content_type='application/json')
