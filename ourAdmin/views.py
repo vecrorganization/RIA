@@ -38,7 +38,7 @@ class ProdSearchAjax(View):
 
         try:
             #search by id
-            prods = [Prod.objects.get(id=int(post_values['id']))]
+            prods = [Prod.objects.get(id=post_values['id'])]
         except:
             #search by name if it is not ""
             if 'name' in post_values and post_values['name']:
@@ -74,7 +74,7 @@ class ProdCreateModify(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(ProdCreateModify, self).get_context_data(**kwargs)
         if 'pk' in kwargs:
-            prod = get_object_or_404(Prod, id=int(kwargs['pk']))
+            prod = get_object_or_404(Prod, id=kwargs['pk'])
             context['form'] = ProdForm(instance=prod)
             context['Title'] = "Modificar Prod"
         else:
@@ -86,7 +86,7 @@ class ProdCreateModify(TemplateView):
     def post(self, request, *args, **kwargs):
         post_values = request.POST.copy()
         if 'pk' in kwargs:
-            prod = get_object_or_404(Prod, id=int(kwargs['pk']))
+            prod = get_object_or_404(Prod, id=kwargs['pk'])
             form = ProdForm(post_values,request.FILES,instance=prod)
             title = "Modificar Prod"
             msg = "Modificación realizada"
@@ -197,7 +197,7 @@ class TableDeleteAjax(View):
         post_values = request.POST.copy()
         print(post_values)
         try:
-            Table.objects.get(id = post_values['pk']).delete()
+            Table.objects.get(id = int(post_values['pk'])).delete()
             messages.add_message(request, messages.SUCCESS, 'Se elimino correctamente')
             data={'deleted' : 1}
         except:
