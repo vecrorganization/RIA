@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ourAdmin',
+    'ourAuth',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +133,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/var/www/static/',
 ]
+
+# Sign Up With Confirmation Mail
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

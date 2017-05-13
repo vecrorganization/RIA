@@ -101,3 +101,7 @@ ENV/
 
 # mkdocs documentation
 /site
+
+
+#django
+*/migrations/*

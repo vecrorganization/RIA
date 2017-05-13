@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 #from django.core.urlresolvers import reverse
-#from braces.views import LoginRequiredMixin
+from braces.views import LoginRequiredMixin,StaffuserRequiredMixin
 from django.views.generic import TemplateView, View
 # App
 from ourAdmin.models import Prod, Table
@@ -14,7 +14,7 @@ from ourAdmin.forms import ProdForm, TableForm
 from datetime import datetime
 
 
-class ProdSearch(TemplateView):
+class ProdSearch(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
     """
     Search a Prod 
     """
@@ -27,7 +27,7 @@ class ProdSearch(TemplateView):
         return context
 
 
-class ProdSearchAjax(View):
+class ProdSearchAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
     """
     Get and send ajax with the product searching
     """
@@ -47,7 +47,7 @@ class ProdSearchAjax(View):
         data = [{'pk': prod.id, 'name': prod.name} for prod in prods]
         return HttpResponse(json.dumps(data), content_type='application/json')
 
-class ProdDeleteAjax(View):
+class ProdDeleteAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
     """
     Delete requested Prod
     """
@@ -64,7 +64,7 @@ class ProdDeleteAjax(View):
         
         return HttpResponse(json.dumps(data), content_type='application/json')
 
-class ProdCreateModify(TemplateView):
+class ProdCreateModify(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
     """
     Create or modify a Prod 
     """
@@ -97,16 +97,19 @@ class ProdCreateModify(TemplateView):
 
         if form.is_valid():
             messages.add_message(request, messages.SUCCESS, msg)
-            prod = form.save()
+            prod = form.save(commit=False)
+            prod.modifier = request.user
+            prod.save()
+
         else:
             messages.add_message(request, messages.ERROR, 'Error: no se realizo la operación')
-            return render_to_response(template_name, {'form':form,'Title':title},
+            return render_to_response(self.template_name, {'form':form,'Title':title},
                                       context_instance=RequestContext(request))
 
         return redirect('ProdSearch')  
 
 
-class TableCreateModify(TemplateView):
+class TableCreateModify(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
     """
     Create or modify a Table 
     """
@@ -148,12 +151,12 @@ class TableCreateModify(TemplateView):
             table = form.save()
         else:
             messages.add_message(request, messages.ERROR, 'Error: no se realizo la operación')
-            return render(request, template_name, {'form':form,'Title':title})
+            return render(request, self.template_name, {'form':form,'Title':title})
 
         return redirect('TableSearch')
 
 
-class TableSearch(TemplateView):
+class TableSearch(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
     """
     Search a Table
     """
@@ -166,7 +169,7 @@ class TableSearch(TemplateView):
         return context
 
 
-class TableSearchAjax(View):
+class TableSearchAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
     """
     Get and send ajax with the table searching
     """
@@ -188,7 +191,7 @@ class TableSearchAjax(View):
         
         return HttpResponse(json.dumps(data), content_type='application/json')
 
-class TableDeleteAjax(View):
+class TableDeleteAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
     """
     Delete requested table
     """

@@ -30,6 +30,21 @@
   },
 
   {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$20000$T4YnkG9O4Sbr$sqlGdwtiwtSWNiAPnDMN8d+DzHGnsDoCYbN3YN8GtZI=",
+      "is_superuser": "t",
+      "username":"negris",
+      "first_name": "Richard",
+      "last_name": "Lares",
+      "email": "richardlm57@gmail.com",
+      "is_active" : "t",
+      "is_staff": "t"
+    }
+  },
+
+  {
     "model": "ourAdmin.table",
     "pk": 1,
     "fields": {

@@ -13,7 +13,7 @@ class ProdForm(forms.ModelForm):
 
     class Meta:
         model = Prod
-        exclude = ['createDate','modifyDate']
+        exclude = ['createDate','modifyDate','modifier']
 
     def __init__(self, *args, **kwargs):
         super(ProdForm, self).__init__(*args, **kwargs)

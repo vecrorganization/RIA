@@ -128,8 +128,7 @@ class ProdFormTestCase(ProdSetUp):
                 'clase': str(self.prod_class.id),
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         form = ProdForm(data=form_data,files={ 'image_1': self.image })
@@ -150,8 +149,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -179,8 +177,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -209,8 +206,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -239,8 +235,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -268,8 +263,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -297,8 +291,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -326,8 +319,7 @@ class ProdFormTestCase(ProdSetUp):
                 'length':'100',
                 'height':'100',
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -355,8 +347,7 @@ class ProdFormTestCase(ProdSetUp):
                 'length':'100',
                 'height':'100',
                 'tax1':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -384,37 +375,7 @@ class ProdFormTestCase(ProdSetUp):
                 'length':'100',
                 'height':'100',
                 'tax1':str(self.tax.id),
-                'tax2':str(self.tax.id),
-                'modifier': str(self.user.id)
-            }
-
-        images = {  'image_1': self.image,
-                    'image_2': self.image,
-                    'image_3': self.image,
-                    'image_4': self.image,
-                    'image_5': self.image
-            }
-
-        form = ProdForm(data=form_data,files=images)
-        self.assertFalse(form.is_valid())
-
-    def test_modifier_empty(self):
-        """
-        Modifier is a mandatory field. If it is empty, form is not valid.
-        """
-        form_data = { 
-                'id':'123',
-                'name':'Prod1',
-                'desc':'Prod1',
-                'price':'1234',
-                'category': str(self.category.id),
-                'clase': str(self.prod_class.id),
-                'width':'100',
-                'length':'100',
-                'height':'100',
-                'tax1':str(self.tax.id),
-                'tax2':str(self.tax.id),
-                'seller':self.seller.eMail
+                'tax2':str(self.tax.id)
             }
 
         images = {  'image_1': self.image,
@@ -443,8 +404,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_2': self.image,
@@ -474,8 +434,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -505,8 +464,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -535,8 +493,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -566,8 +523,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'hola1',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -599,8 +555,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -629,8 +584,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -660,8 +614,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -695,8 +648,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -727,8 +679,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -760,8 +711,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -792,8 +742,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -825,8 +774,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.prod_class.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -857,8 +805,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.category.id),
                 'tax2':str(self.tax.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -890,8 +837,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.prod_class.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,
@@ -922,8 +868,7 @@ class ProdFormTestCase(ProdSetUp):
                 'height':'100',
                 'tax1':str(self.tax.id),
                 'tax2':str(self.category.id),
-                'seller':self.seller.eMail,
-                'modifier': str(self.user.id)
+                'seller':self.seller.eMail
             }
 
         images = {  'image_1': self.image,

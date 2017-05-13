@@ -7,9 +7,6 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 
-User._meta.get_field('email')._unique = True
-User._meta.get_field('email')._blank = False
-
 class Table(models.Model):
     TAX = "T"
     CATEGORY = "CA"
@@ -91,6 +88,11 @@ class Prod(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self._state.adding:
+            self.modifyDate = date.today()
+        return super(Prod, self).save(*args, **kwargs)
 
 '''class MPayment(models.Model):
     cardNumber = models.DecimalField('Numero tarjeta'max_digits=20, validators=[MinValueValidator(0.0)], primary_key=True)

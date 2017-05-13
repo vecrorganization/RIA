@@ -21,4 +21,6 @@ urlpatterns = [
 
     ## Our Admin module's URLs
     url(r'^ourAdmin/', include('ourAdmin.urls')),
+    ## Our Auth module's URLs
+    url(r'^accounts/', include('ourAuth.urls')),
 ]
