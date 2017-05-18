@@ -94,8 +94,8 @@ class Prod(models.Model):
             self.modifyDate = date.today()
         return super(Prod, self).save(*args, **kwargs)
 
-'''class MPayment(models.Model):
-    cardNumber = models.DecimalField('Numero tarjeta'max_digits=20, validators=[MinValueValidator(0.0)], primary_key=True)
+class MPayment(models.Model):
+    cardNumber = models.DecimalField('Numero tarjeta', max_digits=20, decimal_places=0, validators=[MinValueValidator(0.0)], primary_key=True)
     cardType = models.CharField('Tipo tarjeta', max_length=25)
     cardCountry = models.CharField('País', max_length=25, null=True)
     cardName = models.CharField('Nombre tarjeta', max_length=25)
@@ -105,14 +105,15 @@ class Prod(models.Model):
 
 
 class HDiscount(models.Model):
-    desc = models.CharField('Tipo tarjeta', max_length=25)
+    desc = models.CharField( max_length=100)
     dateStart = models.DateField('Fecha de inicio')
     dateFinish = models.DateField('Fecha de finalización')
     porDiscount = models.DecimalField('Porcentaje de descuento',max_digits=6,
                                   decimal_places=2, validators=[MinValueValidator(0.0)], null=True)
-    modifier = 
+    modifier = models.ForeignKey(User)
     createDate = models.DateField('Fecha de creación',auto_now_add=True)
     modifyDate = models.DateField('Fecha de modificación', null=True)
+
 
 
 class DDiscount(models.Model):
@@ -123,4 +124,22 @@ class DDiscount(models.Model):
 
     class Meta:
         unique_together = (('hd','prod'),)
-'''
+
+
+class Adress(models.Model):
+    State = models.CharField('Descripción',max_length=50)
+    Address1 = models.CharField('Descripción',max_length=254)
+    Address2 = models.CharField('Descripción',max_length=254)
+    Telephone = models.CharField('Descripción',max_length=50)
+
+class AddressUser(models.Model):
+    User = models.ForeignKey(User)
+    Address = models.ForeignKey(Adress)
+    
+    class Meta:
+        unique_together = (('User','Address'),)
+
+
+
+class Order(models.Model):
+    Address = models.ForeignKey(Adress)
