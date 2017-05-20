@@ -105,3 +105,4 @@ ENV/
 
 #django
 */migrations/*
+media/*

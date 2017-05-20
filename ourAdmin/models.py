@@ -77,11 +77,11 @@ class Prod(models.Model):
     tax1 = models.ForeignKey(Table, related_name='tax1')
     tax2 = models.ForeignKey(Table, related_name='tax2')
     seller = models.ForeignKey(Seller)
-    image_1 = models.ImageField(upload_to='preguntar/')
-    image_2 = models.ImageField(null=True,blank=True,upload_to='preguntar/')
-    image_3 = models.ImageField(null=True,blank=True,upload_to='preguntar/')
-    image_4 = models.ImageField(null=True,blank=True,upload_to='preguntar/')
-    image_5 = models.ImageField(null=True,blank=True,upload_to='preguntar/')
+    image_1 = models.ImageField(upload_to='prod/')
+    image_2 = models.ImageField(null=True,blank=True,upload_to='prod/')
+    image_3 = models.ImageField(null=True,blank=True,upload_to='prod/')
+    image_4 = models.ImageField(null=True,blank=True,upload_to='prod/')
+    image_5 = models.ImageField(null=True,blank=True,upload_to='prod/')
     modifier = models.ForeignKey(User, related_name='prod_modifier')
     createDate = models.DateField('Fecha de creación',auto_now_add=True)
     modifyDate = models.DateField('Fecha de modificación', null=True)
@@ -94,14 +94,34 @@ class Prod(models.Model):
             self.modifyDate = date.today()
         return super(Prod, self).save(*args, **kwargs)
 
-class MPayment(models.Model):
+
+class PaymentMethod(models.Model):
     cardNumber = models.DecimalField('Numero tarjeta', max_digits=20, decimal_places=0, validators=[MinValueValidator(0.0)], primary_key=True)
     cardType = models.CharField('Tipo tarjeta', max_length=25)
-    cardCountry = models.CharField('País', max_length=25, null=True)
+    cardCountry = models.CharField('País', max_length=25, null=True,blank=True)
     cardName = models.CharField('Nombre tarjeta', max_length=25)
     dueDateM = models.CharField(max_length=2)
     dueDateY = models.CharField(max_length=4)
     cardCod = models.PositiveSmallIntegerField()
+
+
+class Adress(models.Model):
+    state = models.CharField('Estado',max_length=50)
+    address1 = models.CharField('Dirección 1',max_length=254)
+    address2 = models.CharField('Dirección 2',max_length=254)
+    telephone = models.CharField('Teléfono',max_length=50)
+
+
+class Order(models.Model):
+    address = models.ForeignKey(Adress)
+    total = models.IntegerField(null=True,blank=True)
+    status = models.CharField('Estado', max_length=25)
+
+
+class Payment(models.Model):
+    order = models.ForeignKey(Order)
+    paymentMethod = models.ForeignKey(PaymentMethod)
+    date = models.DateField('Fecha',auto_now_add=True)
 
 
 class HDiscount(models.Model):
@@ -115,7 +135,6 @@ class HDiscount(models.Model):
     modifyDate = models.DateField('Fecha de modificación', null=True)
 
 
-
 class DDiscount(models.Model):
     #Django no permite claves primarias compuestas
 
@@ -124,22 +143,3 @@ class DDiscount(models.Model):
 
     class Meta:
         unique_together = (('hd','prod'),)
-
-
-class Adress(models.Model):
-    State = models.CharField('Descripción',max_length=50)
-    Address1 = models.CharField('Descripción',max_length=254)
-    Address2 = models.CharField('Descripción',max_length=254)
-    Telephone = models.CharField('Descripción',max_length=50)
-
-class AddressUser(models.Model):
-    User = models.ForeignKey(User)
-    Address = models.ForeignKey(Adress)
-    
-    class Meta:
-        unique_together = (('User','Address'),)
-
-
-
-class Order(models.Model):
-    Address = models.ForeignKey(Adress)

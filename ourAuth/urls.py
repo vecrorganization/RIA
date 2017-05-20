@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 from ourAuth.views import *
 
 urlpatterns = [
-    url(r'^$', home, name='home'),
+    url(r'^$', home, name='homeAuth'),
     url(r'^login/$', auth_views.login, {'template_name': 'ourAuth/login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': 'login'}, name='logout'),
     url(r'^signup/$', SignUp.as_view(), name='signup'),

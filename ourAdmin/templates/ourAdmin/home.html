@@ -1,0 +1,11 @@
+{% extends 'ourAdmin/base_ouradmin.html' %}
+
+{% block content %}
+  <h2>Welcome, {{ user.get_full_name }} <small>{{ user.username }}</small>!</h2>
+  <ul>
+    <a href="{% url 'ProdSearch' %}"><li>Buscar producto</li></a>
+    <a href="{% url 'ProdCreate' %}"><li>Crear producto</li></a>
+    <a href="{% url 'TableSearch' %}"><li>Buscar tabla</li></a>
+    <a href="{% url 'TableCreate' %}"><li>Crear tabla</li></a>
+  </ul>
+{% endblock %}

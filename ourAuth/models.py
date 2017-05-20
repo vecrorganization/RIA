@@ -16,3 +16,16 @@ def update_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
     instance.profile.save()
+
+
+class AddressUser(models.Model):
+    user = models.ForeignKey(User)
+    address = models.ForeignKey("ourAdmin.Adress", verbose_name="adress", related_name="adressUser") 
+    
+    class Meta:
+        unique_together = (('user','address'),)
+
+        
+class PaymentUser(models.Model):
+    user = models.ForeignKey(User)
+    paymentMethod = models.ForeignKey("ourAdmin.PaymentMethod", verbose_name="paymentMethod", related_name="paymentUser") 

@@ -70,6 +70,6 @@ def activate(request, uidb64, token):
         user.profile.email_confirmed = True
         user.save()
         login(request, user)
-        return redirect('home')
+        return redirect('homeAuth')
     else:
         return render(request, 'ourAuth/signup/account_activation_invalid.html')

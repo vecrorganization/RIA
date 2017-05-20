@@ -111,17 +111,25 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/1.11/topics/i18n/
+# https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
+TIME_ZONE = 'America/Caracas'
 
 USE_L10N = True
 
+USE_I18N = True
+
 USE_TZ = True
+
+NUMBER_GROUPING = 3
+
+USE_THOUSAND_SEPARATOR = True
+
+DECIMAL_SEPARATOR = ','
+
+THOUSAND_SEPARATOR = '.'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -134,5 +142,12 @@ STATICFILES_DIRS = [
     '/var/www/static/',
 ]
 
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = 'media/'
+
 # Sign Up With Confirmation Mail
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+#AUTH_PROFILE_MODULE= 'ourAuth.Profile'

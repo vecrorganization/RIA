@@ -14,6 +14,13 @@ from ourAdmin.forms import ProdForm, TableForm
 from datetime import datetime
 
 
+class Home(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
+    """
+    Our Admin Home
+    """
+    template_name = 'ourAdmin/home.html'
+    
+
 class ProdSearch(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
     """
     Search a Prod 
