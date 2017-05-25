@@ -1,0 +1,64 @@
+{% extends "ourAdmin/base_ouradmin.html" %}
+{% load static %}
+
+{% block custom_css %}
+{% endblock %}
+
+{% block content %}
+
+<section>
+  <h3>Crear Orden</h3>
+
+  <form method="post" accept-charset="utf-8" class="form-group" role="form" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table >
+      {% for field in form %}
+        <tr>
+          <td><b>{{field.label}} : </b></td>
+          <td>{{ field }}
+            <span class="error" id="{{ field.name }}-icon"></span>
+            <span class='error' id='{{field.name}}-error' aria-live="polite">{{ field.errors }}</span>
+          </td>
+        </tr>
+      {% endfor %}
+      <tr>
+    </table>
+    <button type="submit" class="btn"><i class="fa fa-check" aria-hidden="true"></i></button>
+
+    <a href="{% url 'OrderSearch' %}">
+      <button type="button" class="btn"><i class="fa fa-undo" aria-hidden="true"></i></button>
+    </a>
+    {% if pk %}
+      <button type="button" id="btn-delete" class="btn" ><i class="fa fa-times" aria-hidden="true"></i></button>
+    {% endif%}
+  </form>
+</section>
+
+{% endblock %}
+
+{% block custom_script %}
+<script>
+  $(document).ready(function() {
+      $("#btn-delete").click(function(){
+        $.ajax({
+          data : {'pk': {{pk}}, csrfmiddlewaretoken: '{{ csrf_token }}'},
+          url : '/ourAdmin/orderdeleteajax/',
+          type : 'POST',     
+          success : function(data){
+            console.log(data);
+            if(data.deleted == 1){
+              window.location.href = "{% url 'OrderSearch' %}";
+            }
+            else{
+              location.reload();
+            }
+          },
+          error : function(data){
+            console.log("ERROR: in orderdeleteajax");
+          }
+        });
+      });
+  });
+</script>
+
+{% endblock %}  

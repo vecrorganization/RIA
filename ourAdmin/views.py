@@ -9,8 +9,8 @@ from django.contrib import messages
 from braces.views import LoginRequiredMixin,StaffuserRequiredMixin
 from django.views.generic import TemplateView, View
 # App
-from ourAdmin.models import Prod, Table
-from ourAdmin.forms import ProdForm, TableForm
+from ourAdmin.models import Prod, Table, Order, Address
+from ourAdmin.forms import ProdForm, TableForm, OrderForm, AddressForm
 from datetime import datetime
 
 
@@ -19,6 +19,8 @@ class Home(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
     Our Admin Home
     """
     template_name = 'ourAdmin/home.html'
+
+########################################################################################
     
 
 class ProdSearch(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
@@ -115,6 +117,8 @@ class ProdCreateModify(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
 
         return redirect('ProdSearch')  
 
+#################################################################################################################
+
 
 class TableCreateModify(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
     """
@@ -183,7 +187,6 @@ class TableSearchAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
 
     def post(self, request, *args, **kwargs):
         post_values = request.POST.copy()
-        print(post_values)
 
         if post_values['type']:
             tables = Table.objects.filter( type= post_values['type'] )
@@ -194,7 +197,6 @@ class TableSearchAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
              tables = Table.objects.filter(desc__icontains=post_values['desc'])
 
         data = [{'pk': t.pk, 'type': t.type, 'desc': t.desc} for t in tables]
-        print(data)
         
         return HttpResponse(json.dumps(data), content_type='application/json')
 
@@ -208,6 +210,199 @@ class TableDeleteAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
         print(post_values)
         try:
             Table.objects.get(id = int(post_values['pk'])).delete()
+            messages.add_message(request, messages.SUCCESS, 'Se elimino correctamente')
+            data={'deleted' : 1}
+        except:
+            messages.add_message(request, messages.ERROR, 'Error: no se realizo la operación')
+            data={'deleted' : 0}
+        
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+
+################################################################################################
+
+class OrderCreateModify(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
+    """
+    Create or modify a Order 
+    """
+
+    template_name = 'ourAdmin/order/create-modify.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderCreateModify, self).get_context_data(**kwargs)
+        if 'pk' in kwargs:
+            order = get_object_or_404(Order, id=int(kwargs['pk']))
+            context['form'] = OrderForm(instance=order)
+            context['Title'] = "Modificar Order"
+            context['pk'] = int(kwargs['pk'])
+        else:
+            context['form'] = OrderForm()
+            context['Title'] = "Crear Order"
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        post_values = request.POST.copy()
+        if 'pk' in kwargs:
+            order = get_object_or_404(Order, id=int(kwargs['pk']))
+            form = OrderForm(post_values,instance=order)
+            title = "Modificar Order"
+            msg = "Modificación realizada"
+        else:
+            form = OrderForm(post_values)
+            title = "Crear Order"
+            msg = "Creación exitosa"
+
+        if form.is_valid():
+            messages.add_message(request, messages.SUCCESS, msg)
+            order = form.save()
+        else:
+            messages.add_message(request, messages.ERROR, 'Error: no se realizo la operación')
+            return render(request, self.template_name, {'form':form,'Title':title})
+
+        return redirect('OrderSearch')
+
+
+class OrderSearch(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
+    """
+    Search a Order
+    """
+    template_name = 'ourAdmin/order/search.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderSearch, self).get_context_data(**kwargs)
+        context['Title'] = "Buscar Order"
+        return context
+
+
+class OrderSearchAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
+    """
+    Get and send ajax with the order searching
+    """
+
+    def post(self, request, *args, **kwargs):
+        post_values = request.POST.copy()
+        orders = []
+
+        try:
+            #search by id
+            orders = [Order.objects.get(id=int(post_values['id']))]
+        except:
+            #search by status if it is not ""
+            if 'status' in post_values and post_values['status']:
+                orders = Order.objects.filter(status__icontains=post_values['status'])
+
+        data = [{'pk': order.id, 'status': order.status} for order in orders]
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+class OrderDeleteAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
+    """
+    Delete requested order
+    """
+
+    def post(self, request, *args, **kwargs):
+        post_values = request.POST.copy()
+        print(post_values)
+        try:
+            Order.objects.get(id = int(post_values['pk'])).delete()
+            messages.add_message(request, messages.SUCCESS, 'Se elimino correctamente')
+            data={'deleted' : 1}
+        except:
+            messages.add_message(request, messages.ERROR, 'Error: no se realizo la operación')
+            data={'deleted' : 0}
+        
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+################################################################################################
+
+class AddressCreateModify(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
+    """
+    Create or modify a Address
+    """
+
+    template_name = 'ourAdmin/address/create-modify.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AddressCreateModify, self).get_context_data(**kwargs)
+        if 'pk' in kwargs:
+            address = get_object_or_404(Address, id=int(kwargs['pk']))
+            context['form'] = AddressForm(instance=address)
+            context['Title'] = "Modificar Address"
+            context['pk'] = int(kwargs['pk'])
+        else:
+            context['form'] = AddressForm()
+            context['Title'] = "Crear Address"
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        post_values = request.POST.copy()
+        if 'pk' in kwargs:
+            address = get_object_or_404(Address, id=int(kwargs['pk']))
+            form = AddressForm(post_values,instance=address)
+            title = "Modificar Address"
+            msg = "Modificación realizada"
+        else:
+            form = AddressForm(post_values)
+            title = "Crear Address"
+            msg = "Creación exitosa"
+
+        if form.is_valid():
+            messages.add_message(request, messages.SUCCESS, msg)
+            address = form.save()
+        else:
+            messages.add_message(request, messages.ERROR, 'Error: no se realizo la operación')
+            return render(request, self.template_name, {'form':form,'Title':title})
+
+        return redirect('AddressSearch')
+
+
+class AddressSearch(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
+    """
+    Search a Address
+    """
+    template_name = 'ourAdmin/address/search.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AddressSearch, self).get_context_data(**kwargs)
+        context['Title'] = "Buscar Address"
+        return context
+
+
+class AddressSearchAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
+    """
+    Get and send ajax with the address searching
+    """
+
+    def post(self, request, *args, **kwargs):
+        post_values = request.POST.copy()
+
+        if post_values['state']:
+            address = Address.objects.filter( state__icontains = post_values['state'] )
+            if post_values['dir']:
+                address = address.filter(address1__icontains=post_values['dir']) | address.filter(address2__icontains=post_values['dir'])
+
+
+        else:
+             address = Address.objects.filter(address1__icontains=post_values['dir']) | Address.objects.filter(address2__icontains=post_values['dir'])
+
+        data = [{'pk': addr.pk, 'addr': str(addr)} for addr in address]
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+class AddressDeleteAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
+    """
+    Delete requested address
+    """
+
+    def post(self, request, *args, **kwargs):
+        post_values = request.POST.copy()
+        print(post_values)
+        try:
+            Address.objects.get(id = int(post_values['pk'])).delete()
             messages.add_message(request, messages.SUCCESS, 'Se elimino correctamente')
             data={'deleted' : 1}
         except:

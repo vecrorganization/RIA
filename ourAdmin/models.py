@@ -105,17 +105,20 @@ class PaymentMethod(models.Model):
     cardCod = models.PositiveSmallIntegerField()
 
 
-class Adress(models.Model):
+class Address(models.Model):
     state = models.CharField('Estado',max_length=50)
     address1 = models.CharField('Dirección 1',max_length=254)
     address2 = models.CharField('Dirección 2',max_length=254)
     telephone = models.CharField('Teléfono',max_length=50)
 
+    def __str__(self):
+        return self.state + ": " + self.address1 + " / " + self.address2
+
 
 class Order(models.Model):
-    address = models.ForeignKey(Adress)
+    address = models.ForeignKey(Address)
     total = models.IntegerField(null=True,blank=True)
-    status = models.CharField('Estado', max_length=25)
+    status = models.CharField('Estatus', max_length=25)
 
 
 class Payment(models.Model):
@@ -143,3 +146,11 @@ class DDiscount(models.Model):
 
     class Meta:
         unique_together = (('hd','prod'),)
+
+class Contains(models.Model):
+
+    prod = models.ForeignKey(Prod)
+    order = models.ForeignKey(Order)
+
+    class Meta:
+        unique_together = (('prod','order'),)
