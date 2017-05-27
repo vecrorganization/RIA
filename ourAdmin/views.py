@@ -273,6 +273,7 @@ class OrderSearch(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
     def get_context_data(self, **kwargs):
         context = super(OrderSearch, self).get_context_data(**kwargs)
         context['Title'] = "Buscar Order"
+        context['s_choices'] = Order.STATUS_CHOICES
         return context
 
 
@@ -293,7 +294,7 @@ class OrderSearchAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
             if 'status' in post_values and post_values['status']:
                 orders = Order.objects.filter(status__icontains=post_values['status'])
 
-        data = [{'pk': order.id, 'status': order.status} for order in orders]
+        data = [{'pk': order.id, 'status': order.get_status_display()} for order in orders]
         return HttpResponse(json.dumps(data), content_type='application/json')
 
 
@@ -369,6 +370,7 @@ class AddressSearch(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
     def get_context_data(self, **kwargs):
         context = super(AddressSearch, self).get_context_data(**kwargs)
         context['Title'] = "Buscar Address"
+        context['s_choices'] = Address.STATE_CHOICES
         return context
 
 

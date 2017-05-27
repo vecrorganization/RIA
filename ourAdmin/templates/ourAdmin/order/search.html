@@ -21,7 +21,14 @@
           <input type="text" name="id" maxlength="100" class="form-control" id="order_id">
         </td>
         <td>
-          <input type="text" name="status" maxlength="100" class="form-control" id="order_status">
+          <select id="order_status" name="status">
+            <option  value="" selected="selected">---------</option>
+            {% for s in s_choices %}
+              <option value="{{s.0}}">
+                {{s.1}}
+              </option>
+            {% endfor %}
+          </select>
         </td>
       </tr>
     </table>

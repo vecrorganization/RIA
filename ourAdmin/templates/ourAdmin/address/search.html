@@ -18,7 +18,14 @@
       </tr>
       <tr>
         <td>
-          <input type="text" name="state" maxlength="100" class="form-control" id="address_state">
+          <select id="address_state" name="state">
+            <option  value="" selected="selected">---------</option>
+            {% for s in s_choices %}
+              <option value="{{s.0}}">
+                {{s.1}}
+              </option>
+            {% endfor %}
+          </select>
         </td>
         <td>
           <input type="text" name="dir" maxlength="100" class="form-control" id="address_dir">

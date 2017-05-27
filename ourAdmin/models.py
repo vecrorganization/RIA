@@ -106,19 +106,82 @@ class PaymentMethod(models.Model):
 
 
 class Address(models.Model):
-    state = models.CharField('Estado',max_length=50)
+    AMAZONAS = "AMA"
+    ANZOATEGUI = "ANZ"
+    APURE = "APU"
+    ARAGUA = "ARA"
+    BARINAS = "BAR"
+    BOLIVAR = "BOL"
+    CARABOBO = "CAR"
+    COJEDES = "COJ"
+    DELTA_AMACURO = "DEL"
+    DISTRITO_CAPITAL = "DIS"
+    FALCON = "FAL"
+    GUARICO = "GUA"
+    LARA = "LAR"
+    MERIDA = "MER"
+    MIRANDA = "MIR"
+    MONAGAS = "MON"
+    NUEVA_ESPARTA = "NUE"
+    PORTUGUESA = "POR"
+    SUCRE = "SUC"
+    TACHIRA = "TAC"
+    TRUJILLO = "TRU"
+    VARGAS = "VAR"
+    YARACUY = "YAR"
+    ZULIA= "ZUL"
+    DEPENDENCIAS_FEDERALES = "DEP"
+
+    STATE_CHOICES = (
+        (AMAZONAS, 'Amazonas'),
+        (ANZOATEGUI, 'Anzoátegui'),
+        (APURE, 'Apure'),
+        (ARAGUA, 'Aragua'),
+        (BARINAS, 'Barinas'),
+        (BOLIVAR, 'Bolívar'),
+        (CARABOBO, 'Carabobo'),
+        (COJEDES, 'Cojedes'),
+        (DELTA_AMACURO, 'Delta Amacuro'),
+        (DISTRITO_CAPITAL, 'Distrito Capital'),
+        (FALCON, 'Falcón'),
+        (GUARICO, 'Guárico'),
+        (LARA, 'Lara'),
+        (MERIDA, 'Mérida'),
+        (MIRANDA, 'Miranda'),
+        (MONAGAS, 'Monagas'),
+        (NUEVA_ESPARTA, 'Nueva Esparta'),
+        (PORTUGUESA, 'Portuguesa'),
+        (SUCRE, 'Sucre'),
+        (TACHIRA, 'Táchira'),
+        (TRUJILLO, 'Trujillo'),
+        (VARGAS, 'Vargas'),
+        (YARACUY, 'Yaracuy'),
+        (ZULIA, 'Zulia'),
+        (DEPENDENCIAS_FEDERALES, 'Dependencias Federales'),
+    )
+
+    state = models.CharField('Estado', max_length=3,choices=STATE_CHOICES)
     address1 = models.CharField('Dirección 1',max_length=254)
-    address2 = models.CharField('Dirección 2',max_length=254)
+    address2 = models.CharField('Dirección 2',max_length=254, null=True)
     telephone = models.CharField('Teléfono',max_length=50)
 
     def __str__(self):
-        return self.state + ": " + self.address1 + " / " + self.address2
+        return self.get_state_display() + ": " + self.address1 + " / " + self.address2
 
 
 class Order(models.Model):
+    IN_PROCESS = "P"
+    COMPLETED = "F"
+    CANCELED = "C"
+
+    STATUS_CHOICES = (
+        (IN_PROCESS, 'En proceso'),
+        (COMPLETED, 'Completada'),
+        (CANCELED, 'Cancelada')
+    )
     address = models.ForeignKey(Address)
     total = models.IntegerField(null=True,blank=True)
-    status = models.CharField('Estatus', max_length=25)
+    status = models.CharField('Estatus', max_length=1,choices=STATUS_CHOICES)
 
 
 class Payment(models.Model):
