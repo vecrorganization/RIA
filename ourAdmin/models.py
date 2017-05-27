@@ -122,7 +122,7 @@ class Order(models.Model):
 
 
 class Payment(models.Model):
-    order = models.ForeignKey(Order)
+    order = models.ForeignKey(Order, unique=True)
     paymentMethod = models.ForeignKey(PaymentMethod)
     date = models.DateField('Fecha',auto_now_add=True)
 

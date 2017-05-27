@@ -106,3 +106,5 @@ ENV/
 #django
 */migrations/*
 media/*
+
+static/bower_components/*

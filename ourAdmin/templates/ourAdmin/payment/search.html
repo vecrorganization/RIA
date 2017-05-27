@@ -1,0 +1,90 @@
+{% extends "ourAdmin/base_ouradmin.html" %}
+{% load static %}
+
+{% block custom_css %}
+  <link href="{% static 'bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<section>
+  <h3>{{Title}}</h3>
+
+  <form method="post" accept-charset="utf-8" class="form-group" role="form" id="form-search" action="{% url 'PaymentSearchAjax' %}">
+    {% csrf_token %}
+    <table >
+      <tr>
+        <td><b>Fecha </b></td>
+        <td><b>Orden  </b></td>
+      </tr>
+      <tr>
+        <td>
+          <input type="text" name="date" data-date-format="yyyy-mm-dd" class="datepicker form-control" id="id_date">
+        </td>
+        <td>
+          <input type="text" name="order" maxlength="100" class="form-control" id="id_order">
+        </td>
+      </tr>
+    </table>
+    <button type="button" class="btn" id="btn-submit"><i class="fa fa-check" aria-hidden="true"></i></button>
+  </form>
+
+  <table id="table-payment">
+    
+  </table>
+</section>
+
+{% endblock %}
+
+{% block custom_script %}
+<script type="text/javascript" src="{% static 'bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+<script>
+  $( document ).on( 'submit', '#form-search', function(e){
+      $.ajax({
+        url : $( this ).attr( 'action' ),
+        type : $( this ).attr( 'method' ),
+        data : $( this ).serialize(), 
+      })
+      .done(function(data){
+        var html = '';               
+        //add products list to table if list's not empty
+        if(data.length > 0){
+          for (var i = 0; i < data.length; i++){
+              html +='<tr><td><a href="/ourAdmin/paymentsearchajax/'+data[i].pk+'">'+data[i].date+'</a></td>';
+              html +='<td><a href="/ourAdmin/paymentsearchajax/'+data[i].pk+'">'+data[i].pk+'</td>';
+              html +='<td><a href="/ourAdmin/paymentsearchajax/'+data[i].pk+'">'+data[i].order+'</td></tr>';
+          }       
+          $("#table-payment").html(html);
+        }else{
+          $("#table-payment").html('<tr><td>No se encontraron productos.</td></tr>');
+        }
+      })
+      .fail(function( jqXHR, textStatus, errorThrown ){
+        console.log("ERROR: ajax");
+      });
+      return false;
+  });
+
+  $(document).ready(function() {
+      //Datepicker
+      $('.datepicker').datepicker({
+        //format: 'mm-dd-yyyy',
+        endDate: '+0d',
+        autoclose: true
+      }).on('changeDate', function(e){
+          $(this).datepicker('hide');
+      });
+
+      $("#btn-submit").click(function(){
+        //verify that at least one field is filled
+        if (document.getElementById("id_date").value != "" ||
+            document.getElementById("id_order").value != "") {
+          $("#form-search").submit();
+        }else{
+          $("#table-payment").html('<tr><td>Debe escribir un numero de orden o elegir medio de pago.</td></tr>');
+        }
+      });
+  });
+</script>
+
+{% endblock %}  

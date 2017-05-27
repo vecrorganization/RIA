@@ -9,7 +9,7 @@ from django.contrib import messages
 from braces.views import LoginRequiredMixin,StaffuserRequiredMixin
 from django.views.generic import TemplateView, View
 # App
-from ourAdmin.models import Prod, Table, Order, Address
+from ourAdmin.models import Prod, Table, Order, Address,Payment
 from ourAdmin.forms import ProdForm, TableForm, OrderForm, AddressForm
 from datetime import datetime
 
@@ -409,4 +409,39 @@ class AddressDeleteAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
             messages.add_message(request, messages.ERROR, 'Error: no se realizo la operación')
             data={'deleted' : 0}
         
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+##########################################################################
+
+class PaymentSearch(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
+    """
+    Search a Payment 
+    """
+
+    template_name = 'ourAdmin/payment/search.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PaymentSearch, self).get_context_data(**kwargs)
+        context['Title'] = "Buscar pago"
+        return context
+
+
+class PaymentAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
+    """
+    Get and send ajax with the payment searching
+    """
+
+    def post(self, request, *args, **kwargs):
+        post_values = request.POST.copy()
+        payments = []
+
+        print(post_values)
+
+        if 'order' in post_values and post_values['order']:
+            payments = Payment.objects.filter(order_id=int(post_values['order']))
+        elif 'date' in post_values and post_values['date']:
+            payments = Payment.objects.filter(date=post_values['date'])
+
+        data = [{'pk': payment.id, 'date': payment.date, 'order': payment.order} for payment in payments]
         return HttpResponse(json.dumps(data), content_type='application/json')

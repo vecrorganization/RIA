@@ -27,4 +27,7 @@ urlpatterns = [
     url(r'^addresscreate/$', AddressCreateModify.as_view(), name='AddressCreate'),
     url(r'^addressdeleteajax/$', AddressDeleteAjax.as_view(), name='AddressDeleteAjax'),
     url(r'^addressmodify/(?P<pk>\d+)/$', AddressCreateModify.as_view(), name='AddressModify'),
+    # PAYMENT
+    url(r'^paymentsearch/$', PaymentSearch.as_view(), name='PaymentSearch'),
+    url(r'^paymentsearchajax/$', PaymentAjax.as_view(), name='PaymentSearchAjax'),
 ]
