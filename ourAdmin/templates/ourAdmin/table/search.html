@@ -55,8 +55,8 @@
         data : $( this ).serialize(), 
       })
       .done(function(data){
-        console.log(data)
-        var html = '';               
+        console.log(data)        
+        var html = '<tr><th>ID</th><th>Descripción</th></tr>';            
         //add products list to table if list's not empty
         if(data.length > 0){
           for (var i = 0; i < data.length; i++){

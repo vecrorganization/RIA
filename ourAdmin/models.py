@@ -103,6 +103,7 @@ class PaymentMethod(models.Model):
     dueDateM = models.CharField(max_length=2)
     dueDateY = models.CharField(max_length=4)
     cardCod = models.PositiveSmallIntegerField()
+    user = models.ForeignKey(User)
 
 
 class Address(models.Model):
@@ -180,7 +181,7 @@ class Order(models.Model):
         (CANCELED, 'Cancelada')
     )
     address = models.ForeignKey(Address)
-    total = models.IntegerField(null=True,blank=True)
+    total = models.DecimalField(max_digits=12,decimal_places=3,validators=[MinValueValidator(0.0)])
     status = models.CharField('Estatus', max_length=1,choices=STATUS_CHOICES)
 
 

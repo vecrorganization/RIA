@@ -445,5 +445,7 @@ class PaymentAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
         elif 'date' in post_values and post_values['date']:
             payments = Payment.objects.filter(date=post_values['date'])
 
-        data = [{'pk': payment.id, 'date': payment.date, 'order': payment.order} for payment in payments]
+        print("payments",payments)
+
+        data = [{'pk': p.id, 'date': p.date.strftime('%d/%m/%Y'), 'order': p.order.id,'paymentMethod':p.paymentMethod.cardType} for p in payments]
         return HttpResponse(json.dumps(data), content_type='application/json')

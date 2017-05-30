@@ -97,6 +97,50 @@
       "address":"Las Bonitas",
       "modifier_id": "1"
     }
+  },
+
+  {
+    "model": "ourAdmin.paymentmethod",
+    "pk": 1,
+    "fields": {
+      "cardNumber":"21324354",
+      "cardType":"Credito",
+      "cardName":"Richard",
+      "dueDateM":"02",
+      "dueDateY":"2020",
+      "cardCod":"092",
+      "user_id":"3"
+    }
+  },
+
+  {
+    "model": "ourAdmin.address",
+    "pk": 1,
+    "fields": {
+      "state":"LAR",
+      "address1":"Barquisimeto",
+      "telephone":"20202343434"
+    }
+  },
+
+  {
+    "model": "ourAdmin.order",
+    "pk": 1,
+    "fields": {
+      "address_id":"1",
+      "total":"234",
+      "status":"P"
+    }
+  },
+
+  {
+    "model": "ourAdmin.payment",
+    "pk": 1,
+    "fields": {
+      "order_id":"1",
+      "paymentMethod_id":"21324354",
+      "date":"2017-05-03"
+    }
   }
 
 ]
