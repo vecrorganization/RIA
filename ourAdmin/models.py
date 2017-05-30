@@ -103,7 +103,6 @@ class PaymentMethod(models.Model):
     dueDateM = models.CharField(max_length=2)
     dueDateY = models.CharField(max_length=4)
     cardCod = models.PositiveSmallIntegerField()
-    user = models.ForeignKey(User)
 
 
 class Address(models.Model):
@@ -187,7 +186,7 @@ class Order(models.Model):
 
 class Payment(models.Model):
     order = models.ForeignKey(Order, unique=True)
-    paymentMethod = models.ForeignKey(PaymentMethod)
+    paymentUser = models.ForeignKey("ourAuth.PaymentUser", verbose_name="paymentUser", related_name="payment")
     date = models.DateField('Fecha',auto_now_add=True)
 
 

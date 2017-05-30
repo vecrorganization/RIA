@@ -108,8 +108,7 @@
       "cardName":"Richard",
       "dueDateM":"02",
       "dueDateY":"2020",
-      "cardCod":"092",
-      "user_id":"3"
+      "cardCod":"092"
     }
   },
 
@@ -134,11 +133,22 @@
   },
 
   {
+    "model": "ourAuth.paymentuser",
+    "pk": 1,
+    "fields": {
+      "user_id":"3",
+      "paymentMethod_id":"21324354"
+    }
+  },
+
+
+
+  {
     "model": "ourAdmin.payment",
     "pk": 1,
     "fields": {
       "order_id":"1",
-      "paymentMethod_id":"21324354",
+      "paymentUser_id":"1",
       "date":"2017-05-03"
     }
   }

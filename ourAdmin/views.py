@@ -9,7 +9,7 @@ from django.contrib import messages
 from braces.views import LoginRequiredMixin,StaffuserRequiredMixin
 from django.views.generic import TemplateView, View
 # App
-from ourAdmin.models import Prod, Table, Order, Address,Payment
+from ourAdmin.models import Prod, Table, Order, Address, Payment
 from ourAdmin.forms import ProdForm, TableForm, OrderForm, AddressForm
 from datetime import datetime
 
@@ -438,14 +438,14 @@ class PaymentAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
         post_values = request.POST.copy()
         payments = []
 
-        print(post_values)
-
         if 'order' in post_values and post_values['order']:
             payments = Payment.objects.filter(order_id=int(post_values['order']))
         elif 'date' in post_values and post_values['date']:
             payments = Payment.objects.filter(date=post_values['date'])
 
-        print("payments",payments)
-
-        data = [{'pk': p.id, 'date': p.date.strftime('%d/%m/%Y'), 'order': p.order.id,'paymentMethod':p.paymentMethod.cardType} for p in payments]
+        data = [{'pk': p.id, 
+                'date': p.date.strftime('%d/%m/%Y'), 
+                'order': p.order.id,
+                'paymentMethod':p.paymentUser.paymentMethod.cardType,
+                'user':p.paymentUser.user.get_full_name()} for p in payments]
         return HttpResponse(json.dumps(data), content_type='application/json')

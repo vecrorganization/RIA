@@ -25,8 +25,6 @@ class AddressUser(models.Model):
     class Meta:
         unique_together = (('user','address'),)
 
-'''
 class PaymentUser(models.Model):
     user = models.ForeignKey(User)
     paymentMethod = models.ForeignKey("ourAdmin.PaymentMethod", verbose_name="paymentMethod", related_name="paymentUser") 
-'''
