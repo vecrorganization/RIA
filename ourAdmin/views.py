@@ -63,6 +63,7 @@ class ProdDeleteAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
 
     def post(self, request, *args, **kwargs):
         post_values = request.POST.copy()
+        print(post_values)
         try:
             Prod.objects.get(id = post_values['pk']).delete()
             messages.add_message(request, messages.SUCCESS, 'Se elimino correctamente')

@@ -2,15 +2,4 @@
 
 {% block content %}
   <h2>Welcome, {{ user.get_full_name }} <small>{{ user.username }}</small>!</h2>
-  <ul>
-    <a href="{% url 'ProdSearch' %}"><li>Buscar producto</li></a>
-    <a href="{% url 'ProdCreate' %}"><li>Crear producto</li></a>
-    <a href="{% url 'TableSearch' %}"><li>Buscar tabla</li></a>
-    <a href="{% url 'TableCreate' %}"><li>Crear tabla</li></a>
-    <a href="{% url 'OrderSearch' %}"><li>Buscar orden</li></a>
-    <a href="{% url 'OrderCreate' %}"><li>Crear orden</li></a>
-    <a href="{% url 'AddressSearch' %}"><li>Buscar dirección</li></a>
-    <a href="{% url 'AddressCreate' %}"><li>Crear dirección</li></a>
-    <a href="{% url 'PaymentSearch' %}"><li>Buscar pagos</li></a>
-  </ul>
 {% endblock %}

@@ -1,0 +1,97 @@
+<div id="bo-Menu" >
+  <div id="bo-user">
+    <span>{{ user.get_full_name }}</span>
+    {% if user.profile.image %}
+    <img src="{{user.profile.image.url}}">  
+    {% else %}
+    <div class="no-image"></div>
+    {% endif %}
+  </div>
+
+  <div class="panel-group" id="accordion">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>Producto
+          </a>
+        </h4>
+      </div>
+      <div id="collapse1" class="panel-collapse collapse">
+        <div class="panel-body">
+          <a href="{% url 'ProdSearch' %}" class="list-group-item">Buscar</a>
+          <a href="{% url 'ProdCreate' %}" class="list-group-item">Crear</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+            <i class="fa fa-table" aria-hidden="true"></i>Tabla
+          </a>
+        </h4>
+      </div>
+      <div id="collapse2" class="panel-collapse collapse">
+        <div class="panel-body">
+          <a href="{% url 'TableSearch' %}" class="list-group-item">Buscar</a>
+          <a href="{% url 'TableCreate' %}" class="list-group-item">Crear</a>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+      <i class="fa fa-list-ul" aria-hidden="true"></i>Orden
+          </a>
+        </h4>
+      </div>
+      <div id="collapse3" class="panel-collapse collapse">
+        <div class="panel-body">
+          <a href="{% url 'OrderSearch' %}" class="list-group-item">Buscar</a>
+          <a href="{% url 'OrderCreate' %}" class="list-group-item">Crear</a>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+            <i class="fa fa-paper-plane" aria-hidden="true"></i>Dirección
+          </a>
+        </h4>
+      </div>
+      <div id="collapse4" class="panel-collapse collapse">
+        <div class="panel-body">
+          <a href="{% url 'AddressSearch' %}" class="list-group-item">Buscar</a>
+          <a href="{% url 'AddressCreate' %}" class="list-group-item">Crear</a>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse5">
+            <i class="fa fa-money" aria-hidden="true"></i>Pagos
+          </a>
+        </h4>
+      </div>
+      <div id="collapse5" class="panel-collapse collapse">
+        <div class="panel-body">
+          <a href="{% url 'PaymentSearch' %}" class="list-group-item">Buscar</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

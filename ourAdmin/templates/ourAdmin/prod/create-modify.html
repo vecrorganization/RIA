@@ -36,11 +36,13 @@
 {% endblock %}
 
 {% block custom_script %}
+
+{% if pk %}
 <script>
   $(document).ready(function() {
       $("#btn-delete").click(function(){
         $.ajax({
-          data : {'pk': {{pk}}, csrfmiddlewaretoken: '{{ csrf_token }}'},
+          data : {'pk': '{{pk}}', csrfmiddlewaretoken: '{{ csrf_token }}'},
           url : '/ourAdmin/proddeleteajax/',
           type : 'POST',     
           success : function(data){
@@ -58,5 +60,6 @@
       });
   });
 </script>
+{% endif %}
 
 {% endblock %} 

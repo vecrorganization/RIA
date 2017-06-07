@@ -17,20 +17,23 @@
             <link href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
         {% endblock css %}
 
-        {% block custom_css %}{% endblock %}
+        {% block base_css %}{% endblock %}
 
     {% endblock head %}
 </head>
 <body>
 {% block msg %}{% endblock %}
-{% block content %}{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block base_content %}{% endblock %}
 
 {% block script %}
     <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 {% endblock %}
 
-{% block custom_script %}
+{% block base_script %}
 {% endblock %}
 </body>
 </html>
