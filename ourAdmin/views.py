@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 import json
+from datetime import datetime
 # Django
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
-#from django.core.urlresolvers import reverse
 from braces.views import LoginRequiredMixin,StaffuserRequiredMixin
 from django.views.generic import TemplateView, View
 # App
 from ourAdmin.models import Prod, Table, Order, Address, Payment
 from ourAdmin.forms import ProdForm, TableForm, OrderForm, AddressForm
-from datetime import datetime
 
 
 class Home(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
@@ -86,10 +85,10 @@ class ProdCreateModify(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
         if 'pk' in kwargs:
             prod = get_object_or_404(Prod, id=kwargs['pk'])
             context['form'] = ProdForm(instance=prod)
-            context['Title'] = "Modificar Prod"
+            context['Title'] = "Modificar Producto"
         else:
             context['form'] = ProdForm()
-            context['Title'] = "Crear Prod"
+            context['Title'] = "Crear Producto"
 
         return context
 
@@ -98,11 +97,11 @@ class ProdCreateModify(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
         if 'pk' in kwargs:
             prod = get_object_or_404(Prod, id=kwargs['pk'])
             form = ProdForm(post_values,request.FILES,instance=prod)
-            title = "Modificar Prod"
+            title = "Modificar Producto"
             msg = "Modificación realizada"
         else:
             form = ProdForm(post_values,request.FILES)
-            title = "Crear Prod"
+            title = "Crear Producto"
             msg = "Creación exitosa"
 
         if form.is_valid():
@@ -332,11 +331,11 @@ class AddressCreateModify(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView
         if 'pk' in kwargs:
             address = get_object_or_404(Address, id=int(kwargs['pk']))
             context['form'] = AddressForm(instance=address)
-            context['Title'] = "Modificar Address"
+            context['Title'] = "Modificar Dirección"
             context['pk'] = int(kwargs['pk'])
         else:
             context['form'] = AddressForm()
-            context['Title'] = "Crear Address"
+            context['Title'] = "Crear Dirección"
 
         return context
 
@@ -345,11 +344,11 @@ class AddressCreateModify(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView
         if 'pk' in kwargs:
             address = get_object_or_404(Address, id=int(kwargs['pk']))
             form = AddressForm(post_values,instance=address)
-            title = "Modificar Address"
+            title = "Modificar Dirección"
             msg = "Modificación realizada"
         else:
             form = AddressForm(post_values)
-            title = "Crear Address"
+            title = "Crear Dirección"
             msg = "Creación exitosa"
 
         if form.is_valid():
@@ -370,7 +369,7 @@ class AddressSearch(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AddressSearch, self).get_context_data(**kwargs)
-        context['Title'] = "Buscar Address"
+        context['Title'] = "Buscar Dirección"
         context['s_choices'] = Address.STATE_CHOICES
         return context
 
@@ -383,16 +382,15 @@ class AddressSearchAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
     def post(self, request, *args, **kwargs):
         post_values = request.POST.copy()
 
-        if post_values['state']:
-            address = Address.objects.filter( state__icontains = post_values['state'] )
-            if post_values['dir']:
+        if 'state' in post_values and post_values['state']:
+            address = Address.objects.filter( state__icontains = post_values['state'])
+            if 'dir' in post_values and post_values['dir']:
                 address = address.filter(address1__icontains=post_values['dir']) | address.filter(address2__icontains=post_values['dir'])
-
-
-        else:
-             address = Address.objects.filter(address1__icontains=post_values['dir']) | Address.objects.filter(address2__icontains=post_values['dir'])
+        elif 'dir' in post_values and post_values['dir']:
+            address = Address.objects.filter(address1__icontains=post_values['dir']) | Address.objects.filter(address2__icontains=post_values['dir'])
 
         data = [{'pk': addr.pk, 'addr': str(addr)} for addr in address]
+        print(data)
         return HttpResponse(json.dumps(data), content_type='application/json')
 
 
@@ -403,7 +401,6 @@ class AddressDeleteAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
 
     def post(self, request, *args, **kwargs):
         post_values = request.POST.copy()
-        print(post_values)
         try:
             Address.objects.get(id = int(post_values['pk'])).delete()
             messages.add_message(request, messages.SUCCESS, 'Se elimino correctamente')
@@ -442,7 +439,8 @@ class PaymentAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
         if 'order' in post_values and post_values['order']:
             payments = Payment.objects.filter(order_id=int(post_values['order']))
         elif 'date' in post_values and post_values['date']:
-            payments = Payment.objects.filter(date=post_values['date'])
+            date = datetime.strptime(post_values['date'], '%d/%m/%Y').strftime('%Y-%m-%d')
+            payments = Payment.objects.filter(date=date)
 
         data = [{'pk': p.id, 
                 'date': p.date.strftime('%d/%m/%Y'), 

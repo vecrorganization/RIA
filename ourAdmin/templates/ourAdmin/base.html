@@ -13,7 +13,7 @@
 {% block msg %}
 {% for message in messages %}
     {% bootstrap_mt message.tags as btag %}
-    <div id="bo-alert" class="alert alert-{{ btag }}">{{ message }}</div>
+    <div id="ria-alert" class="alert alert-{{ btag }}">{{ message }}</div>
 {% endfor %}
 {% endblock %}
 
@@ -50,14 +50,12 @@
   </div>
 {% endblock %}
 
-
 {% block base_script %}
+
   <script type="text/javascript">
-    $(document).ready(function() {
-      
-      //Mensaje de alerta 
-      $("#bo-alert").fadeTo(2000, 500).slideUp(500, function(){
-        $("#bo-alert").slideUp(500);
+    jQuery(document).ready(function($) {
+      $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
       });
     });
   </script>

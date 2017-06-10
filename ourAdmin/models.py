@@ -44,7 +44,7 @@ class Seller(models.Model):
     contactName = models.CharField('Nombre de contacto',max_length=100)
     contactPhone = models.CharField('Telf. de contacto',max_length=25)
     contactMail = models.EmailField('Mail de contacto',max_length=50)
-    country = models.ForeignKey(Table)
+    country = models.ForeignKey(Table,verbose_name='País')
     city = models.CharField('Ciudad',max_length=50)
     zipCode = models.CharField('Código postal',max_length=10,null=True)
     address = models.CharField('Dirección',max_length=50)
@@ -66,7 +66,7 @@ class Prod(models.Model):
     desc  = models.CharField('Descripción', max_length=100)
     price = models.DecimalField('Precio',max_digits=12,
                                   decimal_places=3, validators=[MinValueValidator(0.0)])
-    category = models.ForeignKey(Table, related_name='category')
+    category = models.ForeignKey(Table, related_name='category',verbose_name='Categoría')
     clase = models.ForeignKey(Table, related_name='clase')
     width = models.DecimalField('Anchura',max_digits=9,decimal_places=3, 
                                     validators=[MinValueValidator(0.0)],null=True,blank=True)
@@ -76,7 +76,7 @@ class Prod(models.Model):
                                     validators=[MinValueValidator(0.0)],null=True,blank=True)
     tax1 = models.ForeignKey(Table, related_name='tax1')
     tax2 = models.ForeignKey(Table, related_name='tax2')
-    seller = models.ForeignKey(Seller)
+    seller = models.ForeignKey(Seller,verbose_name='Vendedor')
     image_1 = models.ImageField(upload_to='prod/')
     image_2 = models.ImageField(null=True,blank=True,upload_to='prod/')
     image_3 = models.ImageField(null=True,blank=True,upload_to='prod/')
@@ -166,7 +166,10 @@ class Address(models.Model):
     telephone = models.CharField('Teléfono',max_length=50)
 
     def __str__(self):
-        return self.get_state_display() + ": " + self.address1 + " / " + self.address2
+        if self.address2:
+            return self.get_state_display() + ": " + self.address1 + " / " + self.address2
+        else:
+            return self.get_state_display() + ": " + self.address1
 
 
 class Order(models.Model):
@@ -179,14 +182,14 @@ class Order(models.Model):
         (COMPLETED, 'Completada'),
         (CANCELED, 'Cancelada')
     )
-    address = models.ForeignKey(Address)
+    addressUser = models.ForeignKey("ourAuth.AddressUser", related_name="userAddress",verbose_name='Dirección')
     total = models.DecimalField(max_digits=12,decimal_places=3,validators=[MinValueValidator(0.0)])
     status = models.CharField('Estatus', max_length=1,choices=STATUS_CHOICES)
 
 
 class Payment(models.Model):
-    order = models.ForeignKey(Order, unique=True)
-    paymentUser = models.ForeignKey("ourAuth.PaymentUser", verbose_name="paymentUser", related_name="payment")
+    order = models.ForeignKey(Order, unique=True,verbose_name='Orden')
+    paymentUser = models.ForeignKey("ourAuth.PaymentUser", verbose_name="Medio de pago", related_name="payment")
     date = models.DateField('Fecha',auto_now_add=True)
 
 

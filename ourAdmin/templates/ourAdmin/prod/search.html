@@ -7,33 +7,27 @@
 {% block content %}
 
 <section>
-  <h3>Producto 001</h3>
+  <h3>{{Title}}</h3>
 
   <form method="post" accept-charset="utf-8" class="form-group" role="form" id="form-search" action="{% url 'ProdSearchAjax' %}">
     {% csrf_token %}
-    <table >
-      <tr>
-        <td><b>Código producto  </b></td>
-        <td><b>Nombre del producto  </b></td>
-      </tr>
-      <tr>
-        <td>
-          <input type="text" name="id" maxlength="100" class="form-control" id="id_id">
-        </td>
-        <td>
-          <input type="text" name="name" maxlength="100" class="form-control" id="id_name">
-        </td>
-      </tr>
-    </table>
-    <button type="button" class="btn" id="btn-submit"><i class="fa fa-check" aria-hidden="true"></i></button>
-    <a href="{% url 'ProdCreate' %}">
-      <button type="button" class="btn"><i class="fa fa-plus" aria-hidden="true"></i></button>
-    </a>
+    <div class="div-inline">
+      <b>Código producto  </b> <br>
+      <input type="text" name="id" maxlength="100" class="form-control" id="id_id">
+    </div>
+    <div class="div-inline">
+      <b>Nombre del producto </b> <br>
+      <input type="text" name="name" maxlength="100" class="form-control" id="id_name">
+    </div>
+    <div class="div-inline">
+      <button type="button" class="btn" id="btn-submit"><i class="fa fa-check" aria-hidden="true"></i></button>
+      <a href="{% url 'ProdCreate' %}">
+        <button type="button" class="btn"><i class="fa fa-plus" aria-hidden="true"></i></button>
+      </a>
+    </div>
   </form>
 
-  <table id="table-prods">
-    
-  </table>
+  <table id="table-prods" class="table"></table>
 </section>
 
 {% endblock %}
@@ -48,12 +42,14 @@
         data : $( this ).serialize(), 
       })
       .done(function(data){
-        var html = '<tr><th>ID</th><th>Nombre</th></tr>';                     
+        var html = '<thead><tr><th>ID</th><th>Nombre</th><th></th></tr></thead>';                     
         //add products list to table if list's not empty
         if(data.length > 0){
           for (var i = 0; i < data.length; i++){
-              html +='<tr><td><a href="/ourAdmin/prodmodify/'+data[i].pk+'">'+data[i].pk+'</a></td>';
-              html +='<td><a href="/ourAdmin/prodmodify/'+data[i].pk+'">'+data[i].name+'</td></tr>';
+              html += '<tbody><tr class="clickable-row" data-href="/ourAdmin/prodmodify/'+data[i].pk+'">\
+                        <td>'+data[i].pk+'</td><td>'+data[i].name+'</td>\
+                        <td><a href="/ourAdmin/prodmodify/'+data[i].pk+'"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>\
+                       </tr></tbody>';
           }       
           $("#table-prods").html(html);
         }else{

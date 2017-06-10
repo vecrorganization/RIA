@@ -12,7 +12,15 @@ class SignUpForm(UserCreationForm):
         labels = {
             'first_name': 'Nombre',
             'last_name': 'Apellido',
-            'password1': 'Contraseña',
-            'password2': 'Confirmar contraseña',
             'email': 'Correo electrónico'
         }
+
+    def __init__(self, *args, **kwargs):
+        super(SignUpForm, self).__init__(*args, **kwargs)
+        self.fields['password1'].label = 'Contraseña'
+        self.fields['password2'].label = 'Confirmar contraseña'
+        for key in self.fields:
+            self.fields[key].help_text = None
+            self.fields[key].widget.attrs.update({
+                'class': 'form-control'
+            })

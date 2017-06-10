@@ -11,36 +11,28 @@
 
   <form method="post" accept-charset="utf-8" class="form-group" role="form" id="form-search" action="{% url 'OrderSearchAjax' %}">
     {% csrf_token %}
-    <table >
-      <tr>
-        <td><b>Código de la orden  </b></td>
-        <td><b>Estatus de la orden  </b></td>
-      </tr>
-      <tr>
-        <td>
-          <input type="text" name="id" maxlength="100" class="form-control" id="order_id">
-        </td>
-        <td>
-          <select id="order_status" name="status">
-            <option  value="" selected="selected">---------</option>
-            {% for s in s_choices %}
-              <option value="{{s.0}}">
-                {{s.1}}
-              </option>
-            {% endfor %}
-          </select>
-        </td>
-      </tr>
-    </table>
-    <button type="button" class="btn" id="btn-submit"><i class="fa fa-check" aria-hidden="true"></i></button>
-    <a href="{% url 'OrderCreate' %}">
-      <button type="button" class="btn"><i class="fa fa-plus" aria-hidden="true"></i></button>
-    </a>
+    <div class="div-inline">
+      <b>Código de la orden  </b> <br>
+      <input type="text" name="id" maxlength="100" class="form-control" id="order_id">
+    </div>
+    <div class="div-inline">
+      <b>Estatus de la orden  </b> <br>
+      <select id="order_status" name="status" class="form-control">
+        <option  value="" selected="selected">---------</option>
+        {% for s in s_choices %}
+          <option value="{{s.0}}">{{s.1}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="div-inline">
+      <button type="button" class="btn" id="btn-submit"><i class="fa fa-check" aria-hidden="true"></i></button>
+      <a href="{% url 'OrderCreate' %}">
+        <button type="button" class="btn"><i class="fa fa-plus" aria-hidden="true"></i></button>
+      </a>
+    </div>
   </form>
 
-  <table id="table-orders">
-    
-  </table>
+  <table id="table-orders" class="table"></table>
 </section>
 
 {% endblock %}
@@ -55,13 +47,14 @@
         data : $( this ).serialize(), 
       })
       .done(function(data){
-        var html = '';               
+        var html = '<thead><tr><th>ID</th><th>Estatus</th><th></th></tr></thead>';               
         //add order list to table if list's not empty
         if(data.length > 0){
           for (var i = 0; i < data.length; i++){
-              html +='<tr>\
-                        <td>'+data[i].pk+'</td><td><a href="/ourAdmin/ordermodify/'+data[i].pk+'">'+data[i].status+'</a></td>\
-                      </tr>';
+              html += '<tbody><tr class="clickable-row" data-href="/ourAdmin/ordermodify/'+data[i].pk+'">\
+                        <td>'+data[i].pk+'</td><td>'+data[i].desc+'</td>\
+                        <td><a href="/ourAdmin/ordermodify/'+data[i].pk+'"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>\
+                       </tr></tbody>';
           }       
           $("#table-orders").html(html);
         }else{

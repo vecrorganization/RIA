@@ -12,21 +12,19 @@
 
   <form method="post" accept-charset="utf-8" class="form-group" role="form" id="form-search" action="{% url 'PaymentSearchAjax' %}">
     {% csrf_token %}
-    <table >
-      <tr>
-        <td><b>Fecha </b></td>
-        <td><b>Orden  </b></td>
-      </tr>
-      <tr>
-        <td>
-          <input type="text" name="date" data-date-format="yyyy-mm-dd" class="datepicker form-control" id="id_date">
-        </td>
-        <td>
-          <input type="text" name="order" maxlength="100" class="form-control" id="id_order">
-        </td>
-      </tr>
-    </table>
-    <button type="button" class="btn" id="btn-submit"><i class="fa fa-check" aria-hidden="true"></i></button>
+    <div class="div-inline">
+      <b>Fecha </b><br>
+      <input type="text" name="date" data-date-format="dd/mm/yyyy" class="datepicker form-control" id="id_date">
+    </div>
+    
+    <div class="div-inline">
+      <b>Orden  </b> <br>
+      <input type="text" name="order" maxlength="100" class="form-control" id="id_order">
+    </div>
+
+    <div class="div-inline">
+      <button type="button" class="btn" id="btn-submit"><i class="fa fa-check" aria-hidden="true"></i></button>
+    </div>
   </form>
 
   <table id="table-payment" class="table">
@@ -46,15 +44,15 @@
         data : $( this ).serialize(), 
       })
       .done(function(data){
-        var html = '<tr><th>Fecha</th><th>ID Pago</th><th>ID Orden</th><th>Metodo de pago</th><th>Usuario</th></tr>';               
+        var html = '<thead><tr><th>Fecha</th><th>ID Pago</th><th>ID Orden</th><th>Método de pago</th><th>Usuario</th></tr></thead>';               
         //add products list to table if list's not empty
         if(data.length > 0){          
           for (var i = 0; i < data.length; i++){
-              html +='<tr><td>'+data[i].date+'</a></td>';
-              html +='<td>'+data[i].pk+'</td>';
-              html +='<td>'+data[i].order+'</td>';
-              html +='<td>'+data[i].paymentMethod+'</td>';
-              html +='<td>'+data[i].user+'</td></tr>';
+              html +='<tbody><tr><td>'+data[i].date+'</a></td>\
+                        <td>'+data[i].pk+'</td>\
+                        <td>'+data[i].order+'</td>\
+                        <td>'+data[i].paymentMethod+'</td>\
+                        <td>'+data[i].user+'</td></tr></tbody>';
           }       
           $("#table-payment").html(html);
         }else{

@@ -17,8 +17,7 @@ class ProdForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ProdForm, self).__init__(*args, **kwargs)
-        for key in self.fields:
-
+        for key in (x for x in self.fields if x not in ["image_"+str(i) for i in range(1,6)]):
             self.fields[key].widget.attrs.update({
                 'class': 'form-control'
             })
@@ -35,7 +34,6 @@ class TableForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(TableForm, self).__init__(*args, **kwargs)
         for key in self.fields:
-
             self.fields[key].widget.attrs.update({
                 'class': 'form-control'
             })
@@ -54,7 +52,6 @@ class OrderForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
         for key in self.fields:
-
             self.fields[key].widget.attrs.update({
                 'class': 'form-control'
             })
@@ -71,7 +68,6 @@ class AddressForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AddressForm, self).__init__(*args, **kwargs)
         for key in self.fields:
-
             self.fields[key].widget.attrs.update({
                 'class': 'form-control'
             })

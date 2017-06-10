@@ -2,24 +2,25 @@
 <!DOCTYPE  html>
 <html lang="en">
 <head>
-    {% block head %}
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="RIA">
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+  {% block head %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="RIA">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>{% block title %}RIA{% endblock %}</title>
+    <title>{% block title %}RIA{% endblock %}</title>
 
-        {% block css %}
-            <link href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
-            <link href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
-        {% endblock css %}
+    {% block css %}
+      <link href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+      <link href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+      <link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css">
+    {% endblock css %}
 
-        {% block base_css %}{% endblock %}
+    {% block base_css %}{% endblock %}
 
-    {% endblock head %}
+  {% endblock head %}
 </head>
 <body>
 {% block msg %}{% endblock %}
@@ -29,8 +30,16 @@
 {% block base_content %}{% endblock %}
 
 {% block script %}
-    <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {      
+      //Mensaje de alerta 
+      $("#ria-alert").fadeTo(2000, 500).slideUp(500, function(){
+        $("#ria-alert").slideUp(500);
+      });
+    });
+  </script>
 {% endblock %}
 
 {% block base_script %}

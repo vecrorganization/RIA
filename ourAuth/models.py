@@ -20,11 +20,11 @@ def update_user_profile(sender, instance, created, **kwargs):
 
 class AddressUser(models.Model):
     user = models.ForeignKey(User)
-    address = models.ForeignKey("ourAdmin.Address", verbose_name="address", related_name="addressUser") 
+    address = models.ForeignKey("ourAdmin.Address", verbose_name="Dirección", related_name="addressUser") 
     
     class Meta:
         unique_together = (('user','address'),)
 
 class PaymentUser(models.Model):
     user = models.ForeignKey(User)
-    paymentMethod = models.ForeignKey("ourAdmin.PaymentMethod", verbose_name="paymentMethod", related_name="paymentUser") 
+    paymentMethod = models.ForeignKey("ourAdmin.PaymentMethod", verbose_name="Método de pago", related_name="paymentUser") 

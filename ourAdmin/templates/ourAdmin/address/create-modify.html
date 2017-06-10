@@ -7,22 +7,11 @@
 {% block content %}
 
 <section>
-  <h3>Crear Dirección</h3>
+  <h3>{{Title}}</h3>
 
   <form method="post" accept-charset="utf-8" class="form-group" role="form" enctype="multipart/form-data">
     {% csrf_token %}
-    <table >
-      {% for field in form %}
-        <tr>
-          <td><b>{{field.label}} : </b></td>
-          <td>{{ field }}
-            <span class="error" id="{{ field.name }}-icon"></span>
-            <span class='error' id='{{field.name}}-error' aria-live="polite">{{ field.errors }}</span>
-          </td>
-        </tr>
-      {% endfor %}
-      <tr>
-    </table>
+    <table> {{ form.as_table }} </table>
     <button type="submit" class="btn"><i class="fa fa-check" aria-hidden="true"></i></button>
 
     <a href="{% url 'AddressSearch' %}">
@@ -30,13 +19,14 @@
     </a>
     {% if pk %}
       <button type="button" id="btn-delete" class="btn" ><i class="fa fa-times" aria-hidden="true"></i></button>
-    {% endif%}
+    {% endif %}
   </form>
 </section>
 
 {% endblock %}
 
 {% block custom_script %}
+{% if pk %}
 <script>
   $(document).ready(function() {
       $("#btn-delete").click(function(){
@@ -60,5 +50,5 @@
       });
   });
 </script>
-
+{% endif %}
 {% endblock %}  

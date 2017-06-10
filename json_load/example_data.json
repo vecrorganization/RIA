@@ -123,10 +123,19 @@
   },
 
   {
+    "model": "ourAuth.addressuser",
+    "pk": 1,
+    "fields": {
+      "user_id":"1",
+      "address_id":"1"
+    }
+  },
+
+  {
     "model": "ourAdmin.order",
     "pk": 1,
     "fields": {
-      "address_id":"1",
+      "addressUser_id":"1",
       "total":"234",
       "status":"P"
     }

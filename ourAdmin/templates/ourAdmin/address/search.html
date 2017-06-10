@@ -7,40 +7,34 @@
 {% block content %}
 
 <section>
-  <h3>Buscar Dirección</h3>
+  <h3>{{Title}}</h3>
 
   <form method="post" accept-charset="utf-8" class="form-group" role="form" id="form-search" action="{% url 'AddressSearchAjax' %}">
     {% csrf_token %}
-    <table >
-      <tr>
-        <td><b>Estado  </b></td>
-        <td><b>Dirección  </b></td>
-      </tr>
-      <tr>
-        <td>
-          <select id="address_state" name="state">
-            <option  value="" selected="selected">---------</option>
-            {% for s in s_choices %}
-              <option value="{{s.0}}">
-                {{s.1}}
-              </option>
-            {% endfor %}
-          </select>
-        </td>
-        <td>
-          <input type="text" name="dir" maxlength="100" class="form-control" id="address_dir">
-        </td>
-      </tr>
-    </table>
-    <button type="button" class="btn" id="btn-submit"><i class="fa fa-check" aria-hidden="true"></i></button>
-    <a href="{% url 'AddressCreate' %}">
-      <button type="button" class="btn"><i class="fa fa-plus" aria-hidden="true"></i></button>
-    </a>
+    <div class="div-inline">
+      <b>Estado  </b> <br>
+      <select id="address_state" name="state" class="form-control">
+        <option  value="" selected="selected">---------</option>
+        {% for s in s_choices %}
+          <option value="{{s.0}}"> {{s.1}} </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="div-inline">
+      <b>Dirección  </b> <br>
+      <input type="text" name="dir" maxlength="100" class="form-control" id="address_dir">
+    </div>
+
+    <div class="div-inline">
+      <button type="button" class="btn" id="btn-submit"><i class="fa fa-check" aria-hidden="true"></i></button>
+      <a href="{% url 'AddressCreate' %}">
+        <button type="button" class="btn"><i class="fa fa-plus" aria-hidden="true"></i></button>
+      </a>
+    </div>
   </form>
 
-  <table id="table-address">
-    
-  </table>
+  <table id="table-address" class="table"></table>
 </section>
 
 {% endblock %}
@@ -55,13 +49,15 @@
         data : $( this ).serialize(), 
       })
       .done(function(data){
-        var html = '';               
+        var html = '<tr><th>ID</th><th>Dirección</th><th></th></tr>';               
         //add order list to table if list's not empty
         if(data.length > 0){
           for (var i = 0; i < data.length; i++){
-              html +='<tr>\
-                        <td>'+data[i].pk+'</td><td><a href="/ourAdmin/addressmodify/'+data[i].pk+'">'+data[i].addr+'</a></td>\
-                      </tr>';
+              html += '<tr class="clickable-row activar-cursor" data-href="/ourAdmin/addressmodify/'+data[i].pk+'">\
+                        <td>'+data[i].pk+'</td>\
+                        <td>'+data[i].addr+'</td>\
+                        <td><a href="/ourAdmin/addressmodify/'+data[i].pk+'"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>\
+                       </tr>';
           }       
           $("#table-address").html(html);
         }else{
