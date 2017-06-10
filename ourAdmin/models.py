@@ -66,23 +66,23 @@ class Prod(models.Model):
     desc  = models.CharField('Descripción', max_length=100)
     price = models.DecimalField('Precio',max_digits=12,
                                   decimal_places=3, validators=[MinValueValidator(0.0)])
-    category = models.ForeignKey(Table, related_name='category',verbose_name='Categoría')
-    clase = models.ForeignKey(Table, related_name='clase')
     width = models.DecimalField('Anchura',max_digits=9,decimal_places=3, 
                                     validators=[MinValueValidator(0.0)],null=True,blank=True)
     length = models.DecimalField('Longitud',max_digits=9,decimal_places=3, 
                                     validators=[MinValueValidator(0.0)],null=True,blank=True)
     height = models.DecimalField('Altura',max_digits=9,decimal_places=3, 
                                     validators=[MinValueValidator(0.0)],null=True,blank=True)
+    category = models.ForeignKey(Table, related_name='category',verbose_name='Categoría')
+    clase = models.ForeignKey(Table, related_name='clase')
     tax1 = models.ForeignKey(Table, related_name='tax1')
     tax2 = models.ForeignKey(Table, related_name='tax2')
     seller = models.ForeignKey(Seller,verbose_name='Vendedor')
+    modifier = models.ForeignKey(User, related_name='prod_modifier')
     image_1 = models.ImageField(upload_to='prod/')
     image_2 = models.ImageField(null=True,blank=True,upload_to='prod/')
     image_3 = models.ImageField(null=True,blank=True,upload_to='prod/')
     image_4 = models.ImageField(null=True,blank=True,upload_to='prod/')
     image_5 = models.ImageField(null=True,blank=True,upload_to='prod/')
-    modifier = models.ForeignKey(User, related_name='prod_modifier')
     createDate = models.DateField('Fecha de creación',auto_now_add=True)
     modifyDate = models.DateField('Fecha de modificación', null=True)
 

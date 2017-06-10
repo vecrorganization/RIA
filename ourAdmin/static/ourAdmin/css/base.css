@@ -1,18 +1,14 @@
-body,html{
-    margin-top: 24px;
-}
-
-.bo-content-bar{
+.base-content-bar{
     border: 0;
     border-radius: 0;
 }
 
-#bo-content{  
+#base-content{  
     margin-left: 220px;
     padding-top: 4px;
 }
 
-#bo-content-body{
+#base-content-body{
     margin: auto;
     width: 96%;
 }
@@ -28,6 +24,11 @@ th.th-colspan{
 
 .bo-table th{
     background-color: #f8f8f8;
+}
+
+.div-inline-search{
+    display: inline-block;
+    vertical-align: bottom;
 }
 
 /********** DATATABLES **********/

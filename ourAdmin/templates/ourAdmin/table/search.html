@@ -4,32 +4,32 @@
 {% block custom_css %}
 {% endblock %}
 
+{% block content-bar-list %}
+  <li><a href="{% url 'TableCreate' %}">Crear</a></li>
+  <li class="active"><a href="#">Buscar</a></li>
+{% endblock %}
+
 {% block content %}
 
 <section>
   <h3>Buscar table</h3>
   <form method="post" accept-charset="utf-8" class="form-group" role="form" id="form-search" action="{% url 'TableSearchAjax' %}">
     {% csrf_token %}
-    <div class="div-inline">
+    <div class="div-inline-search">
       <b>Tipo </b> <br>
       <select id="id_type" name="type" class="form-control">
         <option  value="" selected="selected">---------</option>
         {% for t in t_choices %}
-          <option value="{{t.0}}">
-            {{t.1}}
-          </option>
+          <option value="{{t.0}}">{{t.1}}</option>
         {% endfor %}
       </select>
     </div>
-    <div class="div-inline">
+    <div class="div-inline-search">
       <b>Descripción</b><br>
       <input type="text" name="desc" maxlength="100" class="form-control" id="id_desc">
     </div>
-    <div class="div-inline">
-      <button type="button" class="btn" id="btn-submit"><i class="fa fa-check" aria-hidden="true"></i></button>
-      <a href="{% url 'TableCreate' %}">
-        <button type="button" class="btn"><i class="fa fa-plus" aria-hidden="true"></i></button>
-      </a>
+    <div class="div-inline-search">
+      <button type="button" class="btn" id="btn-submit" title="Buscar"><i class="fa fa-check" aria-hidden="true"></i></button>
     </div>
   </form>
 

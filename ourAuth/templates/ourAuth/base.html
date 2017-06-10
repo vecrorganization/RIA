@@ -1,9 +1,10 @@
 {% extends "base.html" %}
-{% load adminTags %}
+{% load adminTags static %}
 
 {% block title %}{% if Title %}{{Title}}{% else %}Auth{% endif %}{% endblock %}
 
 {% block base_css %}
+  <link rel="stylesheet" href="{% static 'ourAuth/css/base.css' %}" />
   {% block custom_css %}{% endblock %}
 {% endblock %}
 
@@ -14,10 +15,10 @@
   {% endfor %}
 {% endblock %}
 
-{% block navbar %}{% endblock %}
-
 {% block base_content %}
-  {% block content %}{% endblock %}
+  <div id="base-content">
+  	{% block content %}{% endblock %}
+  </div>
 {% endblock %}
 
 {% block base_script %}

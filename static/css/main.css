@@ -2,10 +2,7 @@ body,html{
     margin: 0;
     padding: 0;
     width: 100%;
-}
-
-.div-inline{
-	display: inline-block;
+    margin-top: 24px;
 }
 
 #ria-alert{
@@ -13,4 +10,22 @@ body,html{
 	z-index: 2000;
 	position: fixed;
 	width: 100%;
+}
+
+.errorlist{
+	color: red;
+}
+
+.center{
+	text-align: center;
+}
+
+
+#base-content form table{
+    margin-bottom: 10px;
+}
+
+#base-content form table input,#base-content form table select{
+    margin-bottom: 3px;
+    margin-left: 2px;
 }

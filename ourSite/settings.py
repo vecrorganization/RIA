@@ -140,6 +140,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     ('ourAdmin', os.path.join(BASE_DIR, 'ourAdmin', 'static')),
+    ('ourAuth', os.path.join(BASE_DIR, 'ourAuth', 'static')),
     '/var/www/static/',
 ]
 
@@ -152,3 +153,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 #AUTH_PROFILE_MODULE= 'ourAuth.Profile'
+LOGIN_REDIRECT_URL= "/"

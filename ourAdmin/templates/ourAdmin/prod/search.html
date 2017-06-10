@@ -4,6 +4,11 @@
 {% block custom_css %}
 {% endblock %}
 
+{% block content-bar-list %}
+  <li><a href="{% url 'ProdCreate' %}">Crear</a></li>
+  <li class="active"><a href="#">Buscar</a></li>
+{% endblock %}
+
 {% block content %}
 
 <section>
@@ -11,19 +16,16 @@
 
   <form method="post" accept-charset="utf-8" class="form-group" role="form" id="form-search" action="{% url 'ProdSearchAjax' %}">
     {% csrf_token %}
-    <div class="div-inline">
+    <div class="div-inline-search">
       <b>Código producto  </b> <br>
       <input type="text" name="id" maxlength="100" class="form-control" id="id_id">
     </div>
-    <div class="div-inline">
+    <div class="div-inline-search">
       <b>Nombre del producto </b> <br>
       <input type="text" name="name" maxlength="100" class="form-control" id="id_name">
     </div>
-    <div class="div-inline">
-      <button type="button" class="btn" id="btn-submit"><i class="fa fa-check" aria-hidden="true"></i></button>
-      <a href="{% url 'ProdCreate' %}">
-        <button type="button" class="btn"><i class="fa fa-plus" aria-hidden="true"></i></button>
-      </a>
+    <div class="div-inline-search">
+      <button type="button" class="btn" id="btn-submit" title="Buscar"><i class="fa fa-check" aria-hidden="true"></i></button>
     </div>
   </form>
 

@@ -4,6 +4,8 @@
 {% block custom_css %}
 {% endblock %}
 
+{% block content-bar %}{% endblock %}
+
 {% block content %}
 
 <section>
@@ -11,7 +13,7 @@
 
   <form method="post" accept-charset="utf-8" class="form-group" role="form" id="form-search" action="{% url 'AddressSearchAjax' %}">
     {% csrf_token %}
-    <div class="div-inline">
+    <div class="div-inline-search">
       <b>Estado  </b> <br>
       <select id="address_state" name="state" class="form-control">
         <option  value="" selected="selected">---------</option>
@@ -21,15 +23,15 @@
       </select>
     </div>
 
-    <div class="div-inline">
+    <div class="div-inline-search">
       <b>Dirección  </b> <br>
       <input type="text" name="dir" maxlength="100" class="form-control" id="address_dir">
     </div>
 
-    <div class="div-inline">
-      <button type="button" class="btn" id="btn-submit"><i class="fa fa-check" aria-hidden="true"></i></button>
+    <div class="div-inline-search">
+      <button type="button" class="btn" id="btn-submit" title="Buscar"><i class="fa fa-check" aria-hidden="true"></i></button>
       <a href="{% url 'AddressCreate' %}">
-        <button type="button" class="btn"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <button type="button" class="btn" title="Agregar"><i class="fa fa-plus" aria-hidden="true"></i></button>
       </a>
     </div>
   </form>

@@ -17,6 +17,9 @@ from ourAuth.tokens import account_activation_token
 
 @login_required
 def home(request):
+    '''
+    Template view showed to user when email is confirmed
+    '''
     return render(request, 'ourAuth/home.html')
 
 class SignUp(TemplateView):

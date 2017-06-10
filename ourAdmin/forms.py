@@ -38,8 +38,6 @@ class TableForm(forms.ModelForm):
                 'class': 'form-control'
             })
 
-
-
 class OrderForm(forms.ModelForm):
     """
     Create or modify a Order

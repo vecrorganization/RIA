@@ -15,6 +15,13 @@ class SignUpForm(UserCreationForm):
             'email': 'Correo electrónico'
         }
 
+    def clean(self):
+        cleaned_data = super(SignUpForm, self).clean()
+        email = cleaned_data.get('email')
+
+        if not email:
+            self.add_error(email, "El campo de correo no puede estar vacío.")
+
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
         self.fields['password1'].label = 'Contraseña'

@@ -4,6 +4,16 @@
 {% block custom_css %}
 {% endblock %}
 
+{% block content-bar-list %}
+  {% if pk %}
+  <li class="active"><a href="#">Modificar</a></li>
+  <li><a href="{% url 'ProdCreate' %}">Crear</a></li>
+  {% else %}
+  <li class="active"><a href="#">Crear</a></li>
+  {% endif %}
+  <li><a href="{% url 'ProdSearch' %}">Buscar</a></li>
+{% endblock %}
+
 {% block content %}
 
 <section>
@@ -12,12 +22,9 @@
   <form method="post" accept-charset="utf-8" class="form-group" role="form" enctype="multipart/form-data">
     {% csrf_token %}
     <table> {{ form.as_table }} </table>
-    <button type="submit" class="btn"><i class="fa fa-check" aria-hidden="true"></i></button>
-    <a href="{% url 'ProdSearch' %}">
-      <button type="button" class="btn"><i class="fa fa-undo" aria-hidden="true"></i></button>
-    </a>
+    <button type="submit" class="btn" title="Guardar"><i class="fa fa-check" aria-hidden="true"></i></button>
     {% if pk %}
-      <button type="button" id="btn-delete" class="btn" ><i class="fa fa-times" aria-hidden="true"></i></button>
+      <button type="button" id="btn-delete" class="btn" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i></button>
     {% endif%}
   </form>
 </section>

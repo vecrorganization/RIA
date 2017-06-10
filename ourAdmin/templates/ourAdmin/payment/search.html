@@ -5,6 +5,7 @@
   <link href="{% static 'bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}" rel="stylesheet">
 {% endblock %}
 
+{% block content-bar %}{% endblock %}
 {% block content %}
 
 <section>
@@ -12,18 +13,18 @@
 
   <form method="post" accept-charset="utf-8" class="form-group" role="form" id="form-search" action="{% url 'PaymentSearchAjax' %}">
     {% csrf_token %}
-    <div class="div-inline">
+    <div class="div-inline-search">
       <b>Fecha </b><br>
       <input type="text" name="date" data-date-format="dd/mm/yyyy" class="datepicker form-control" id="id_date">
     </div>
     
-    <div class="div-inline">
+    <div class="div-inline-search">
       <b>Orden  </b> <br>
       <input type="text" name="order" maxlength="100" class="form-control" id="id_order">
     </div>
 
-    <div class="div-inline">
-      <button type="button" class="btn" id="btn-submit"><i class="fa fa-check" aria-hidden="true"></i></button>
+    <div class="div-inline-search">
+      <button type="button" class="btn" id="btn-submit" title="Buscar"><i class="fa fa-check" aria-hidden="true"></i></button>
     </div>
   </form>
 

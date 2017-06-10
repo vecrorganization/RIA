@@ -17,35 +17,29 @@
 {% endfor %}
 {% endblock %}
 
-{% block navbar %}
-  {% include "ourAdmin/navbar.html" %}
+{% block base_navbar %}
   {% if user.is_authenticated %}
     {% include "ourAdmin/sidebar.html" %}
   {% endif %}
 {% endblock %}
 
 {% block base_content %}
-  <div id="bo-content">
-    <!--
-    { % block content-bar %}  
-      <nav class="bo-content-bar navbar navbar-default">
+  <div id="base-content">
+    {% block content-bar %}  
+      <nav class="base-content-bar navbar navbar-default">
         <div class="container-fluid">
           <ul class="nav navbar-nav">
-            { % block content-bar-list %}   
-            { % endblock %}
+            {% block content-bar-list %}{% endblock %}
           </ul>          
           <ul class="nav navbar-nav navbar-right">
-            {% block content-bar-list-right %}   
-            {% endblock %}
+            {% block content-bar-list-right %}{% endblock %}
           </ul>
         </div>
       </nav>  
-    { % endblock %}
-    -->
+    {% endblock %}
 
-    <div id="bo-content-body">
-      {% block content %}
-      {% endblock %}
+    <div id="base-content-body">
+      {% block content %}{% endblock %}
     </div>
   </div>
 {% endblock %}
