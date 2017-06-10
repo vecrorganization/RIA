@@ -25,7 +25,6 @@
 
 {% block navbar %}
   {% include "navbar.html" %}
-
   {% block base_navbar %}{% endblock %}
 {% endblock %}
 
@@ -36,13 +35,12 @@
 <script type="text/javascript">
   $(document).ready(function() {      
     //Mensaje de alerta 
-    $("#ria-alert").fadeTo(2000, 500).slideUp(500, function(){
-      $("#ria-alert").slideUp(500);
+    $("#base-alert").fadeTo(2000, 500).slideUp(500, function(){
+      $("#base-alert").slideUp(500);
     });
   });
 </script>
 
-{% block base_script %}
-{% endblock %}
+{% block base_script %}{% endblock %}
 </body>
 </html>

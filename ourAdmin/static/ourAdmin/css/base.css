@@ -1,37 +1,18 @@
+#base-content{  
+    margin-left: 220px;
+    padding-top: 4px;
+}
+#base-content-body{
+    margin: auto;
+    width: 96%;
+}
 .base-content-bar{
     border: 0;
     border-radius: 0;
 }
 
-#base-content{  
-    margin-left: 220px;
-    padding-top: 4px;
-}
-
-#base-content-body{
-    margin: auto;
-    width: 96%;
-}
-
-.form-filter{
-    margin-top: 8px;
-    margin-right: 20px;
-}
-
-th.th-colspan{
-    text-align: center;
-}
-
-.bo-table th{
-    background-color: #f8f8f8;
-}
-
+/* PROJECT */
 .div-inline-search{
     display: inline-block;
     vertical-align: bottom;
-}
-
-/********** DATATABLES **********/
-.bo-dt-content label{
-    font-weight: normal;
 }

@@ -11,7 +11,7 @@
 {% block msg %}
   {% for message in messages %}
     {% bootstrap_mt message.tags as btag %}
-    <div class="alert alert-{{ btag }}">{{ message }}</div>
+    <div id="base-alert" class="alert alert-{{ btag }}">{{ message }}</div>
   {% endfor %}
 {% endblock %}
 
