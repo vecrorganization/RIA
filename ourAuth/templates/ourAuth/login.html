@@ -12,3 +12,12 @@
     </div>
   </form>
 {% endblock %}
+
+
+{% block custom_script %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("input").addClass("form-control");
+  });
+</script>
+{% endblock %}

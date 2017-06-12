@@ -63,7 +63,7 @@ class Prod(models.Model):
 
     id = models.CharField(max_length=25, primary_key=True)
     name  = models.CharField('Nombre', max_length=100)
-    desc  = models.CharField('Descripción', max_length=100)
+    desc  = models.CharField('Descripción', max_length=250)
     price = models.DecimalField('Precio',max_digits=12,
                                   decimal_places=3, validators=[MinValueValidator(0.0)])
     width = models.DecimalField('Anchura',max_digits=9,decimal_places=3, 

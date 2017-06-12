@@ -44,13 +44,12 @@ class ProdSearchAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
         post_values = request.POST.copy()
         prods = []
 
-        try:
-            #search by id
-            prods = [Prod.objects.get(id=post_values['id'])]
-        except:
-            #search by name if it is not ""
+        if 'id' in post_values and post_values['id']:
+            prods = Prod.objects.filter(id__icontains=post_values['id'])
             if 'name' in post_values and post_values['name']:
-                prods = Prod.objects.filter(name__icontains=post_values['name'])
+                prods = prods.filter(name__icontains=post_values['name'])
+        elif 'name' in post_values and post_values['name']:
+            prods = Prod.objects.filter(name__icontains=post_values['name'])
 
         data = [{'pk': prod.id, 'name': prod.name} for prod in prods]
         return HttpResponse(json.dumps(data), content_type='application/json')
@@ -62,7 +61,6 @@ class ProdDeleteAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
 
     def post(self, request, *args, **kwargs):
         post_values = request.POST.copy()
-        print(post_values)
         try:
             Prod.objects.get(id = post_values['pk']).delete()
             messages.add_message(request, messages.SUCCESS, 'Se elimino correctamente')
