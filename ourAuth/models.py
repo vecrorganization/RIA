@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from ourAdmin.models import PaymentMethod, Address
 
 User._meta.get_field('email')._unique = True
 
@@ -19,11 +20,13 @@ def update_user_profile(sender, instance, created, **kwargs):
 
 class AddressUser(models.Model):
     user = models.ForeignKey(User)
-    address = models.ForeignKey("ourAdmin.Address", verbose_name="Dirección", related_name="addressUser") 
+    address = models.ForeignKey(Address, verbose_name="Dirección",
+                                related_name="addressUser") 
     
     class Meta:
         unique_together = (('user','address'),)
 
 class PaymentUser(models.Model):
     user = models.ForeignKey(User)
-    paymentMethod = models.ForeignKey("ourAdmin.PaymentMethod", verbose_name="Método de pago", related_name="paymentUser") 
+    paymentMethod = models.ForeignKey(PaymentMethod, verbose_name="Método de pago",
+                                      related_name="paymentUser") 

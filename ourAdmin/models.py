@@ -22,7 +22,7 @@ class Table(models.Model):
 
     desc = models.CharField('Descripción',max_length=40)
     type = models.CharField('Tipo', max_length=2,choices=TYPE_CHOICES)
-    refer = models.IntegerField('Referencia',null=True,blank=True)
+    refer = models.ForeignKey("Table",null=True,blank=True)
     value1 = models.DecimalField("Valor 1",decimal_places=3,max_digits=9,null=True,blank=True)
     value2 = models.DecimalField("Valor 2",decimal_places=3,max_digits=9,null=True,blank=True)
     modifier = models.ForeignKey(User)
@@ -164,6 +164,7 @@ class Address(models.Model):
     address1 = models.CharField('Dirección 1',max_length=254)
     address2 = models.CharField('Dirección 2',max_length=254, null=True)
     telephone = models.CharField('Teléfono',max_length=50)
+    zipCode = models.CharField('Código postal',max_length=10)
 
     def __str__(self):
         if self.address2:
@@ -182,14 +183,14 @@ class Order(models.Model):
         (COMPLETED, 'Completada'),
         (CANCELED, 'Cancelada')
     )
-    addressUser = models.ForeignKey("ourAuth.AddressUser", related_name="userAddress",verbose_name='Dirección')
+    addressUser = models.ForeignKey("ourAuth.AddressUser",verbose_name='Dirección')
     total = models.DecimalField(max_digits=12,decimal_places=3,validators=[MinValueValidator(0.0)])
     status = models.CharField('Estatus', max_length=1,choices=STATUS_CHOICES)
 
 
 class Payment(models.Model):
     order = models.ForeignKey(Order, unique=True,verbose_name='Orden')
-    paymentUser = models.ForeignKey("ourAuth.PaymentUser", verbose_name="Medio de pago", related_name="payment")
+    paymentUser = models.ForeignKey("ourAuth.PaymentUser", verbose_name="Medio de pago")
     date = models.DateField('Fecha',auto_now_add=True)
 
 
