@@ -26,6 +26,10 @@ class AddressUser(models.Model):
     class Meta:
         unique_together = (('user','address'),)
 
+    def __str__(self):
+        return str(self.address)
+
+
 class PaymentUser(models.Model):
     user = models.ForeignKey(User)
     paymentMethod = models.ForeignKey(PaymentMethod, verbose_name="Método de pago",

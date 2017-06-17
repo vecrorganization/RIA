@@ -184,7 +184,7 @@ class Order(models.Model):
         (CANCELED, 'Cancelada')
     )
     addressUser = models.ForeignKey("ourAuth.AddressUser",verbose_name='Dirección')
-    total = models.DecimalField(max_digits=12,decimal_places=3,validators=[MinValueValidator(0.0)])
+    total = models.DecimalField(max_digits=12,decimal_places=3,validators=[MinValueValidator(0.0)], null=True, blank = True)
     status = models.CharField('Estatus', max_length=1,choices=STATUS_CHOICES)
 
 
