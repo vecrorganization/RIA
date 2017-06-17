@@ -183,7 +183,6 @@ class Address(models.Model):
         else:
             return self.get_state_display() + ": " + self.address1
 
-
 class HDiscount(models.Model):
     desc = models.CharField( max_length=100)
     dateStart = models.DateField('Fecha de inicio')
