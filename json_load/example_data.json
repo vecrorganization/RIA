@@ -132,12 +132,10 @@
   },
 
   {
-    "model": "ourAdmin.order",
+    "model": "ourWeb.order",
     "pk": 1,
     "fields": {
-      "addressUser_id":"1",
-      "total":"234",
-      "status":"P"
+      "user_id":"1"
     }
   },
 
@@ -153,7 +151,7 @@
 
 
   {
-    "model": "ourAdmin.payment",
+    "model": "ourWeb.payment",
     "pk": 1,
     "fields": {
       "order_id":"1",

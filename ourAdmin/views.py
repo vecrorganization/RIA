@@ -9,8 +9,10 @@ from django.contrib import messages
 from braces.views import LoginRequiredMixin,StaffuserRequiredMixin
 from django.views.generic import TemplateView, View
 # App
-from ourAdmin.models import Prod, Table, Order, Address, Payment
-from ourAdmin.forms import ProdForm, TableForm, OrderForm, AddressForm
+from ourAdmin.models import Prod, Table, Address
+from ourAdmin.forms import ProdForm, TableForm, AddressForm
+from ourWeb.models import Order, Payment
+from ourWeb.forms import OrderForm
 
 
 class Home(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
@@ -140,8 +142,7 @@ class TableCreateModify(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
 
     def post(self, request, *args, **kwargs):
         post_values = request.POST.copy()
-        #user = request.user
-        user = User.objects.get(pk=1)
+        user = request.user
         if 'pk' in kwargs:
             table = get_object_or_404(Table, id=int(kwargs['pk']))
             table.modifier = user

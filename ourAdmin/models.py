@@ -4,6 +4,8 @@ from datetime import date
 # Django
 from django.db import models
 from django.utils import timezone
+from django.db.models.signals import pre_delete
+from django.dispatch.dispatcher import receiver
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 
@@ -94,6 +96,15 @@ class Prod(models.Model):
             self.modifyDate = date.today()
         return super(Prod, self).save(*args, **kwargs)
 
+@receiver(pre_delete, sender=Prod)
+def prod_delete(sender, instance, **kwargs):
+    # Pass false so FileField doesn't save the model.
+    instance.image_1.delete(False)
+    instance.image_2.delete(False)
+    instance.image_3.delete(False)
+    instance.image_4.delete(False)
+    instance.image_5.delete(False)
+    
 
 class PaymentMethod(models.Model):
     cardNumber = models.DecimalField('Numero tarjeta', max_digits=20, decimal_places=0, validators=[MinValueValidator(0.0)], primary_key=True)
@@ -173,27 +184,6 @@ class Address(models.Model):
             return self.get_state_display() + ": " + self.address1
 
 
-class Order(models.Model):
-    IN_PROCESS = "P"
-    COMPLETED = "F"
-    CANCELED = "C"
-
-    STATUS_CHOICES = (
-        (IN_PROCESS, 'En proceso'),
-        (COMPLETED, 'Completada'),
-        (CANCELED, 'Cancelada')
-    )
-    addressUser = models.ForeignKey("ourAuth.AddressUser",verbose_name='Dirección')
-    total = models.DecimalField(max_digits=12,decimal_places=3,validators=[MinValueValidator(0.0)])
-    status = models.CharField('Estatus', max_length=1,choices=STATUS_CHOICES)
-
-
-class Payment(models.Model):
-    order = models.ForeignKey(Order, unique=True,verbose_name='Orden')
-    paymentUser = models.ForeignKey("ourAuth.PaymentUser", verbose_name="Medio de pago")
-    date = models.DateField('Fecha',auto_now_add=True)
-
-
 class HDiscount(models.Model):
     desc = models.CharField( max_length=100)
     dateStart = models.DateField('Fecha de inicio')
@@ -213,11 +203,3 @@ class DDiscount(models.Model):
 
     class Meta:
         unique_together = (('hd','prod'),)
-
-class Contains(models.Model):
-
-    prod = models.ForeignKey(Prod)
-    order = models.ForeignKey(Order)
-
-    class Meta:
-        unique_together = (('prod','order'),)

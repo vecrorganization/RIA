@@ -1,0 +1,9 @@
+{% extends 'ourWeb/base.html' %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    <h2>Bienvenid@, {{ user.get_full_name }} <small>{{ user.username }}</small>!</h2>
+  {% else %}
+    <h2>Bienvenid@, ¿Eres nuevo? <a href="{% url 'signup' %}">Registrate</a>.</h2>
+  {% endif %}
+{% endblock %}

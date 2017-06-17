@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from ourAdmin.models import Prod, Table, Order, Address
+from ourAdmin.models import Prod, Table, Address
 
 class ProdForm(forms.ModelForm):
     """
@@ -33,22 +33,6 @@ class TableForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(TableForm, self).__init__(*args, **kwargs)
-        for key in self.fields:
-            self.fields[key].widget.attrs.update({
-                'class': 'form-control'
-            })
-
-class OrderForm(forms.ModelForm):
-    """
-    Create or modify a Order
-    """
-
-    class Meta:
-        model = Order
-        exclude = []
-
-    def __init__(self, *args, **kwargs):
-        super(OrderForm, self).__init__(*args, **kwargs)
         for key in self.fields:
             self.fields[key].widget.attrs.update({
                 'class': 'form-control'
