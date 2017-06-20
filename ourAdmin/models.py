@@ -13,12 +13,14 @@ class Table(models.Model):
     TAX = "T"
     CATEGORY = "CA"
     COUNTRY = "CO"
+    STATE = "ST"
     CLASS = "CL"
 
     TYPE_CHOICES = (
         (TAX, 'Tax'),
         (CATEGORY, 'Category'),
         (COUNTRY, 'Country'),
+        (STATE, 'State'),
         (CLASS, 'Class')
     )
 
@@ -171,7 +173,7 @@ class Address(models.Model):
         (DEPENDENCIAS_FEDERALES, 'Dependencias Federales'),
     )
 
-    state = models.CharField('Estado', max_length=3,choices=STATE_CHOICES)
+    state = models.ForeignKey(Table,verbose_name='State')
     address1 = models.CharField('Dirección 1',max_length=254)
     address2 = models.CharField('Dirección 2',max_length=254, null=True)
     telephone = models.CharField('Teléfono',max_length=50)

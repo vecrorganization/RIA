@@ -19,9 +19,21 @@
 <section>
   <h3>{{Title}}</h3>
 
-  <form method="post" accept-charset="utf-8" class="form-group" role="form" enctype="multipart/form-data">
+  <form id = "productform" method="post" accept-charset="utf-8" class="form-group" role="form" enctype="multipart/form-data">
     {% csrf_token %}
-    <table> {{ form.as_table }} </table>
+    <table>
+    {% for field in form %}
+      <tr><th>
+        {{ field.label_tag }}</th><td> 
+        {%if forloop.counter > 12 %}
+          <img id="img{{ field.auto_id }}" src="" alt="" style = "max-width:450px; max-height:200px;">  
+        {% endif %}
+        {{ field }}
+          <span class="error" id="{{ field.name }}-icon"></span>
+          <span class='error' id='{{field.name}}-error' aria-live="polite">{{ field.errors }}</span>
+      </td></tr>
+    {% endfor %}
+    </table>
     <button type="submit" class="btn" title="Guardar"><i class="fa fa-check" aria-hidden="true"></i></button>
     {% if pk %}
       <button type="button" id="btn-delete" class="btn" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i></button>
@@ -32,7 +44,28 @@
 {% endblock %}
 
 {% block custom_script %}
+<script type="text/javascript">
+  $(document).ready(function() {
+      //Image preview
+      $(".image").on('change', function() {
+        var preview = document.querySelector('#img'+this.id);
+        var reader  = new FileReader();
 
+        reader.onloadend = function () {
+          preview.src = reader.result;
+        }
+
+        if (this.files[0]) {
+          reader.readAsDataURL(this.files[0]);
+        } else {
+          preview.src = "";
+        }        
+      })    
+
+  $( "#productform" ).validate();
+
+  });
+</script>
 {% if pk %}
 <script>
   $(document).ready(function() {

@@ -21,6 +21,10 @@ class ProdForm(forms.ModelForm):
             self.fields[key].widget.attrs.update({
                 'class': 'form-control'
             })
+        for key in ["image_"+str(i) for i in range(1,6)]:
+            self.fields[key].widget.attrs.update({
+                'class': 'image'
+            })            
 
 class TableForm(forms.ModelForm):
     """
@@ -42,6 +46,7 @@ class AddressForm(forms.ModelForm):
     """
     Create or modify a Address
     """
+    state = forms.ModelChoiceField(queryset= Table.objects.filter(type=Table.STATE))
 
     class Meta:
         model = Address
