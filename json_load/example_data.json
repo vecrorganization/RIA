@@ -85,8 +85,18 @@
   },
 
   {
+    "model": "ourAdmin.table",
+    "pk": 5,
+    "fields": {
+      "desc": "Lara",
+      "type": "ST",
+      "modifier_id": "1"
+    }
+  },
+
+  {
     "model": "ourAdmin.seller",
-    "pk": 2,
+    "pk": 1,
     "fields": {
       "eMail":"seller@seller.com",
       "contactName":"Contact",
@@ -116,7 +126,7 @@
     "model": "ourAdmin.address",
     "pk": 1,
     "fields": {
-      "state":"LAR",
+      "state_id":5,
       "address1":"Barquisimeto",
       "telephone":"20202343434"
     }

@@ -1,0 +1,44 @@
+{% extends 'ourWeb/base.html' %}
+{% load static %}
+
+{% block custom_css %}
+{% endblock %}
+
+{% block content %}
+<section>
+  <h3>{{Title}}</h3>
+
+  {% for obj in objs %}
+    <div>
+      {{obj.name}} - {{obj.desc}} <br>
+      {{obj.price}}
+      <form method="post" accept-charset="utf-8" role="form" action="{% url 'ProdOrderAddUpdate' %}" class="form">        
+        {% csrf_token %}
+        <input type="hidden" name="prod" value="{{ obj.id }}">
+        <input type="tel" focus-me="focusInput" name="qty" min="0" max="999" value="0" step="1"> 
+        <i class="fa fa-plus" aria-hidden="true" onclick="sendAjax($(this).parent());"></i>
+      </form>
+    </div>
+  {% endfor %}
+
+</section>
+{% endblock %}
+
+{% block custom_script %}
+  <script>
+    function sendAjax(obj){
+      $.ajax({
+        type: $(obj).attr('method'),
+        url: $(obj).attr('action'),
+        data: $(obj).serialize()
+      })
+      .done(function(data){
+        if(data.success) console.log(data.success);
+      })
+      .fail(function( jqXHR, textStatus, errorThrown ){
+        console.log(errorThrown);
+      })
+      return false;
+    };
+  </script>
+{% endblock %}

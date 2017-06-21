@@ -1,0 +1,49 @@
+{% extends 'ourWeb/base.html' %}
+{% load static %}
+
+{% block custom_css %}
+{% endblock %}
+
+{% block content %}
+<section>
+  <h3>{{Title}}</h3>
+
+  {% for obj in objs %}
+    <div>
+      {{obj.prod.name}} - {{obj.prod.desc}} - Bs. {{obj.prod.price}} <br>
+      
+      <form method="post" accept-charset="utf-8" role="form" class="form">        
+        {% csrf_token %}
+        <!-- UPDATE -->
+        <input type="hidden" name="prod" value="{{ obj.prod.id }}">
+        <input type="tel" focus-me="focusInput" name="qty" min="0" max="999" value="{{obj.qty}}" step="1"> 
+        <i class="fa fa-refresh" aria-hidden="true" onclick="sendAjax($(this).parent(),{% url 'ProdOrderAddUpdate' %});"></i>
+        <!-- DELETE-->
+        <input type="hidden" name="pk" value="{{ obj.id }}">
+        <i class="fa fa-trash" aria-hidden="true" onclick="sendAjax($(this).parent(),{% url 'ProdOrderDelete' %});"></i>
+      </form>
+    </div>
+  {% endfor %}
+
+</section>
+{% endblock %}
+
+{% block custom_script %}
+  <script>
+    function sendAjax(obj,url){
+      $.ajax({
+        type: $(obj).attr('method'),
+        url: url,
+        data: $(obj).serialize()
+      })
+      .done(function(data){        
+        if(data.deleted == 1) location.reload();
+        if(data.success) console.log(data.success);
+      })
+      .fail(function( jqXHR, textStatus, errorThrown ){
+        console.log(errorThrown);
+      })
+      return false;
+    };
+  </script>
+{% endblock %}

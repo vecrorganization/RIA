@@ -13,7 +13,7 @@ class Profile(models.Model):
 
     def get_order(self):
         try:
-            return Order.objects.get(addressUser__user=self.user,status=Order.IN_PROCESS)
+            return Order.objects.get(user=self.user,status=Order.IN_PROCESS)
         except:
             return Order.objects.create(user=self.user)
 

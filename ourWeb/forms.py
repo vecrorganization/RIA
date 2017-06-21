@@ -29,6 +29,5 @@ class ProdOrderForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(ProdOrderForm, self).clean()
         qty = cleaned_data.get('qty')
-
         if qty < 1:
-            self.add_error('date_from', 'La cantidad debe ser mayor a 0.')
+            self.add_error('qty', 'La cantidad debe ser mayor a 0.')

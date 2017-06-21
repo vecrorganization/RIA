@@ -79,7 +79,7 @@ class Prod(models.Model):
     category = models.ForeignKey(Table, related_name='category',verbose_name='Categoría')
     clase = models.ForeignKey(Table, related_name='clase')
     tax1 = models.ForeignKey(Table, related_name='tax1')
-    tax2 = models.ForeignKey(Table, related_name='tax2')
+    tax2 = models.ForeignKey(Table, related_name='tax2',null=True,blank=True)
     seller = models.ForeignKey(Seller,verbose_name='Vendedor')
     modifier = models.ForeignKey(User, related_name='prod_modifier')
     image_1 = models.ImageField(upload_to='prod/')
@@ -119,60 +119,6 @@ class PaymentMethod(models.Model):
 
 
 class Address(models.Model):
-    AMAZONAS = "AMA"
-    ANZOATEGUI = "ANZ"
-    APURE = "APU"
-    ARAGUA = "ARA"
-    BARINAS = "BAR"
-    BOLIVAR = "BOL"
-    CARABOBO = "CAR"
-    COJEDES = "COJ"
-    DELTA_AMACURO = "DEL"
-    DISTRITO_CAPITAL = "DIS"
-    FALCON = "FAL"
-    GUARICO = "GUA"
-    LARA = "LAR"
-    MERIDA = "MER"
-    MIRANDA = "MIR"
-    MONAGAS = "MON"
-    NUEVA_ESPARTA = "NUE"
-    PORTUGUESA = "POR"
-    SUCRE = "SUC"
-    TACHIRA = "TAC"
-    TRUJILLO = "TRU"
-    VARGAS = "VAR"
-    YARACUY = "YAR"
-    ZULIA= "ZUL"
-    DEPENDENCIAS_FEDERALES = "DEP"
-
-    STATE_CHOICES = (
-        (AMAZONAS, 'Amazonas'),
-        (ANZOATEGUI, 'Anzoátegui'),
-        (APURE, 'Apure'),
-        (ARAGUA, 'Aragua'),
-        (BARINAS, 'Barinas'),
-        (BOLIVAR, 'Bolívar'),
-        (CARABOBO, 'Carabobo'),
-        (COJEDES, 'Cojedes'),
-        (DELTA_AMACURO, 'Delta Amacuro'),
-        (DISTRITO_CAPITAL, 'Distrito Capital'),
-        (FALCON, 'Falcón'),
-        (GUARICO, 'Guárico'),
-        (LARA, 'Lara'),
-        (MERIDA, 'Mérida'),
-        (MIRANDA, 'Miranda'),
-        (MONAGAS, 'Monagas'),
-        (NUEVA_ESPARTA, 'Nueva Esparta'),
-        (PORTUGUESA, 'Portuguesa'),
-        (SUCRE, 'Sucre'),
-        (TACHIRA, 'Táchira'),
-        (TRUJILLO, 'Trujillo'),
-        (VARGAS, 'Vargas'),
-        (YARACUY, 'Yaracuy'),
-        (ZULIA, 'Zulia'),
-        (DEPENDENCIAS_FEDERALES, 'Dependencias Federales'),
-    )
-
     state = models.ForeignKey(Table,verbose_name='State')
     address1 = models.CharField('Dirección 1',max_length=254)
     address2 = models.CharField('Dirección 2',max_length=254, null=True)

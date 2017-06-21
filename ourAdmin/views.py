@@ -389,7 +389,6 @@ class AddressSearchAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
             address = Address.objects.filter(address1__icontains=post_values['dir']) | Address.objects.filter(address2__icontains=post_values['dir'])
 
         data = [{'pk': addr.pk, 'addr': str(addr)} for addr in address]
-        print(data)
         return HttpResponse(json.dumps(data), content_type='application/json')
 
 

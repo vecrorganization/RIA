@@ -1,0 +1,35 @@
+[
+  {
+    "model": "ourAdmin.prod",
+    "pk": 1,
+    "fields": {
+      "name": "prod1",
+      "desc": "prod1",
+      "price":10,
+      "category_id": "2",
+      "clase_id": "4",
+      "tax1_id": "1",
+      "seller_id":"seller@seller.com",
+      "modifier_id": "1",
+      "image_1":"hai",
+      "createDate":"2017-01-01"
+    }
+  },
+
+  {
+    "model": "ourAdmin.prod",
+    "pk": 2,
+    "fields": {
+      "name": "prod2",
+      "desc": "prod2",
+      "price":102,
+      "category_id": "2",
+      "clase_id": "4",
+      "tax1_id": "1",
+      "seller_id":"seller@seller.com",
+      "modifier_id": "1",
+      "image_1":"hai",
+      "createDate":"2017-01-01"
+    }
+  }
+]

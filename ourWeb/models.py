@@ -16,9 +16,8 @@ class Order(models.Model):
         (CANCELED, 'Cancelada')
     )
 
-    #DEFINIR BIEN
     user = models.ForeignKey(User)
-    addressUser = models.ForeignKey("ourAuth.AddressUser",verbose_name='Dirección',null=True)
+    address = models.ForeignKey("ourAdmin.Address",verbose_name='Dirección',null=True)
     total = models.DecimalField(max_digits=12,decimal_places=3,validators=[MinValueValidator(0.0)],default=0.0)
     status = models.CharField('Estatus',max_length=1,choices=STATUS_CHOICES,default=IN_PROCESS)
 
