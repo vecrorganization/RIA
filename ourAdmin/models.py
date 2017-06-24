@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
-
 from datetime import date
+from decimal import Decimal
 # Django
 from django.db import models
 from django.utils import timezone
@@ -97,6 +97,9 @@ class Prod(models.Model):
         if not self._state.adding:
             self.modifyDate = date.today()
         return super(Prod, self).save(*args, **kwargs)
+
+    def get_tax1(self):
+        return round(self.price * self.tax1.value1 * Decimal(0.01),3)
 
 @receiver(pre_delete, sender=Prod)
 def prod_delete(sender, instance, **kwargs):

@@ -11,7 +11,7 @@
       "tax1_id": "1",
       "seller_id":"seller@seller.com",
       "modifier_id": "1",
-      "image_1":"hai",
+      "image_1":"image/no_image.jpg",
       "createDate":"2017-01-01"
     }
   },
@@ -28,7 +28,7 @@
       "tax1_id": "1",
       "seller_id":"seller@seller.com",
       "modifier_id": "1",
-      "image_1":"hai",
+      "image_1":"image/no_image.jpg",
       "createDate":"2017-01-01"
     }
   }

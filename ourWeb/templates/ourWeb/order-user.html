@@ -2,48 +2,73 @@
 {% load static %}
 
 {% block custom_css %}
+<link href="{% static 'bower_components/datatables.net-dt/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+<link href="{% static 'bower_components/datatables.net-responsive-dt/css/responsive.dataTables.min.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
 <section>
   <h3>{{Title}}</h3>
 
-  {% for obj in objs %}
-    <div>
-      {{obj.prod.name}} - {{obj.prod.desc}} - Bs. {{obj.prod.price}} <br>
-      
-      <form method="post" accept-charset="utf-8" role="form" class="form">        
-        {% csrf_token %}
-        <!-- UPDATE -->
-        <input type="hidden" name="prod" value="{{ obj.prod.id }}">
-        <input type="tel" focus-me="focusInput" name="qty" min="0" max="999" value="{{obj.qty}}" step="1"> 
-        <i class="fa fa-refresh" aria-hidden="true" onclick="sendAjax($(this).parent(),{% url 'ProdOrderAddUpdate' %});"></i>
-        <!-- DELETE-->
-        <input type="hidden" name="pk" value="{{ obj.id }}">
-        <i class="fa fa-trash" aria-hidden="true" onclick="sendAjax($(this).parent(),{% url 'ProdOrderDelete' %});"></i>
-      </form>
-    </div>
-  {% endfor %}
+  <div class="base-dt-content">
+    <table class="base-datatable dt-responsive nowrap" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Precio</th>
+          <th>IVA</th>
+          <th>Cantidad</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for obj in objs %}
+        <tr>
+          <td>{{obj.prod.name}} <br> {{obj.prod.desc}}</td>
+          <td>Bs. {{obj.prod.price}}</td>
+          <td>Bs. {{obj.prod.get_tax1}}</td>
+          <td>
+            <form method="post" accept-charset="utf-8" role="form" class="form base-spinner">        
+              {% csrf_token %}
+              <!-- UPDATE -->
+              <input type="hidden" name="prod" value="{{ obj.prod.id }}">
+              <input type="number" name="qty" min="0" max="999" value="{{obj.qty}}" step="1"> 
+              <i class="fa fa-refresh" aria-hidden="true" onclick="sendAjax($(this).parent(),{% url 'ProdOrderAddUpdate' %});" role="button"></i>
+              <!-- DELETE-->
+              <input type="hidden" name="pk" value="{{ obj.id }}">
+              <i class="fa fa-trash" aria-hidden="true" onclick="sendAjax($(this).parent(),{% url 'ProdOrderDelete' %});" role="button"></i>
+            </form>
+          </td>
+          <td>Bs. {{obj.get_total_amount}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
 </section>
 {% endblock %}
 
 {% block custom_script %}
-  <script>
-    function sendAjax(obj,url){
-      $.ajax({
-        type: $(obj).attr('method'),
-        url: url,
-        data: $(obj).serialize()
-      })
-      .done(function(data){        
-        if(data.deleted == 1) location.reload();
-        if(data.success) console.log(data.success);
-      })
-      .fail(function( jqXHR, textStatus, errorThrown ){
-        console.log(errorThrown);
-      })
-      return false;
-    };
-  </script>
-{% endblock %}
+<script type="text/javascript" src="{% static 'bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'bower_components/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/datatable.js' %}"></script>
+
+<script type="text/javascript">
+  function sendAjax(obj,url){
+    $.ajax({
+      type: $(obj).attr('method'),
+      url: url,
+      data: $(obj).serialize()
+    })
+    .done(function(data){        
+      if(data.deleted == 1) location.reload();
+      if(data.success) console.log(data.success);
+    })
+    .fail(function( jqXHR, textStatus, errorThrown ){
+      console.log(errorThrown);
+    })
+    return false;
+  };
+</script>
+{% endblock %} 

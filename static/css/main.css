@@ -1,8 +1,19 @@
+@font-face{
+    font-family: Cabin;
+    src:url(cabin/Cabin-Regular.otf);
+}
+
+@font-face{    
+    font-family: CabinBold;
+    src:url(cabin/Cabin-Bold.otf);
+}
+
 body,html{
     margin: 0;
     padding: 0;
     width: 100%;
     margin-top: 24px;
+    font-family: "Cabin",Helvetica,sans-serif;
 }
 
 #base-content form table{
@@ -25,4 +36,45 @@ body,html{
 
 .center{
     text-align: center;
+}
+
+/********** SPINNER **********/
+
+.base-spinner input[type=number],
+.base-spinner input[type=tel]{
+    border: 1px solid #ccc;
+    max-width: 110px;
+    height: 36px;
+    background-color: #fff;
+    border-radius: 4px;
+    padding-left: 10px;
+}
+.base-spinner:before, .base-spinner:after {
+    display: block;
+    position: absolute;
+    width: 14px;
+    height: 8px;
+    line-height: 8px;
+    background-color: #ccc;
+    left: 136px;
+    z-index: 1;
+    font-size: 9px;
+    text-align: center;
+    pointer-events: none;
+}
+
+/********** DATATABLES **********/
+.base-dt-content label{
+    font-weight: normal;
+}
+.base-dt-content input, .base-dt-content select{
+    display: inline-block;
+}
+.base-dt-content input{
+    max-width: 100px;
+}
+.base-dt-content select{
+    width: 70px;
+    padding-left: 4px;
+    padding-right: 4px;
 }

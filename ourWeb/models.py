@@ -30,6 +30,9 @@ class ProdOrder(models.Model):
     class Meta:
         unique_together = (('prod','order'),)
 
+    def get_total_amount(self):
+        return (self.prod.price + self.prod.get_tax1()) * self.qty
+
 class Payment(models.Model):
     order = models.ForeignKey(Order, unique=True,verbose_name='Orden')
     paymentUser = models.ForeignKey("ourAuth.PaymentUser", verbose_name="Medio de pago")

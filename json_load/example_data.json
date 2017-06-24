@@ -50,7 +50,8 @@
     "fields": {
       "desc": "Estandar",
       "type": "T",
-      "modifier_id": "1"
+      "modifier_id": "1",
+      "value1": "12"
     }
   },
 

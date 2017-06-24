@@ -2,22 +2,41 @@
 {% load static %}
 
 {% block custom_css %}
+  <link rel="stylesheet" href="{% static 'ourWeb/css/prod-show.css' %}" />
 {% endblock %}
 
 {% block content %}
 <section>
-  <h3>{{Title}}</h3>
-
   {% for obj in objs %}
-    <div>
-      {{obj.name}} - {{obj.desc}} <br>
-      {{obj.price}}
-      <form method="post" accept-charset="utf-8" role="form" action="{% url 'ProdOrderAddUpdate' %}" class="form">        
-        {% csrf_token %}
-        <input type="hidden" name="prod" value="{{ obj.id }}">
-        <input type="tel" focus-me="focusInput" name="qty" min="0" max="999" value="0" step="1"> 
-        <i class="fa fa-plus" aria-hidden="true" onclick="sendAjax($(this).parent());"></i>
-      </form>
+    <div class="prod-show">
+      {% if obj.image_1 %} 
+      <div class="prod-show-image" style="background-image: url({{obj.image_1.url}});"></div>
+      {% else %} 
+      <div class="prod-show-image" style="background-image: url({% static 'image/no_image.jpg' %});"></div>
+      {% endif %}
+
+      <div class="prod-show-container">              
+        <h3 class="prod-show-title">
+          {{obj.name}}
+        </h3>
+        <span class="prod-show-desc">
+          {{obj.desc}}
+        </span>
+        <div class="prod-show-amount">
+          <span class="prod-show-price">Bs. {{obj.price}}</span> 
+          {% if obj.get_tax1 > 0 %}
+            <span class="prod-show-tax"> - IVA. {{obj.get_tax1}}</span>
+          {% endif %}
+        </div>
+        <div class="prod-show-qty base-spinner">          
+          <form method="post" accept-charset="utf-8" role="form" action="{% url 'ProdOrderAddUpdate' %}" class="form">        
+            {% csrf_token %}
+            <input type="hidden" name="prod" value="{{ obj.id }}">
+            <input type="number" name="qty" min="0" max="999" value="0" step="1"> 
+            <i class="fa fa-plus" aria-hidden="true" onclick="sendAjax($(this).parent());" role="button"></i>
+          </form>
+        </div> 
+      </div>   
     </div>
   {% endfor %}
 

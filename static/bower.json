@@ -19,6 +19,10 @@
     "font-awesome": "^4.7.0",
     "bootstrap-datepicker": "^1.6.4",
     "jquery-validation": "^1.16.0",
-    "jquery": "^3.2.1"    
+    "jquery": "^3.2.1",
+    "datatables.net-responsive": "^2.1.1",
+    "datatables.net-responsive-dt": "^2.1.1",
+    "datatables.net": "^1.10.15",
+    "datatables.net-dt": "^3.2.2" 
   }
 }
