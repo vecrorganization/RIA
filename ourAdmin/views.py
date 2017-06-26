@@ -112,8 +112,7 @@ class ProdCreateModify(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
 
         else:
             messages.add_message(request, messages.ERROR, 'Error: no se realizo la operación')
-            return render_to_response(self.template_name, {'form':form,'Title':title},
-                                      context_instance=RequestContext(request))
+            return render(request, self.template_name, {'form':form,'Title':title})
 
         return redirect('ProdSearch')  
 
