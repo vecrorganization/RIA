@@ -26,9 +26,16 @@
       <tr><th>
         {{ field.label_tag }}</th><td> 
         {%if forloop.counter > 12 %}
-          <img id="img{{ field.auto_id }}" src="" alt="" style = "max-width:450px; max-height:200px;">  
-        {% endif %}
+          <img id="img{{ field.auto_id }}" src='{% if field.value %} /media/{{field.value}} {% else %} "" {% endif %}' alt="" style = "max-width:450px; max-height:200px;"> 
+          <br>
+          {%if forloop.counter > 13 and field.value %}
+            <input name="{{field.name}}-clear" id="{{field.name}}-clear_id" type="checkbox">
+            <label for="{{field.name}}-clear_id">Limpiar</label>
+          {% endif %}          
+          <input name="{{field.name}}" class="image valid" id="{{ field.auto_id }}" aria-invalid="false" type="file">
+        {% else %}
         {{ field }}
+        {% endif %}
           <span class="error" id="{{ field.name }}-icon"></span>
           <span class='error' id='{{field.name}}-error' aria-live="polite">{{ field.errors }}</span>
       </td></tr>

@@ -19,7 +19,7 @@
 <section>
   <h3>Crear table</h3>
 
-  <form method="post" accept-charset="utf-8" class="form-group" role="form" enctype="multipart/form-data">
+  <form id="tableform" method="post" accept-charset="utf-8" class="form-group" role="form" enctype="multipart/form-data">
     {% csrf_token %}
     <table> {{ form.as_table }} </table>
     <button type="submit" class="btn" title="Guardar"><i class="fa fa-check" aria-hidden="true"></i></button>
@@ -54,6 +54,7 @@
           }
         });
       });
+  $( "#tableform" ).validate();
   });
 </script>
 {% endif %}
