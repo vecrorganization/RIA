@@ -18,9 +18,6 @@ urlpatterns = [
     # ORDER
     url(r'^ordersearch/$', OrderSearch.as_view(), name='OrderSearch'),
     url(r'^ordersearchajax/$', OrderSearchAjax.as_view(), name='OrderSearchAjax'),
-    url(r'^ordercreate/$', OrderCreateModify.as_view(), name='OrderCreate'),
-    url(r'^orderdeleteajax/$', OrderDeleteAjax.as_view(), name='OrderDeleteAjax'),
-    url(r'^ordermodify/(?P<pk>\d+)/$', OrderCreateModify.as_view(), name='OrderModify'),
     # ADDRESS
     url(r'^address_search/$', AddressSearch.as_view(), name='AddressSearch'),
     url(r'^address_searchajax/$', AddressSearchAjax.as_view(), name='AddressSearchAjax'),

@@ -4,6 +4,7 @@ from django.shortcuts import render
 from braces.views import LoginRequiredMixin
 from django.views.generic import View,TemplateView
 from django.http import JsonResponse
+from django.contrib import messages
 # Project
 from ourAdmin.models import Prod
 from ourWeb.models import ProdOrder
@@ -55,7 +56,10 @@ class ProdOrderAddUpdate(LoginRequiredMixin, View):
 
         if form.is_valid():
             form.save()
+            messages.add_message(request, messages.SUCCESS, "Producto añadido al carrito")
             return JsonResponse(data={'success':True})
+        else:
+            messages.add_message(request, messages.ERROR, 'Error: no se ha podido añadir el producto')
 
         return JsonResponse(data={'success':False})
 

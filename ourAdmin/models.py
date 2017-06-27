@@ -39,6 +39,9 @@ class Table(models.Model):
     def __str__(self):
         return self.get_type_display() + ": " + self.desc
 
+    def get_desc(self):
+        return self.desc        
+
 
 class Seller(models.Model):
     
@@ -130,9 +133,9 @@ class Address(models.Model):
 
     def __str__(self):
         if self.address2:
-            return self.get_state_display() + ": " + self.address1 + " / " + self.address2
+            return self.state.get_desc() + ": " + self.address1 + " / " + self.address2
         else:
-            return self.get_state_display() + ": " + self.address1
+            return self.state.get_desc() + ": " + self.address1
 
 class HDiscount(models.Model):
     desc = models.CharField( max_length=100)

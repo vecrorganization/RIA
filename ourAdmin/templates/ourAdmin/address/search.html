@@ -4,7 +4,10 @@
 {% block custom_css %}
 {% endblock %}
 
-{% block content-bar %}{% endblock %}
+{% block content-bar-list %}
+  <li><a href="{% url 'AddressCreate' %}">Crear</a></li>
+  <li class="active"><a href="#">Buscar</a></li>
+{% endblock %}
 
 {% block content %}
 
@@ -17,8 +20,8 @@
       <b>Estado  </b> <br>
       <select id="address_state" name="state" class="form-control">
         <option  value="" selected="selected">---------</option>
-        {% for s in s_choices %}
-          <option value="{{s.0}}"> {{s.1}} </option>
+        {% for s in states %}
+          <option value="{{s.id}}"> {{s.get_desc}} </option>
         {% endfor %}
       </select>
     </div>
