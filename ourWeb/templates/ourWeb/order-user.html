@@ -11,7 +11,7 @@
   <h3>{{Title}}</h3>
 
   <div class="base-dt-content">
-    <table class="base-datatable dt-responsive nowrap" cellspacing="0" width="100%">
+    <table class="base-datatable dt-responsive nowrap" cellspacing="0" width="100%" id="table-order-user">
       <thead>
         <tr>
           <th>Producto</th>
@@ -56,14 +56,19 @@
 
 <script type="text/javascript">
   function sendAjax(obj,url){
+    var whichtr = $(obj).closest("tr");
+    var table = $('#table-order-user').DataTable();
+
     $.ajax({
       type: $(obj).attr('method'),
       url: url,
       data: $(obj).serialize()
     })
     .done(function(data){        
-      if(data.deleted == 1) location.reload();
-      if(data.success) console.log(data.success);
+      if(data.deleted == 1) {        
+        $(whichtr).addClass('selected');
+        table.row('.selected').remove().draw( false );
+      }
     })
     .fail(function( jqXHR, textStatus, errorThrown ){
       console.log(errorThrown);
