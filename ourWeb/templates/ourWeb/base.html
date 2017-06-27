@@ -14,6 +14,8 @@
     {% bootstrap_mt message.tags as btag %}
     <div id="base-alert" class="alert alert-{{ btag }}">{{ message }}</div>
 {% endfor %}
+{% block extra_msg %}
+{% endblock %}
 {% endblock %}
 
 {% block base_navbar %}{% endblock %}

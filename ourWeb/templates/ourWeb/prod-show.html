@@ -5,6 +5,11 @@
   <link rel="stylesheet" href="{% static 'ourWeb/css/prod-show.css' %}" />
 {% endblock %}
 
+{% block extra_msg %}
+<div id="cartmsg" class="alert alert-success cartmsg"></div>
+<div id="carterror" class="alert alert-danger cartmsg"></div>
+{% endblock %}
+
 {% block content %}
 <section>
   {% for obj in objs %}
@@ -52,10 +57,30 @@
         data: $(obj).serialize()
       })
       .done(function(data){
-        if(data.success) console.log(data.success);
+        if(data.success) {
+          console.log(data.success);
+          $('#cartmsg').html(data.msg);
+          $('#cartmsg').show();
+          $("#cartmsg").fadeTo(2000, 500).slideUp(500, function(){
+            $("#cartmsg").slideUp(500);
+          });
+        }
+        else{
+          $('#carterror').html(data.error);
+          $('#carterror').show();
+          $("#carterror").fadeTo(2000, 500).slideUp(500, function(){
+            $("#carterror").slideUp(500);
+          });      
+        }
+
       })
       .fail(function( jqXHR, textStatus, errorThrown ){
         console.log(errorThrown);
+          $('#carterror').html('Error: Ha ocurrido un problema de comunicación con el servidor');
+          $('#carterror').show();
+          $("#carterror").fadeTo(2000, 500).slideUp(500, function(){
+            $("#carterror").slideUp(500);
+          });             
       })
       return false;
     };

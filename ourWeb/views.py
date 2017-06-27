@@ -56,12 +56,9 @@ class ProdOrderAddUpdate(LoginRequiredMixin, View):
 
         if form.is_valid():
             form.save()
-            messages.add_message(request, messages.SUCCESS, "Producto añadido al carrito")
-            return JsonResponse(data={'success':True})
-        else:
-            messages.add_message(request, messages.ERROR, 'Error: no se ha podido añadir el producto')
+            return JsonResponse(data={'success':True,'msg':'Producto añadido al carrito'})
 
-        return JsonResponse(data={'success':False})
+        return JsonResponse(data={'success':False,'error':'Error: no se ha podido añadir el producto'})
 
 class ProdOrderDelete(LoginRequiredMixin, View):
     """
