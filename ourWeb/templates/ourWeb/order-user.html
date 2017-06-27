@@ -6,6 +6,11 @@
 <link href="{% static 'bower_components/datatables.net-responsive-dt/css/responsive.dataTables.min.css' %}" rel="stylesheet">
 {% endblock %}
 
+{% block extra_msg %}
+<div id="cartmsg" class="alert alert-success cartmsg"></div>
+<div id="carterror" class="alert alert-danger cartmsg"></div>
+{% endblock %}
+
 {% block content %}
 <section>
   <h3>{{Title}}</h3>

@@ -76,11 +76,11 @@
       })
       .fail(function( jqXHR, textStatus, errorThrown ){
         console.log(errorThrown);
-          $('#carterror').html('Error: Ha ocurrido un problema de comunicación con el servidor');
-          $('#carterror').show();
-          $("#carterror").fadeTo(2000, 500).slideUp(500, function(){
-            $("#carterror").slideUp(500);
-          });             
+        $('#carterror').html('Error: Ha ocurrido un problema de comunicación con el servidor');
+        $('#carterror').show();
+        $("#carterror").fadeTo(2000, 500).slideUp(500, function(){
+          $("#carterror").slideUp(500);
+        });             
       })
       return false;
     };

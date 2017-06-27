@@ -47,9 +47,3 @@
 .prod-show-amount,.prod-show-qty{
 	text-align: center;
 }
-.cartmsg{
-	display:none;
-	position: fixed;
-	width: 100%;	
-	opacity: 500;
-}

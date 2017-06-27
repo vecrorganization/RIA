@@ -70,6 +70,8 @@ class ProdOrderDelete(LoginRequiredMixin, View):
         try:
             prod = ProdOrder.objects.get(pk=int(post_values['pk']))
             prod.delete()
+            msg = "Producto eliminado del carrito"
+            messages.add_message(request, messages.SUCCESS, msg)
             return JsonResponse(data={'deleted' : 1})
         except:
-            return JsonResponse(data={'deleted' : 0})
+            return JsonResponse(data={'deleted' : 0,'error':'Error: no se ha podido eliminar el producto del carrito'})
