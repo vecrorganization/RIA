@@ -1,0 +1,11 @@
+.prod-detail{
+	margin-top: 20px;
+	text-align: left;
+}
+.product-image{
+	height: 500px;
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -o-background-size: 100%;
+    background-size: 100%;
+}

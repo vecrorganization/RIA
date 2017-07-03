@@ -30,11 +30,7 @@ class ProdSearch(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
     """
 
     template_name = 'ourAdmin/prod/search.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(ProdSearch, self).get_context_data(**kwargs)
-        context['Title'] = "Buscar producto"
-        return context
+    title = "Buscar producto"
 
 
 class ProdSearchAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
@@ -355,11 +351,7 @@ class PaymentSearch(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
     """
 
     template_name = 'ourAdmin/payment/search.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(PaymentSearch, self).get_context_data(**kwargs)
-        context['Title'] = "Buscar pago"
-        return context
+    title = "Buscar pago"
 
 
 class PaymentAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):

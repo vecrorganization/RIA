@@ -4,7 +4,7 @@
   {% if user.is_authenticated %}
     <h2>Bienvenid@, {{ user.get_full_name }} <small>{{ user.username }}</small>!</h2>
     <br>
-    <a href="{% url 'ProdShow' %}"><button class="btn">Comprar</button></a>
+    <a href="{% url 'Products' %}"><button class="btn">Comprar</button></a>
 
   {% else %}
     <h2>Bienvenid@, ¿Eres nuevo? <a href="{% url 'signup' %}">Registrate</a>.</h2>

@@ -36,10 +36,17 @@
 <script type="text/javascript">
   $(document).ready(function() {      
     //Mensaje de alerta 
-    $("#base-alert").fadeTo(2000, 500).slideUp(500, function(){
+    $("#base-alert").fadeTo(3000, 500).slideUp(500, function(){
       $("#base-alert").slideUp(500);
     });
   });
+  function showMsg(id_tag,msg){
+    $(id_tag).html(msg);
+    $(id_tag).show();
+    $(id_tag).fadeTo(3000, 500).slideUp(500, function(){
+      $(id_tag).slideUp(500);
+    }); 
+  };
 </script>
 
 {% block base_script %}{% endblock %}

@@ -22,7 +22,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for obj in objs %}
+        {% for obj in view.prodOrder %}
         <tr>
           <td>{{obj.prod.name}} <br> {{obj.prod.desc}}</td>
           <td>Bs. {{obj.prod.price}}</td>
@@ -65,7 +65,7 @@
       data: $(obj).serialize()
     })
     .done(function(data){        
-      if(data.deleted == 1) {        
+      if(data.deleted) {        
         $(whichtr).addClass('selected');
         table.row('.selected').remove().draw( false );
       }

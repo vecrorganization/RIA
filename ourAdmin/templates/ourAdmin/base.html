@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% load adminTags static %}
 
-{% block title %}{% if Title %}{{Title}}{% else %}Admin{% endif %}{% endblock %}
+{% block title %}
+  {% if Title %}{{Title}}
+  {% elif view and view.title %}{{view.title}}
+  {% else %}Admin{% endif %}
+{% endblock %}
 
 {% block base_css %}
   <link rel="stylesheet" href="{% static 'ourAdmin/css/base.css' %}" />

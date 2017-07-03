@@ -15,7 +15,9 @@ body,html{
     margin-top: 24px;
     font-family: "Cabin",Helvetica,sans-serif;
 }
-
+a:hover{
+    text-decoration: none;
+}
 #base-content form table{
     margin-bottom: 10px;
 }
@@ -23,23 +25,28 @@ body,html{
     margin-bottom: 3px;
     margin-left: 2px;
 }
+.errorlist{
+    color: red;
+}
+.center{
+    text-align: center;
+}
+
+/********** MESSAGE **********/
 #base-alert{
     margin-bottom: 0;
     z-index: 2000;
     position: fixed;
     width: 100%;
 }
-
-.errorlist{
-    color: red;
-}
-
-.center{
-    text-align: center;
+.base-msg{
+    display:none;
+    position: fixed;
+    width: 100%;    
+    opacity: 500;
 }
 
 /********** SPINNER **********/
-
 .base-spinner input[type=number],
 .base-spinner input[type=tel]{
     border: 1px solid #ccc;

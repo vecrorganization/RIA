@@ -1,0 +1,55 @@
+{% extends 'ourWeb/base.html' %}
+{% load static %}
+
+{% block custom_css %}
+  <link rel="stylesheet" href="{% static 'ourWeb/css/products.css' %}" />
+{% endblock %}
+
+{% block extra_msg %}
+<div id="ajax-msg" class="alert alert-success base-msg"></div>
+<div id="ajax-msg-error" class="alert alert-danger base-msg"></div>
+{% endblock %}
+
+{% block content %}
+<section>
+  {% for obj in view.products %}
+    <div class="product">
+      <a href="{% url 'ProdDetail' obj.id %}"> 
+        {% if obj.image_1 %} 
+        <div class="product-image" style="background-image: url({{obj.image_1.url}});"></div>
+        {% else %} 
+        <div class="product-image" style="background-image: url({% static 'image/no_image.jpg' %});"></div>
+        {% endif %}
+      </a> 
+
+      <div class="product-container">
+        <a href="{% url 'ProdDetail' obj.id %}">     
+          <h3 class="product-title">{{obj.name}}</h3>
+        </a> 
+        <span class="product-desc">
+          {{obj.desc}}
+        </span>
+        <div class="product-amount">
+          <span class="product-price">Bs. {{obj.price}}</span> 
+          {% if obj.get_tax1 > 0 %}
+            <span class="product-tax"> - IVA. {{obj.get_tax1}}</span>
+          {% endif %}
+        </div>
+        <div class="product-qty base-spinner">          
+          <form method="post" accept-charset="utf-8" role="form" action="{% url 'ProdOrderAddUpdate' %}" class="form">        
+            {% csrf_token %}
+            <input type="hidden" name="prod" value="{{ obj.id }}">
+            <input type="number" name="qty" min="0" max="999" value="0" step="1"> 
+            <i class="fa fa-plus" aria-hidden="true" onclick="sendAjax($(this).parent());" role="button"></i>
+          </form>
+        </div> 
+      </div>   
+    </div>
+  {% endfor %}
+
+</section>
+{% endblock %}
+
+{% block custom_script %}
+  <script type="text/javascript" src="{% static 'js/send_ajax.js' %}"></script>
+{% endblock %}
