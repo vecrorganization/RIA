@@ -6,6 +6,11 @@
 <link href="{% static 'bower_components/datatables.net-responsive-dt/css/responsive.dataTables.min.css' %}" rel="stylesheet">
 {% endblock %}
 
+{% block extra_msg %}
+<div id="ajax-msg" class="alert alert-success base-msg"></div>
+<div id="ajax-msg-error" class="alert alert-danger base-msg"></div>
+{% endblock %}
+
 {% block content %}
 <section>
   <h3>{{Title}}</h3>
@@ -68,10 +73,16 @@
       if(data.deleted) {        
         $(whichtr).addClass('selected');
         table.row('.selected').remove().draw( false );
+        showMsg('#ajax-msg',data.msg);
+      }else if(data.success){
+        showMsg('#ajax-msg',data.msg);
+      }else{
+        showMsg('#ajax-msg-error',data.error); 
       }
     })
     .fail(function( jqXHR, textStatus, errorThrown ){
       console.log(errorThrown);
+      showMsg('#ajax-msg-error','Error: Ha ocurrido un problema de comunicación con el servidor.'); 
     })
     return false;
   };

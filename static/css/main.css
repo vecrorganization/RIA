@@ -33,16 +33,18 @@ a:hover{
 }
 
 /********** MESSAGE **********/
+#base-alert,.base-msg{
+    z-index: 1000;
+    position: fixed;
+    width: 100%; 
+    border-color: transparent;
+    border-radius: 0; 
+}
 #base-alert{
     margin-bottom: 0;
-    z-index: 2000;
-    position: fixed;
-    width: 100%;
 }
 .base-msg{
-    display:none;
-    position: fixed;
-    width: 100%;    
+    display:none;  
     opacity: 500;
 }
 

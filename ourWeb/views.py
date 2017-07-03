@@ -63,12 +63,14 @@ class ProdOrderAddUpdate(LoginRequiredMixin, View):
             prod = ProdOrder.objects.get(order=order,prod_id=post_values['prod'])
             post_values['qty'] = int(post_values['qty']) + prod.qty
             form = ProdOrderForm(post_values,instance=prod)
+            msg = 'El producto fue actualizado satisfactoriamente.'
         except ObjectDoesNotExist:
             form = ProdOrderForm(post_values)
+            msg = 'Producto añadido al carrito.'
 
         if form.is_valid():
             form.save()
-            return JsonResponse(data={'success':True,'msg':'Producto añadido al carrito'})
+            return JsonResponse(data={'success':True,'msg':msg})
 
         return JsonResponse(data={'success':False,'error':'Error: no se ha podido añadir el producto'})
 
@@ -82,6 +84,9 @@ class ProdOrderDelete(LoginRequiredMixin, View):
         try:
             prod = ProdOrder.objects.get(pk=int(post_values['pk']))
             prod.delete()
-            return JsonResponse(data={'deleted' : True})
+            data={'deleted':True,'msg':'El producto ha sido eliminado.'}
         except:
-            return JsonResponse(data={'deleted' : False})
+            data={'deleted':False,'error':'Error: no se pudo eliminar el producto.'}
+
+        print(data)
+        return JsonResponse(data=data)
