@@ -10,6 +10,8 @@ urlpatterns = [
     url(r'^ourAdmin/', include('ourAdmin.urls'), name='ourAdminApp'),
     ## Our Auth module's URLs
     url(r'^accounts/', include('ourAuth.urls'), name='ourAuthApp'),
+    ## Our Payment module's URLs
+    url(r'^payment/', include('ourPayment.urls'), name='ourPaymentApp'),    
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
