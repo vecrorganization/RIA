@@ -8,3 +8,9 @@ body{
     max-width: 90%;
     margin: auto;
 }
+.cartmsg{
+	display:none;
+	position: fixed;
+	width: 100%;	
+	opacity: 500;
+}

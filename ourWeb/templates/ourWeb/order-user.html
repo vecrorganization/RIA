@@ -63,7 +63,6 @@
   function sendAjax(obj,url){
     var whichtr = $(obj).closest("tr");
     var table = $('#table-order-user').DataTable();
-
     $.ajax({
       type: $(obj).attr('method'),
       url: url,
