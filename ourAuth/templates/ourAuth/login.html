@@ -8,7 +8,8 @@
     <table> {{ form.as_table }} </table>
     <div class="center">      
       <button type="submit" class="btn">Aceptar</button> <br>
-      <a href="{% url 'signup' %}">¿Eres nuevo en el sitio? Regristrate</a>
+      <a href="{% url 'signup' %}">¿Eres nuevo en el sitio? Regristrate</a> <br>
+      <a href="{% url 'password_reset' %}" class="sm-gray-link">¿Olvidaste tu contraseña?</a>
     </div>
   </form>
 {% endblock %}
