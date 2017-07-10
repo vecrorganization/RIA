@@ -2,8 +2,6 @@
 import json
 # Django
 from django.shortcuts import render, HttpResponse
-from braces.views import LoginRequiredMixin
-from django.views.generic import View,TemplateView
 from django.http import JsonResponse
 from django.contrib import messages
 

@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from braces.views import LoginRequiredMixin,StaffuserRequiredMixin
 from django.views.generic import TemplateView, View
+from django.http import Http404
 # App
 from ourAdmin.models import Prod, Table, Address
 from ourAdmin.forms import ProdForm, TableForm, AddressForm
@@ -375,3 +376,42 @@ class PaymentAjax(LoginRequiredMixin,StaffuserRequiredMixin,View):
                 'paymentMethod':p.paymentUser.paymentMethod.cardType,
                 'user':p.paymentUser.user.get_full_name()} for p in payments]
         return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+################################ MERCADO PAGO 
+
+class MPPayments(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
+    """
+    Search payments
+    """
+    template_name = 'ourAdmin/mercadopago/payments.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(MPPayments, self).get_context_data(**kwargs)
+
+        from ourPayment.mercadopago import _searchPayments
+        payments = _searchPayments()
+        print(payments)
+
+        context['Title'] = 'MP - Pagos'
+        context.update(payments)
+        return context
+
+class MPPaymentData(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
+    """
+    Get payment data from MercadoPago
+    """
+    template_name = 'ourAdmin/mercadopago/payment-data.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(MPPaymentData, self).get_context_data(**kwargs)
+
+        from ourPayment.mercadopago import _getPaymentData
+        payment = _getPaymentData(kwargs['pk'])
+        if payment:
+            context.update(payment)
+        else:
+            raise Http404("El pago no fue encontrado.")
+
+        context['Title'] = 'MP - Pago Info'
+        return context

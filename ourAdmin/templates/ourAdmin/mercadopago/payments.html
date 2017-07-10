@@ -1,0 +1,70 @@
+{% extends "ourAdmin/base.html" %}
+{% load static %}
+
+{% block custom_css %}
+<link href="{% static 'bower_components/datatables.net-dt/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+<link href="{% static 'bower_components/datatables.net-responsive-dt/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content-bar %}{% endblock %}
+{% block content %}
+
+<section>
+  <h3>{{Title}}</h3>
+
+  <span><b>Status de la consulta:</b> {{status}}</span>
+  
+<!--
+https://www.mercadopago.com.ar/developers/es/api-docs/custom-checkout/create-payments/
+-->
+
+  <div class="base-dt-content">
+    <table class="base-datatable dt-responsive nowrap" cellspacing="0" width="100%" id="table-order-user">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>F.Creado</th>
+          <th>F.Aprobado</th>
+          <th>Usuario</th>
+          <th>Monto</th>
+          <th>Moneda</th>
+          <th>Tipo de pago</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in results %}
+        <tr>
+          <td><a href="{% url 'MPPaymentData' r.id %}">{{r.id}}</a></td>
+          <td>{{r.date_created|date:"d/m/Y" }}</td>
+          <td>{{r.date_approved|date:"d/m/Y" }}</td>
+          <td>
+            {% with p as r.payer %}
+              <a href="#conf-part-{{p.id}}" data-toggle="collapse">{{p.first_name}} {{p.last_name}}</a>
+              <ul class="collapse" id="conf-part-{{p.id}}">
+                <li>ID: {{p.id}}</li>
+                {% if p.email %}<li>Email: {{p.email}}</li>{% endif %}
+                {% if p.phone %}<li>Telf.: {{p.phone}}</li>{% endif %}
+              </ul>              
+            {% endwith %}
+          </td>
+          <td>{{r.transaction_amount}}</td>
+          <td>{{r.currency_id}}</td>
+          <td>{{r.payment_type_id}}</td>
+          <td>{{r.status}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block custom_script %}
+<script type="text/javascript" src="{% static 'bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'bower_components/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/datatable.js' %}"></script>
+{% endblock %} 

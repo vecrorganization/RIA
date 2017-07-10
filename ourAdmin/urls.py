@@ -27,4 +27,6 @@ urlpatterns = [
     # PAYMENT
     url(r'^paymentsearch/$', PaymentSearch.as_view(), name='PaymentSearch'),
     url(r'^paymentsearchajax/$', PaymentAjax.as_view(), name='PaymentSearchAjax'),
+    url(r'^MP_payments/$', MPPayments.as_view(), name='MPPayments'),
+    url(r'^MP_payment/(?P<pk>\d+)/$', MPPaymentData.as_view(), name='MPPaymentData'),
 ]
