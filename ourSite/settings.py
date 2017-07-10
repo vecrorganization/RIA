@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'ourAdmin',
     'ourAuth',
     'ourWeb',
+    'ourPayment',    
 ]
 
 MIDDLEWARE = [
