@@ -10,7 +10,7 @@ function sendAjax(obj){
       showMsg('#ajax-msg',data.msg);
     }
     else{
-      showMsg('#ajax-msg-error',data.error);    
+      showMsg('#ajax-msg-error',data.msg);    
     }
 
   })

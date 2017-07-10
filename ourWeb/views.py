@@ -72,7 +72,7 @@ class ProdOrderAddUpdate(LoginRequiredMixin, View):
             form.save()
             return JsonResponse(data={'success':True,'msg':msg})
 
-        return JsonResponse(data={'success':False,'error':'Error: no se ha podido añadir el producto'})
+        return JsonResponse(data={'success':False,'msg':'Error: no se ha podido añadir el producto'})
 
 class ProdOrderDelete(LoginRequiredMixin, View):
     """
@@ -86,7 +86,7 @@ class ProdOrderDelete(LoginRequiredMixin, View):
             prod.delete()
             data={'deleted':True,'msg':'El producto ha sido eliminado.'}
         except:
-            data={'deleted':False,'error':'Error: no se pudo eliminar el producto.'}
+            data={'deleted':False,'msg':'Error: no se pudo eliminar el producto.'}
 
         print(data)
         return JsonResponse(data=data)

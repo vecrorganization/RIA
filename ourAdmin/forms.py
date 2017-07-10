@@ -14,6 +14,9 @@ class ProdForm(forms.ModelForm):
     class Meta:
         model = Prod
         exclude = ['createDate','modifyDate','modifier']
+        widgets = {
+          'desc': forms.Textarea(attrs={'rows':4, 'cols':15,'style':'resize:none;'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super(ProdForm, self).__init__(*args, **kwargs)

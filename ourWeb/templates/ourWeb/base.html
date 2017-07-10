@@ -14,21 +14,20 @@
 {% endblock %}
 
 {% block msg %}
-{% for message in messages %}
-    {% bootstrap_mt message.tags as btag %}
-    <div id="base-alert" class="alert alert-{{ btag }}">{{ message }}</div>
-{% endfor %}
-{% block extra_msg %}
-{% endblock %}
+  {% for message in messages %}
+      {% bootstrap_mt message.tags as btag %}
+      <div id="base-alert" class="alert alert-{{ btag }}">{{ message }}</div>
+  {% endfor %}
+  {% block extra_msg %}{% endblock %}
 {% endblock %}
 
 {% block base_navbar %}{% endblock %}
 
 {% block base_content %}
   <div id="base-content">
-    <div id="base-content-body">
+    <section id="base-content-body">
       {% block content %}{% endblock %}
-    </div>
+    </section>
   </div>
 {% endblock %}
 
