@@ -155,3 +155,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 #AUTH_PROFILE_MODULE= 'ourAuth.Profile'
 LOGIN_REDIRECT_URL= "/"
+
+
+#HEROKU
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT,'staticfiles/')
+# URL prefix for static files.
+# Example: "http://example.com/static/", "http://static.example.com/"
