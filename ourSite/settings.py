@@ -152,8 +152,7 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_URL = '/media/'
-
-MEDIA_ROOT = 'media/'
+MEDIA_ROOT = DIR+'/media/'
 
 # Sign Up With Confirmation Mail
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
