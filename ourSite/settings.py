@@ -146,8 +146,9 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, 'static/bower_components'),
     ('ourAdmin', os.path.join(BASE_DIR, 'ourAdmin', 'static')),
-    ('ourAuth', os.path.join(BASE_DIR, 'ourAuth', 'static'))
+    ('ourAuth', os.path.join(BASE_DIR, 'ourAuth', 'static')),
 ]
 
 MEDIA_URL = '/media/'
