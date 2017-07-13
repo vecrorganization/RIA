@@ -162,5 +162,7 @@ LOGIN_REDIRECT_URL= "/"
 
 
 #HEROKU
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage' 
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT,'staticfiles/')
+# URL prefix for static files.
+# Example: "http://example.com/static/", "http://static.example.com/"
