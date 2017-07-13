@@ -25,7 +25,7 @@ SECRET_KEY = 'dqh_3&688nor%1r6$d^9el6sojg)vi$!v^f0)2p(m@rsgva@gx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ria-development.herokuapp.com']
 
 
 # Application definition
