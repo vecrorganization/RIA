@@ -82,19 +82,19 @@ if 'JAWSDB_URL' in os.environ:
     DATABASES = { 'default': dj_database_url.config() } 
 else:
 
-DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql', 
-            'NAME': 'db_ria',
-            'USER': 'admin_ria',
-            'PASSWORD': 'ria123',
-            'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-            'PORT': '3306',
-            'OPTIONS': {
-                'sql_mode': 'traditional',
+    DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql', 
+                'NAME': 'db_ria',
+                'USER': 'admin_ria',
+                'PASSWORD': 'ria123',
+                'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+                'PORT': '3306',
+                'OPTIONS': {
+                    'sql_mode': 'traditional',
+                }
             }
         }
-    }
 
 
 # Password validation
