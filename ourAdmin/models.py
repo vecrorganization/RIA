@@ -104,6 +104,9 @@ class Prod(models.Model):
     def get_tax1(self):
         return round(self.price * self.tax1.value1 * Decimal(0.01),3)
 
+    def get_TPrice(self):
+        return self.price + self.get_tax1()
+
 @receiver(pre_delete, sender=Prod)
 def prod_delete(sender, instance, **kwargs):
     # Pass false so FileField doesn't save the model.

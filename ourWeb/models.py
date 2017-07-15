@@ -21,6 +21,31 @@ class Order(models.Model):
     total = models.DecimalField(max_digits=12,decimal_places=3,validators=[MinValueValidator(0.0)],default=0.0)
     status = models.CharField('Estatus',max_length=1,choices=STATUS_CHOICES,default=IN_PROCESS)
 
+    def get_subtotal(self):
+        prods = ProdOrder.objects.filter(order = self)
+        subtotal = 0
+        for p in prods:
+            subtotal += p.get_subtotal()
+        return subtotal
+
+
+    def get_total(self):
+        prods = ProdOrder.objects.filter(order = self)
+        total = 0
+        for p in prods:
+            total += p.get_total()
+        return total
+
+    def get_taxtotal(self):
+        prods = ProdOrder.objects.filter(order = self)
+        taxTotal = 0
+        for p in prods:
+            taxTotal += p.get_taxtotal()
+        return taxTotal        
+
+    def update_total(self):
+        self.total = self.get_total()
+
 class ProdOrder(models.Model):
 
     prod = models.ForeignKey("ourAdmin.Prod",verbose_name='Producto')
@@ -32,6 +57,15 @@ class ProdOrder(models.Model):
 
     def get_total_amount(self):
         return (self.prod.price + self.prod.get_tax1()) * self.qty
+
+    def get_total(self):
+        return (self.qty * self.prod.get_TPrice())
+
+    def get_subtotal(self):
+        return (self.qty * self.prod.price)
+
+    def get_taxtotal(self):
+        return (self.qty * self.prod.get_tax1())        
 
 class Payment(models.Model):
     order = models.ForeignKey(Order, unique=True,verbose_name='Orden')
