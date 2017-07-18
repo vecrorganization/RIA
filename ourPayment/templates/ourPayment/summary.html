@@ -1,0 +1,63 @@
+{% extends 'ourPayment/base.html' %}
+{% load static %}
+
+{% block custom_css %}
+<link href="{% static 'bower_components/datatables.net-dt/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+<link href="{% static 'bower_components/datatables.net-responsive-dt/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block extra_msg %}
+<div id="ajax-msg" class="alert alert-success base-msg"></div>
+<div id="ajax-msg-error" class="alert alert-danger base-msg"></div>
+{% endblock %}
+
+{% block content %}
+<h2 style="text-align: center; margin-bottom: 50px;">{{Title}}</h2>
+
+<div class="container">
+  <div class="row">
+        <div class="span12">
+          <div class="caption thumbnail" style="padding-left: 10px; text-align:center;">
+            <h4> {{ request.user.first_name }} {{ request.user.last_name }}</h4>
+              <b>CI: </b>00000000<br>
+              <b>Email: </b>{{ request.user.email }}<br>
+          </div>
+        </div>
+        <ul class="thumbnails">
+          <h3 style="text-align: center; margin-top: 50px;">Seleccione dirección</h3>
+          {% for au in addresses %}
+            <li class="span5 clearfix">
+              <div class="thumbnail clearfix">
+                <div class="caption">
+                  <a href="{% url 'PayMp' au.address.id %}" class="btn btn-primary icon  pull-right">Seleccionar</a>
+                  <h4>      
+                  <a href="{% url 'EditAddress' au.address.id %}" >{{au.address.state.desc}}</a>
+                  </h4>
+                  <b>Dirección1: </b>{{au.address.address1}}<br>
+                  <b>Dirección2: </b>{{au.address.address2}}<br>
+                  <b>Teléfono: </b>{{au.address.telephone}}<br>
+                  <b>Zip Code: </b>{{au.address.zipCode}}<br>
+                </div>
+              </div>
+            </li>   
+          {% endfor %}
+            <li class="span5 clearfix">
+              <div class="thumbnail clearfix">
+                <div class="caption">
+                 <a href="{% url 'NewAddress' %}" >
+                  <h4 style="text-align: center;">      
+                  Registrar Nueva dirección
+                  </h4>
+                </a>
+                </div>
+              </div>
+            </li>                                   
+            </ul>
+        </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block custom_script %}
+
+{% endblock %} 

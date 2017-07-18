@@ -45,9 +45,8 @@ class OrderUserShow(LoginRequiredMixin,TemplateView):
     template_name = 'ourWeb/order-user.html'
     title = "Carrito"
 
-    def prodOrder(self):
-        return ProdOrder.objects.filter(
-                    order = self.request.user.profile.get_order())
+    def order(self):
+        return self.request.user.profile.get_order()
 
 class ProdOrderAddUpdate(LoginRequiredMixin, View):
     """

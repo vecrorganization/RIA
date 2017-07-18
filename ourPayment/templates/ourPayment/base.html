@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load adminTags static %}
+
+{% block title %}
+  {% if Title %}{{Title}}
+  {% elif view and view.title %}{{view.title}}
+  {% else %}Payment{% endif %}
+{% endblock %}
+
+{% block base_css %}
+  <link rel="stylesheet" href="{% static 'ourPayment/css/base.css' %}" />
+
+  {% block custom_css %}{% endblock %}
+{% endblock %}
+
+{% block msg %}
+  {% for message in messages %}
+      {% bootstrap_mt message.tags as btag %}
+      <div id="base-alert" class="alert alert-{{ btag }}">{{ message }}</div>
+  {% endfor %}
+  {% block extra_msg %}{% endblock %}
+{% endblock %}
+
+{% block base_navbar %}{% endblock %}
+
+{% block base_content %}
+  <div id="base-content">
+    <section id="base-content-body">
+      {% block content %}{% endblock %}
+    </section>
+  </div>
+{% endblock %}
+
+{% block base_script %}
+
+  <script type="text/javascript">
+    jQuery(document).ready(function($) {
+      $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+      });
+    });
+  </script>
+
+  {% block custom_script %}{% endblock %}
+
+{% endblock %}

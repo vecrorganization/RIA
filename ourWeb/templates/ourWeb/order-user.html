@@ -26,11 +26,11 @@
       </tr>
     </thead>
     <tbody>
-      {% for obj in view.prodOrder %}
+      {% for obj in view.order.get_products %}
       <tr>
         <td><a href="{% url 'ProdDetail' obj.prod.id %}">{{obj.prod.name}}</a></td>
         <td>Bs. {{obj.prod.price}}</td>
-        <td>Bs. {{obj.prod.get_tax1}}</td>
+        <td>Bs. {{obj.prod.get_tax}}</td>
         <td>
           <form method="post" accept-charset="utf-8" role="form" class="form base-spinner">        
             {% csrf_token %}
@@ -49,6 +49,10 @@
     </tbody>
   </table>
 </div>
+<h2><b>Total: </b> Bs. {{view.order.total}}</h2>
+  <a href="{% url 'PurchaseSummary' %}">
+    <button class="btn" style="float:right; margin-top: 25px;">Realizar pedido</button>
+  </a>
 
 {% endblock %}
 

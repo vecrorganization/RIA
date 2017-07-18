@@ -11,8 +11,12 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import dj_database_url
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
+DIR = os.path.abspath(sys.path[0]).replace('\\', '/')
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -25,7 +29,7 @@ SECRET_KEY = 'dqh_3&688nor%1r6$d^9el6sojg)vi$!v^f0)2p(m@rsgva@gx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ria-development.herokuapp.com']
 
 
 # Application definition
@@ -77,20 +81,24 @@ WSGI_APPLICATION = 'ourSite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+if 'JAWSDB_URL' in os.environ:
+    db_from_env = dj_database_url.config()
+    DATABASES = { 'default': dj_database_url.config() } 
+else:
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'db_ria',
-        'USER': 'admin_ria',
-        'PASSWORD': 'ria123',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
-        'OPTIONS': {
-            'sql_mode': 'traditional',
+    DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql', 
+                'NAME': 'db_ria',
+                'USER': 'admin_ria',
+                'PASSWORD': 'ria123',
+                'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+                'PORT': '3306',
+                'OPTIONS': {
+                    'sql_mode': 'traditional',
+                }
+            }
         }
-    }
-}
 
 
 # Password validation
@@ -141,13 +149,13 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, 'static/bower_components'),
     ('ourAdmin', os.path.join(BASE_DIR, 'ourAdmin', 'static')),
-    ('ourAuth', os.path.join(BASE_DIR, 'ourAuth', 'static'))
+    ('ourAuth', os.path.join(BASE_DIR, 'ourAuth', 'static')),
 ]
 
 MEDIA_URL = '/media/'
-
-MEDIA_ROOT = 'media/'
+MEDIA_ROOT = DIR+'/media/'
 
 # Sign Up With Confirmation Mail
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -155,3 +163,14 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 #AUTH_PROFILE_MODULE= 'ourAuth.Profile'
 LOGIN_REDIRECT_URL= "/"
+
+
+#HEROKU
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT,'staticfiles/')
+
+STATICFILES_FINDERS = (
+ 'django.contrib.staticfiles.finders.FileSystemFinder',
+ 'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+ 'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)

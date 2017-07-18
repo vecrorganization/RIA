@@ -30,8 +30,8 @@
       <div class="product-desc">{{obj.desc}}</div>
       <div class="product-amount">
         <span class="product-price">Bs. {{obj.price}}</span> 
-        {% if obj.get_tax1 > 0 %}
-          <span class="product-tax"> - IVA. {{obj.get_tax1}}</span>
+        {% if obj.get_tax > 0 %}
+          <span class="product-tax"> - IVA. {{obj.get_tax}}</span>
         {% endif %}
       </div>
       <div class="product-qty base-spinner">          

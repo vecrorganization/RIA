@@ -1,0 +1,36 @@
+{% extends 'ourPayment/base.html' %}
+{% load static %}
+
+{% block custom_css %}
+<link href="{% static 'bower_components/datatables.net-dt/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+<link href="{% static 'bower_components/datatables.net-responsive-dt/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block extra_msg %}
+<div id="ajax-msg" class="alert alert-success base-msg"></div>
+<div id="ajax-msg-error" class="alert alert-danger base-msg"></div>
+{% endblock %}
+
+{% block content %}
+<section>
+  <h3>{{Title}}</h3>
+
+  <form method="post" accept-charset="utf-8" class="form-group" role="form" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table> {{ form.as_table }} </table>
+    <button type="submit" class="btn" title="Guardar">Guardar</button>
+
+    <a href="{% url 'PurchaseSummary' %}">
+    <button type=button class="btn">Regresar</button>
+    </a>
+
+    {% if pk %}
+      <button type="button" id="btn-delete" class="btn" title="Eliminar"><i class="fa fa-trash" aria-hidden="true"></i></button>
+    {% endif %}
+  </form>
+</section>
+
+{% endblock %}
+
+{% block custom_script %}
+{% endblock %}  
