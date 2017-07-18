@@ -4,6 +4,8 @@ from datetime import date
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
+from django.db.models.signals import post_delete,post_save
+from django.dispatch.dispatcher import receiver
 
 class Order(models.Model):
     IN_PROCESS = "P"
@@ -81,6 +83,17 @@ class ProdOrder(models.Model):
             return self.prod.get_total() * self.qty
         else:
             return self.prod.get_total(self.order.date) * self.qty
+
+@receiver(post_save, sender=ProdOrder)
+def prodOrder_post_save(sender, instance, created, **kwargs):
+    if instance.qty == 0:
+        instance.delete()
+    else:
+        instance.order.update_total()
+
+@receiver(post_delete, sender=ProdOrder)
+def prodOrder_post_delete(sender, instance, **kwargs):
+    instance.order.update_total()
             
 class Payment(models.Model):
     order = models.ForeignKey(Order, unique=True,verbose_name='Orden')

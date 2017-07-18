@@ -48,7 +48,7 @@ class OrderUserShow(LoginRequiredMixin,TemplateView):
     def order(self):
         return self.request.user.profile.get_order()
 
-class ProdOrderAddUpdate(LoginRequiredMixin, View):
+class ProdOrderAdd(LoginRequiredMixin, View):
     """
     Add new product to user order or update a existing one
     """
@@ -68,10 +68,40 @@ class ProdOrderAddUpdate(LoginRequiredMixin, View):
             msg = 'Producto añadido al carrito.'
 
         if form.is_valid():
-            form.save()
-            return JsonResponse(data={'success':True,'msg':msg})
+            prod = form.save()
+            return JsonResponse(data={ 'success':True, 'msg':msg})
 
         return JsonResponse(data={'success':False,'msg':'Error: no se ha podido añadir el producto'})
+
+class ProdOrderUpdate(LoginRequiredMixin, View):
+    """
+    Update product 
+    """
+
+    def post(self, request, *args, **kwargs):
+        post_values = request.POST.copy()
+        order = request.user.profile.get_order()
+        post_values['order'] = order.id
+
+        try:
+            prod = ProdOrder.objects.get(order=order,prod_id=post_values['prod'])
+            form = ProdOrderForm(post_values,instance=prod)
+            msg = 'El producto fue actualizado satisfactoriamente.'
+        except ObjectDoesNotExist:
+            return JsonResponse(data={'success':False,'msg':'Error: no se ha podido actualizar el producto.'})
+
+        if form.is_valid():
+            prod = form.save()
+            return JsonResponse(data={
+                                    'success':True,
+                                    'msg':msg,
+                                    'qty':prod.qty,
+                                    'prod_total':prod.get_total_amount(),
+                                    'id':prod.id,
+                                    'total':prod.order.total
+                                    })
+
+        return JsonResponse(data={'success':False,'msg':'Error: la cantidad del producto debe ser mayor a 0.'})
 
 class ProdOrderDelete(LoginRequiredMixin, View):
     """
@@ -83,7 +113,7 @@ class ProdOrderDelete(LoginRequiredMixin, View):
         try:
             prod = ProdOrder.objects.get(pk=int(post_values['pk']))
             prod.delete()
-            data={'deleted':True,'msg':'El producto ha sido eliminado.'}
+            data={'deleted':True,'msg':'El producto ha sido eliminado.','total':prod.order.total}
         except:
             data={'deleted':False,'msg':'Error: no se pudo eliminar el producto.'}
 
