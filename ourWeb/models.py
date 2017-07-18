@@ -20,6 +20,7 @@ class Order(models.Model):
     address = models.ForeignKey("ourAdmin.Address",verbose_name='Dirección',null=True)
     total = models.DecimalField(max_digits=12,decimal_places=3,validators=[MinValueValidator(0.0)],default=0.0)
     status = models.CharField('Estatus',max_length=1,choices=STATUS_CHOICES,default=IN_PROCESS)
+    date = models.DateField('Fecha en que se realizó el pago', null=True)
 
     def get_subtotal(self):
         prods = ProdOrder.objects.filter(order = self)
@@ -44,7 +45,12 @@ class Order(models.Model):
         return taxTotal        
 
     def update_total(self):
-        self.total = self.get_total()
+        if self.status == Order.IN_PROCESS:
+            self.total = self.get_total()
+            self.save()
+
+    def get_products(self):
+        return ProdOrder.objects.filter(order=self)
 
 class ProdOrder(models.Model):
 
@@ -55,18 +61,27 @@ class ProdOrder(models.Model):
     class Meta:
         unique_together = (('prod','order'),)
 
-    def get_total_amount(self):
-        return (self.prod.price + self.prod.get_tax1()) * self.qty
-
     def get_total(self):
         return (self.qty * self.prod.get_TPrice())
 
     def get_subtotal(self):
-        return (self.qty * self.prod.price)
+        if self.order.status == Order.IN_PROCESS:
+            return self.prod.price * self.qty
+        else:
+            return self.prod.get_price(self.order.date) * self.qty
 
     def get_taxtotal(self):
-        return (self.qty * self.prod.get_tax1())        
+        if self.order.status == Order.IN_PROCESS:
+            return self.prod.get_tax() * self.qty
+        else:
+            return self.prod.get_tax(self.order.date) * self.qty      
 
+    def get_total_amount(self):
+        if self.order.status == Order.IN_PROCESS:
+            return self.prod.get_total() * self.qty
+        else:
+            return self.prod.get_total(self.order.date) * self.qty
+            
 class Payment(models.Model):
     order = models.ForeignKey(Order, unique=True,verbose_name='Orden')
     paymentUser = models.ForeignKey("ourAuth.PaymentUser", verbose_name="Medio de pago")

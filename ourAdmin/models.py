@@ -4,7 +4,7 @@ from decimal import Decimal
 # Django
 from django.db import models
 from django.utils import timezone
-from django.db.models.signals import pre_delete
+from django.db.models.signals import pre_delete,post_save
 from django.dispatch.dispatcher import receiver
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
@@ -99,16 +99,46 @@ class Prod(models.Model):
     def save(self, *args, **kwargs):
         if not self._state.adding:
             self.modifyDate = date.today()
+
+            orig = Prod.objects.get(pk=self.pk)
+            if orig.price != self.price:
+                super(Prod, self).save(*args, **kwargs)
+                from ourWeb.controller import post_update_prod_price
+                post_update_prod_price(self)
+                ProdPriceRecord.objects.create(prod=self,price=self.price)
+                return self 
+
         return super(Prod, self).save(*args, **kwargs)
 
-    def get_tax1(self):
-        return round(self.price * self.tax1.value1 * Decimal(0.01),3)
+    def get_tax_percent(self):
+        return self.tax1.value1
+
+    def get_price(self,date=None):
+        if date:
+            try:
+                closest_prod = ProdPriceRecord.objects.filter(prod= self, date__lte = date).order_by('-date')
+                return closest_prod[0].price
+            except IndexError:
+                pass
+        return self.price
+
+    def get_tax(self,date=None):
+        return round(self.get_price(date) * self.tax1.value1 * Decimal(0.01),3)
+
+    def get_total(self,date=None):
+        price = self.get_price(date)
+        return price + round(price * self.tax1.value1 * Decimal(0.01),3)
 
     def get_TPrice(self):
-        return self.price + self.get_tax1()
+        return self.price + self.get_tax()
+
+@receiver(post_save, sender=Prod)
+def prod_post_save(sender, instance, created, **kwargs):
+    if created:
+        ProdPriceRecord.objects.create(prod = instance,price = instance.price)
 
 @receiver(pre_delete, sender=Prod)
-def prod_delete(sender, instance, **kwargs):
+def prod_pre_delete(sender, instance, **kwargs):
     # Pass false so FileField doesn't save the model.
     instance.image_1.delete(False)
     instance.image_2.delete(False)
@@ -116,6 +146,11 @@ def prod_delete(sender, instance, **kwargs):
     instance.image_4.delete(False)
     instance.image_5.delete(False)
     
+class ProdPriceRecord(models.Model):
+    prod  = models.ForeignKey(Prod)
+    date = models.DateField('Fecha de modificación',auto_now_add=True)
+    price = models.DecimalField('Precio',decimal_places=3,
+                                  max_digits=12, validators=[MinValueValidator(0.0)])
 
 class PaymentMethod(models.Model):
     cardNumber = models.DecimalField('Numero tarjeta', max_digits=20, decimal_places=0, validators=[MinValueValidator(0.0)], primary_key=True)
