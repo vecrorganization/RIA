@@ -40,12 +40,12 @@
       <p><b>Antiguedad: </b>{{obj.createDate|date:"d/m/Y" }}</p>
 
       <p class="product-price">Bs. {{obj.price}} 
-        {% if obj.get_tax1 > 0 %}
-          <span class="product-tax"> - IVA. {{obj.get_tax1}}</span>
+        {% if obj.get_tax > 0 %}
+          <span class="product-tax"> - IVA. {{obj.get_tax}}</span>
         {% endif %}
       </p>
       <div class="base-spinner">          
-        <form method="post" accept-charset="utf-8" role="form" action="{% url 'ProdOrderAddUpdate' %}" class="form">        
+        <form method="post" accept-charset="utf-8" role="form" action="{% url 'ProdOrderAdd' %}" class="form">        
           {% csrf_token %}
           <input type="hidden" name="prod" value="{{ obj.id }}">
           <input type="number" name="qty" min="0" max="999" value="0" step="1"> 
