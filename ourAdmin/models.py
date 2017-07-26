@@ -136,6 +136,11 @@ class Prod(models.Model):
 def prod_post_save(sender, instance, created, **kwargs):
     if created:
         ProdPriceRecord.objects.create(prod = instance,price = instance.price)
+        
+@receiver(post_save, sender=Prod)
+def prod_post_save(sender, instance, created, **kwargs):
+    if created:
+        ProdPriceRecord.objects.create(prod = instance,price = instance.price)
 
 @receiver(pre_delete, sender=Prod)
 def prod_pre_delete(sender, instance, **kwargs):

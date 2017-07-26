@@ -36,20 +36,20 @@
             {% csrf_token %}
             <!-- UPDATE -->
             <input type="hidden" name="prod" value="{{ obj.prod.id }}">
-            <input type="number" name="qty" min="0" max="999" value="{{obj.qty}}" step="1"> 
-            <i class="fa fa-refresh" aria-hidden="true" onclick="sendAjax($(this).parent(),{% url 'ProdOrderAddUpdate' %});" role="button"></i>
+            <input type="number" name="qty" min="0" max="999" value="{{obj.qty}}" step="1" id="qty-{{ obj.id }}"> 
+            <i class="fa fa-refresh" aria-hidden="true" onclick="sendAjax($(this).parent(),{% url 'ProdOrderUpdate' %});" role="button"></i>
             <!-- DELETE-->
             <input type="hidden" name="pk" value="{{ obj.id }}">
             <i class="fa fa-trash" aria-hidden="true" onclick="sendAjax($(this).parent(),{% url 'ProdOrderDelete' %});" role="button"></i>
           </form>
         </td>
-        <td>Bs. {{obj.get_total_amount}}</td>
+        <td>Bs. <span id="prod-total-{{ obj.id }}">{{obj.get_total_amount}}</span></td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 </div>
-<h2><b>Total: </b> Bs. {{view.order.total}}</h2>
+  <h2><b>Total: </b> Bs. <span id="total">{{view.order.total}}</span></h2>
   <a href="{% url 'PurchaseSummary' %}">
     <button class="btn" style="float:right; margin-top: 25px;">Realizar pedido</button>
   </a>
@@ -75,8 +75,12 @@
         $(whichtr).addClass('selected');
         table.row('.selected').remove().draw( false );
         showMsg('#ajax-msg',data.msg);
+        $("#total").html(data.total);
       }else if(data.success){
         showMsg('#ajax-msg',data.msg);
+        $("#total").html(data.total);
+        $("#qty-"+data.id).html(data.qty);
+        $("#prod-total-"+data.id).html(data.prod_total);
       }else{
         showMsg('#ajax-msg-error',data.msg); 
       }
