@@ -158,8 +158,13 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = DIR+'/media/'
 
 # Sign Up With Confirmation Mail
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ria.development.team@gmail.com'
+EMAIL_HOST_PASSWORD = 'ria123ria'
+EMAIL_PORT = 587
 
 #AUTH_PROFILE_MODULE= 'ourAuth.Profile'
 LOGIN_REDIRECT_URL= "/"

@@ -197,6 +197,7 @@ class PayMp(LoginRequiredMixin,TemplateView):
     def get_context_data(self, **kwargs):
         context = super(PayMp, self).get_context_data(**kwargs)
         order = self.request.user.profile.get_order()
+        order.update_total()
 
         if 'pk' in kwargs:
             address = get_object_or_404(Address, id=int(kwargs['pk']))

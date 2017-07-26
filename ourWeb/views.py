@@ -1,6 +1,6 @@
 import json
 # Django
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from braces.views import LoginRequiredMixin
 from django.views.generic import View,TemplateView
 from django.shortcuts import get_object_or_404
@@ -13,9 +13,9 @@ from ourWeb.models import ProdOrder
 from ourWeb.forms import *
 
 def home(request):
-    return render(request, 'ourWeb/home.html')
+    return redirect('Products') #render(request, 'ourWeb/home.html')
 
-class Products(LoginRequiredMixin,TemplateView):
+class Products(TemplateView):
     """
     Show all products
     """
@@ -25,7 +25,7 @@ class Products(LoginRequiredMixin,TemplateView):
     def products(self):
         return Prod.objects.all()
 
-class ProdDetail(LoginRequiredMixin,TemplateView):
+class ProdDetail(TemplateView):
     """
     Show product details
     """
