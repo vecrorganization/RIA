@@ -46,3 +46,10 @@ a .product-title:hover{
 	white-space: nowrap; /* Don't forget this one */
 	text-overflow: ellipsis;
 }
+
+.base-spinner i{
+	font-size: 18px;
+}
+.base-spinner a,.base-spinner a i{
+	color:#333;
+}

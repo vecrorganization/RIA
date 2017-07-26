@@ -27,6 +27,7 @@ a:hover{
 }
 .errorlist{
     color: red;
+    padding-left: 0;
 }
 .center{
     text-align: center;
@@ -70,6 +71,11 @@ a:hover{
     font-size: 9px;
     text-align: center;
     pointer-events: none;
+}
+
+/********** TABLES **********/
+.as_table td{
+    width: 300px;
 }
 
 /********** DATATABLES **********/

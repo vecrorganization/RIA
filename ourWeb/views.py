@@ -58,6 +58,9 @@ class ProdOrderAdd(LoginRequiredMixin, View):
         order = request.user.profile.get_order()
         post_values['order'] = order.id
 
+        if int(post_values['qty']) < 1:
+            return JsonResponse(data={'success':False,'msg':'Error: la cantidad debe ser mayor a cero.'})
+
         try:
             prod = ProdOrder.objects.get(order=order,prod_id=post_values['prod'])
             post_values['qty'] = int(post_values['qty']) + prod.qty
@@ -110,10 +113,11 @@ class ProdOrderDelete(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         post_values = request.POST.copy()
+        pk = int(post_values['pk'])
         try:
-            prod = ProdOrder.objects.get(pk=int(post_values['pk']))
+            prod = ProdOrder.objects.get(pk=pk)
             prod.delete()
-            data={'deleted':True,'msg':'El producto ha sido eliminado.','total':prod.order.total}
+            data={'deleted':True,'msg':'El producto ha sido eliminado.','total':prod.order.total,'id':pk}
         except:
             data={'deleted':False,'msg':'Error: no se pudo eliminar el producto.'}
 

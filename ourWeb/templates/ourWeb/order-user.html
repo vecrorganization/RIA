@@ -27,7 +27,7 @@
     </thead>
     <tbody>
       {% for obj in view.order.get_products %}
-      <tr>
+      <tr id="td-prod-{{ obj.id }}">
         <td><a href="{% url 'ProdDetail' obj.prod.id %}">{{obj.prod.name}}</a></td>
         <td>Bs. {{obj.prod.price}}</td>
         <td>Bs. {{obj.prod.get_tax}}</td>
@@ -40,7 +40,7 @@
             <i class="fa fa-refresh" aria-hidden="true" onclick="sendAjax($(this).parent(),{% url 'ProdOrderUpdate' %});" role="button"></i>
             <!-- DELETE-->
             <input type="hidden" name="pk" value="{{ obj.id }}">
-            <i class="fa fa-trash" aria-hidden="true" onclick="sendAjax($(this).parent(),{% url 'ProdOrderDelete' %});" role="button"></i>
+            <i class="fa fa-trash" aria-hidden="true" onclick="openProdDeleteModal($(this).parent());" role="button"></i>
           </form>
         </td>
         <td>Bs. <span id="prod-total-{{ obj.id }}">{{obj.get_total_amount}}</span></td>
@@ -54,6 +54,27 @@
     <button class="btn" style="float:right; margin-top: 25px;">Realizar pedido</button>
   </a>
 
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">¿Desea eliminar el producto?</h4>
+      </div>      
+      <div class="modal-footer">
+        <form id="form-modal" method="post" accept-charset="utf-8" role="form">
+          <input type="hidden" name="pk" value="">
+          {% csrf_token %}
+          <button class="btn" onclick="sendAjax($(this).parent(),{% url 'ProdOrderDelete' %});" data-dismiss="modal">Si, eliminar</button>
+          <button class="btn" data-dismiss="modal">Cancelar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 
 {% block custom_script %}
@@ -62,18 +83,22 @@
 <script type="text/javascript" src="{% static 'js/datatable.js' %}"></script>
 
 <script type="text/javascript">
-  function sendAjax(obj,url){
-    var whichtr = $(obj).closest("tr");
-    var table = $('#table-order-user').DataTable();
+
+  function openProdDeleteModal(obj){
+    $("#form-modal").find("input[name='pk']").val($(obj).find("input[name='pk']").val());
+    $("#myModal").modal();
+  };
+
+  function sendAjax(obj,url){    
     $.ajax({
       type: $(obj).attr('method'),
       url: url,
       data: $(obj).serialize()
     })
     .done(function(data){        
-      if(data.deleted) {        
-        $(whichtr).addClass('selected');
-        table.row('.selected').remove().draw( false );
+      if(data.deleted) {  
+        $("#td-prod-"+data.id).addClass('selected');
+        $('#table-order-user').DataTable().row('.selected').remove().draw(false);
         showMsg('#ajax-msg',data.msg);
         $("#total").html(data.total);
       }else if(data.success){

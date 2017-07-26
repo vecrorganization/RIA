@@ -5,7 +5,7 @@
   <form method="post">
     {% csrf_token %}
     <input type="hidden" name="next" value="{{ next }}" />
-    <table> {{ form.as_table }} </table>
+    <table class="as_table"> {{ form.as_table }} </table>
     <div class="center">      
       <button type="submit" class="btn">Aceptar</button> <br>
       <a href="{% url 'signup' %}">¿Eres nuevo en el sitio? Regristrate</a> <br>

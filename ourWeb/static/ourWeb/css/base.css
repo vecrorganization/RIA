@@ -5,6 +5,9 @@ body{
     padding-top: 10px;
 }
 #base-content-body{
-    max-width: 90%;
+    max-width: 94%;
     margin: auto;
+}
+#myModal .modal-title,#myModal .modal-footer{
+	text-align: center;
 }

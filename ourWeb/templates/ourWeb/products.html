@@ -34,12 +34,18 @@
           <span class="product-tax"> - IVA. {{obj.get_tax}}</span>
         {% endif %}
       </div>
-      <div class="product-qty base-spinner">          
+      <div class="product-qty base-spinner">        
         <form method="post" accept-charset="utf-8" role="form" action="{% url 'ProdOrderAdd' %}" class="form">        
           {% csrf_token %}
           <input type="hidden" name="prod" value="{{ obj.id }}">
-          <input type="number" name="qty" min="0" max="999" value="0" step="1"> 
-          <i class="fa fa-plus" aria-hidden="true" onclick="sendAjax($(this).parent());" role="button"></i>
+          <input type="number" name="qty" min="1" max="999" value="1" step="1">
+          {% if user.is_authenticated %} 
+            <i class="fa fa-cart-plus" aria-hidden="true" onclick="sendAjax($(this).parent());" role="button"></i>
+          {% else %}
+            <a href="{% url 'login' %}?next={{request.path}}">
+              <i class="fa fa-cart-plus" aria-hidden="true" role="button"></i>
+            </a>
+          {% endif %}
         </form>
       </div> 
     </div>   
