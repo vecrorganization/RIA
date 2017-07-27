@@ -61,13 +61,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">¿Desea eliminar el producto?</h4>
-      </div>      
-      <div class="modal-footer">
+        <h4 class="modal-title">¿Desea eliminar el producto del carrito?</h4>
+        <br>
         <form id="form-modal" method="post" accept-charset="utf-8" role="form">
           <input type="hidden" name="pk" value="">
           {% csrf_token %}
-          <button class="btn" onclick="sendAjax($(this).parent(),{% url 'ProdOrderDelete' %});" data-dismiss="modal">Si, eliminar</button>
+          <button class="btn" onclick="sendAjax($(this).parent(),{% url 'ProdOrderDelete' %});" data-dismiss="modal">Si</button>
           <button class="btn" data-dismiss="modal">Cancelar</button>
         </form>
       </div>

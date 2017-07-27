@@ -25,6 +25,11 @@ class Products(TemplateView):
     def products(self):
         return Prod.objects.all()
 
+    def categories(self):
+        from ourAdmin.models import Table
+        return Table.objects.filter(type=Table.CATEGORY)
+
+
 class ProdDetail(TemplateView):
     """
     Show product details

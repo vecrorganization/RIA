@@ -13,8 +13,26 @@
 
 {% block content %}
 
+<form class="form-inline" id="form-filter">
+  <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+    <div class="input-group-addon">Categoría</div>
+    <select name="select-filter" id="select-filter" class="form-control">
+      <option value="Todas">Todas</option>
+      {% for c in view.categories %}
+        <option value="{{c.desc}}">{{c.desc|title}}</option>
+      {% endfor %}
+    </select> 
+  </div>
+
+  <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+    <div class="input-group-addon">Buscar</div>
+    <input class="form-control" id="search-filter" type="search">
+  </div>
+</form>
+
+<div id="div-prods-container">
 {% for obj in view.products %}
-  <div class="product">
+  <div class="product" category="{{ obj.category.desc }}">
     <a href="{% url 'ProdDetail' obj.id %}"> 
       {% if obj.image_1 %} 
       <div class="product-image" style="background-image: url({{obj.image_1.url}});"></div>
@@ -51,9 +69,51 @@
     </div>   
   </div>
 {% endfor %}
+</div>
 
 {% endblock %}
 
 {% block custom_script %}
   <script type="text/javascript" src="{% static 'js/send_ajax.js' %}"></script>
+
+  <script type="text/javascript"> 
+    /* -------- SEARCH FILTER -------- */
+    $( "#search-filter" ).on( "keyup", function() {
+      var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+      $('.product').css("display","inline-block");
+      if(val != ""){
+        $('.product').filter(function() {
+          var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+          return !~text.indexOf(val);
+        }).css("display","none");
+      }
+    });
+    /* -------- END SEARCH FILTER -------- */ 
+
+    $(document).ready(function() {
+      /* -------- CATEGORY FILTER -------- */
+      var prodList = [];
+      $(".product").each(function(){
+        prodList.push([$(this),$(this).attr("category")]);
+      });
+      // FILTRO 
+      $("#select-filter").change(function(){
+        ilist = prodList;
+        ilist = ilist.filter(function(a1){
+          switch($("#select-filter").val()) {
+            case "Todas":
+              return true
+              break;
+            default:
+              return a1[1] == $("#select-filter").val();
+          }
+        });
+        $("#div-prods-container").html("");
+        $.each( ilist, function( index, value ){
+          $("#div-prods-container").append(value[0]);
+        });
+      });
+      /* -------- END CATEGORY FILTER -------- */
+    }); 
+  </script>   
 {% endblock %}

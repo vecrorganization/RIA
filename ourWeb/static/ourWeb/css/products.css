@@ -53,3 +53,9 @@ a .product-title:hover{
 .base-spinner a,.base-spinner a i{
 	color:#333;
 }
+
+#form-filter{
+	margin-top:10px;
+	margin-bottom: 10px;
+	text-align: center;
+}

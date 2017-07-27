@@ -8,6 +8,6 @@ body{
     max-width: 94%;
     margin: auto;
 }
-#myModal .modal-title,#myModal .modal-footer{
+#myModal .modal-title,#form-modal{
 	text-align: center;
 }
