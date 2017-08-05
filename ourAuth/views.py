@@ -5,14 +5,17 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.views.generic import TemplateView
-from django.contrib.auth import login
+from django.contrib.auth import login, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
+from braces.views import LoginRequiredMixin
 # App
 from ourAuth.forms import SignUpForm
 from ourAuth.tokens import account_activation_token
+from ourAuth.models import AddressUser
 
 
 @login_required
@@ -53,6 +56,19 @@ class SignUp(TemplateView):
         return render(request, self.template_name, {'form': form})
 
 
+class ManageAddress(LoginRequiredMixin,TemplateView):
+    """
+    Manage address
+    """
+    template_name = 'ourAuth/address/manage_address.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ManageAddress, self).get_context_data(**kwargs)
+        context['addresses'] = AddressUser.objects.filter(user = self.request.user)
+        context['Title'] = "Manejar direcciones"
+        return context
+
+
 def account_activation_sent(request):
     return render(request, 'ourAuth/signup/account_activation_sent.html')
 
@@ -76,3 +92,20 @@ def activate(request, uidb64, token):
         return redirect('homeAuth')
     else:
         return render(request, 'ourAuth/signup/account_activation_invalid.html')
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Tu contraseña se actualizó correctamente.')
+            return redirect('Products')
+        else:
+            messages.error(request, 'Corrija por favor el error abajo.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'password/change_password.html', {
+        'form': form
+    })

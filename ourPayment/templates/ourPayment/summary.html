@@ -31,7 +31,7 @@
                 <div class="caption">
                   <a href="{% url 'PayMp' au.address.id %}" class="btn btn-primary icon  pull-right">Seleccionar</a>
                   <h4>      
-                  <a href="{% url 'EditAddress' au.address.id %}" >{{au.address.state.desc}}</a>
+                  <!--a href="{% url 'EditAddress' au.address.id %}" -->{{au.address.state.desc}}<!--/a-->
                   </h4>
                   <b>Dirección1: </b>{{au.address.address1}}<br>
                   <b>Dirección2: </b>{{au.address.address2}}<br>
@@ -54,6 +54,12 @@
             </li>                                   
             </ul>
         </div>
+      <div class="pull-left" > 
+        <a href="{% url 'OrderUserShow' %}">
+        <button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-chevron-left"></span>
+            Regresar
+        </button></a>
+    </div>        
   </div>
 </div>
 {% endblock %}

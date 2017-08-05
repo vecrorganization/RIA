@@ -39,7 +39,9 @@ class ProdDetail(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ProdDetail, self).get_context_data(**kwargs)
-        context['obj'] = get_object_or_404(Prod, id=kwargs['pk'])
+        obj = get_object_or_404(Prod, id=kwargs['pk'])
+        context['obj'] = obj
+        context['images'] =  obj.get_images()
         return context
 
 

@@ -2,7 +2,6 @@ from django.conf.urls import url
 from ourPayment.views import *
 
 urlpatterns = [
-    url(r'^mptest/$', MPTest, name='MPTest'),
     #Summary
     url(r'^purchase_summary/$', PurchaseSummary.as_view(), name='PurchaseSummary'),
     #Address

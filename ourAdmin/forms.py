@@ -9,7 +9,7 @@ class ProdForm(forms.ModelForm):
     category = forms.ModelChoiceField(queryset= Table.objects.filter(type=Table.CATEGORY))
     clase = forms.ModelChoiceField(queryset= Table.objects.filter(type=Table.CLASS))
     tax1 = forms.ModelChoiceField(queryset= Table.objects.filter(type=Table.TAX))
-    tax2 = forms.ModelChoiceField(queryset= Table.objects.filter(type=Table.TAX))
+    tax2 = forms.ModelChoiceField(queryset= Table.objects.filter(type=Table.TAX), required=False)
 
     class Meta:
         model = Prod

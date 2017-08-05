@@ -6,3 +6,8 @@
 #base-content form table{
     margin: auto;
 }
+
+.helptext{
+
+	display:none;
+}

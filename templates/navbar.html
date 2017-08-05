@@ -22,7 +22,14 @@
 
     <ul class="nav navbar-nav navbar-right">
       {% if user.is_authenticated %}
-      <li><a href="#">{{user.username}} <i class="fa fa-user" aria-hidden="true"></i></a></li>
+      <li><a  class="dropdown-toggle" data-toggle="dropdown" href="#">{{user.username}}
+          <i class="fa fa-user" aria-hidden="true"></i></a>
+        <ul class="dropdown-menu">
+          <li><a href="{% url 'ManageAddress' %}">Editar direcciones</a></li>        
+          <li><a href="{% url 'change_password' %}">Cambiar contraseña</a></li>
+        </ul>
+      </li>
+
       <li><a href="{% url 'OrderUserShow' %}">Carrito <i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
       <li><a href="{% url 'logout' %}">Cerrar session</a></li>
       {% else %}

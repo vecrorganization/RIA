@@ -1,0 +1,44 @@
+{% extends 'ourPayment/base.html' %}
+{% load static %}
+
+{% block custom_css %}
+<link href="{% static 'bower_components/datatables.net-dt/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+<link href="{% static 'bower_components/datatables.net-responsive-dt/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block extra_msg %}
+<div id="ajax-msg" class="alert alert-success base-msg"></div>
+<div id="ajax-msg-error" class="alert alert-danger base-msg"></div>
+{% endblock %}
+
+{% block content %}
+<h2 style="text-align: center; margin-bottom: 50px;">{{Title}}</h2>
+
+<div class="container">
+  <div class="row">
+        <ul class="thumbnails">
+          {% for au in addresses %}
+            <li class="span5 clearfix">
+              <div class="thumbnail clearfix">
+                <div class="caption">
+                  <a href="{% url 'EditAddress' au.address.id %}" class="btn btn-primary icon  pull-right">Editar</a>
+                  
+                  <h4>{{au.address.state.desc}}</h4>
+
+                  <b>Dirección1: </b>{{au.address.address1}}<br>
+                  <b>Dirección2: </b>{{au.address.address2}}<br>
+                  <b>Teléfono: </b>{{au.address.telephone}}<br>
+                  <b>Zip Code: </b>{{au.address.zipCode}}<br>
+                </div>
+              </div>
+            </li>   
+          {% endfor %}                                 
+            </ul>
+        </div>       
+  </div>
+</div>
+{% endblock %}
+
+{% block custom_script %}
+
+{% endblock %} 

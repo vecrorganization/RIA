@@ -18,115 +18,6 @@ from ourAuth.models import AddressUser
 from ourAdmin.models import Address
 from ourAdmin.forms import AddressForm
 
-def MPTest(req, **kwargs):
-    """
-    MP Test
-    """
-    CLIENT_ID = "4815438540890951"
-    CLIENT_SECRET = "OHuCBlVIxzUki07MaRYXpW4wWdxl9g0y"
-    mp = mercadopago.MP(CLIENT_ID, CLIENT_SECRET)
-
-    preference = {
-    "items": [
-        {
-            "id": "item-ID-1234",
-            "title": "Zapatillas converse negras.",
-            "currency_id": "VEF",
-            "picture_url": "http://s-media-cache-ak0.pinimg.com/originals/67/cd/a7/67cda74fd6eaf631b28fd9f8efd19412.gif",
-            "description": "Item descriptionsaffffffffffffffffffffffffffffffffffffffffffffffffff",
-            "category_id": "art", # Available categories at https://api.mercadopago.com/item_categories
-            "quantity": 1,
-            "unit_price": 100
-        },
-        {
-            "id": "item-ID-2234",
-            "title": "Zapatillas converse blancas.",
-            "currency_id": "VEF",
-            "picture_url": "http://mercadoentucasa.com/photos/product/2/174/2.jpg",
-            "description": "Item dffffffffffffffffffffffffffffff",
-            "category_id": "art", # Available categories at https://api.mercadopago.com/item_categories
-            "quantity": 3,
-            "unit_price": 100
-        }
-    ],
-    "payer": {
-        "name": "user-name",
-        "surname": "user-surname",
-        "email": "user@email.com",
-        "date_created": "2015-06-02T12:58:41.425-04:00",
-        "phone": {
-            "area_code": "11",
-            "number": "4444-4444"
-        },
-        "identification": {
-            "type": "CI-V", # Available ID types at https://api.mercadopago.com/v1/identification_types
-            "number": "12345678"
-        },
-        "address": {
-            "street_name": "Street",
-            "street_number": 123,
-            "zip_code": "5700"
-        } 
-    },
-    "back_urls": {
-        "success": "https://www.success.com",
-        "failure": "http://www.failure.com",
-        "pending": "http://www.pending.com"
-    },
-    "auto_return": "approved",
-    "payment_methods": {
-        "excluded_payment_methods": [
-            {
-                "id": "master"
-            }
-        ],
-        "excluded_payment_types": [
-            {
-                "id": "ticket"
-            }
-        ],
-        "installments": 12,
-        "default_payment_method_id": 'null',
-        "default_installments": 'null'
-    },
-    "shipments": {
-        "receiver_address": {
-            "zip_code": "5700",
-            "street_number": 123,
-            "street_name": "Street",
-            "floor": 4,
-            "apartment": "C"
-        }
-    },
-    "notification_url": "https://www.your-site.com/ipn",
-    "external_reference": "Reference_1234",
-    "expires": True,
-    "expiration_date_from": "2016-02-01T12:00:00.000-04:00",
-    "expiration_date_to": "2019-02-28T12:00:00.000-04:00"
-    }
-
-
-
-
-    preferenceResult = mp.create_preference(preference)
-
-    url = preferenceResult["response"]["sandbox_init_point"]
-
-    output = """
-    <!doctype html>
-    <html>
-        <head>
-            <title>Pay</title>
-        </head>
-        <body>
-            <a href="{url}">Pay</a>
-        </body>
-    </html>
-    """.format (url=url)
-
-
-    return HttpResponse(output)
-
 class PurchaseSummary(LoginRequiredMixin,TemplateView):
     """
     Summary of purchase
@@ -145,7 +36,6 @@ class PurchaseSummary(LoginRequiredMixin,TemplateView):
 class PaymentAddress(LoginRequiredMixin,TemplateView):
     """
     Fill information needed for purchase
-    IMPORTANTE : Si address no es mia no lo puedo modificar
     """
 
     template_name = 'ourPayment/address.html'
@@ -183,7 +73,7 @@ class PaymentAddress(LoginRequiredMixin,TemplateView):
             messages.add_message(request, messages.ERROR, 'Error: no se realizo la operación')
             return render(request, self.template_name, {'form':form,'Title':title})
 
-        return redirect('PurchaseSummary')
+        return redirect('ManageAddress')
 
 
 class PayMp(LoginRequiredMixin,TemplateView):
@@ -213,4 +103,89 @@ class PayMp(LoginRequiredMixin,TemplateView):
         context['order'] = order
         context['products'] = products
         context['date'] = datetime.today()
-        return context
+
+
+        ##Mercado Pago
+        CLIENT_ID = "4815438540890951"
+        CLIENT_SECRET = "OHuCBlVIxzUki07MaRYXpW4wWdxl9g0y"
+        mp = mercadopago.MP(CLIENT_ID, CLIENT_SECRET)
+
+        
+        desc = ""
+        for p in products:
+            desc = desc + " "+p.prod.name + " x " + str(p.qty) + ","
+        desc = desc[:-1]
+
+        items = []
+        for p in products:
+            items.append({
+                    "id": str(p.prod.id),
+                    "title": desc,
+                    "currency_id": "VEF",
+                    "picture_url": p.prod.image_1.url,
+                    "description": p.prod.desc,
+                    "category_id": "art", # Available categories at https://api.mercadopago.com/item_categories
+                    "quantity": p.qty,
+                    "unit_price": float(p.prod.price)+ float(p.prod.get_tax())
+                })
+
+        payer = {
+            "name": self.request.user.first_name,
+            "surname": self.request.user.last_name,
+            "email": self.request.user.email,
+            "date_created": str(datetime.now()),
+            "phone": {
+                "area_code": "11",
+                "number": address.telephone
+            },
+            "identification": {
+                "type": "CI-V", # Available ID types at https://api.mercadopago.com/v1/identification_types
+                "number": "12345678"
+            },
+            "address": {
+                "street_name": address.address1,
+                "street_number": 123,
+                "zip_code": address.zipCode
+            } 
+        }
+
+        preference = {
+        "items": items,
+        "payer": payer,
+        "back_urls": {
+            "success": "https://ria-development.herokuapp.com/payment/success",
+            "failure": "https://ria-development.herokuapp.com/userorder/",
+            "pending": "https://ria-development.herokuapp.com/payment/pending"
+        },
+        "auto_return": "approved",
+        "payment_methods": {
+            "excluded_payment_methods": [
+                {
+                    "id": "master"
+                }
+            ],
+            "excluded_payment_types": [
+                {
+                    "id": "ticket"
+                }
+            ],
+            "installments": 12,
+            "default_payment_method_id": 'null',
+            "default_installments": 'null'
+        },
+        "notification_url": "https://ria-development.herokuapp.com/payment/ipn",
+        "external_reference": "Reference_1234",
+        "expires": True,
+        "expiration_date_from": "2016-02-01T12:00:00.000-04:00",
+        "expiration_date_to": "2019-02-28T12:00:00.000-04:00"
+        }
+
+
+
+
+        preferenceResult = mp.create_preference(preference)
+
+        url = preferenceResult["response"]["sandbox_init_point"]
+        context['mp_url'] = url
+
+        return context 

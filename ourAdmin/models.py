@@ -71,7 +71,7 @@ class Prod(models.Model):
     id = models.CharField(max_length=25, primary_key=True)
     name  = models.CharField('Nombre', max_length=100)
     desc  = models.CharField('Descripción', max_length=250)
-    price = models.DecimalField('Precio',max_digits=12,
+    price = models.DecimalField('Precio',max_digits=15,
                                   decimal_places=3, validators=[MinValueValidator(0.0)])
     width = models.DecimalField('Anchura',max_digits=9,decimal_places=3, 
                                     validators=[MinValueValidator(0.0)],null=True,blank=True)
@@ -82,7 +82,7 @@ class Prod(models.Model):
     category = models.ForeignKey(Table, related_name='category',verbose_name='Categoría')
     clase = models.ForeignKey(Table, related_name='clase')
     tax1 = models.ForeignKey(Table, related_name='tax1')
-    tax2 = models.ForeignKey(Table, related_name='tax2',null=True,blank=True)
+    tax2 = models.ForeignKey(Table, related_name='tax2', null=True, blank=True)
     seller = models.ForeignKey(Seller,verbose_name='Vendedor')
     modifier = models.ForeignKey(User, related_name='prod_modifier')
     image_1 = models.ImageField(upload_to='prod/')
@@ -131,6 +131,21 @@ class Prod(models.Model):
 
     def get_TPrice(self):
         return self.price + self.get_tax()
+
+    def get_images(self):
+        images = []
+        if self.image_1:
+            images.append(self.image_1)
+            if self.image_2:
+                images.append(self.image_2)
+            if self.image_3:
+                images.append(self.image_3)
+            if self.image_4:
+                images.append(self.image_4)
+            if self.image_5:
+                images.append(self.image_5)
+        return images
+
 
 @receiver(post_save, sender=Prod)
 def prod_post_save(sender, instance, created, **kwargs):
