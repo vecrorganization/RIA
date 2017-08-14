@@ -18,6 +18,10 @@ from ourAuth.models import AddressUser
 from ourAdmin.models import Address
 from ourAdmin.forms import AddressForm
 
+##Mercado Pago
+CLIENT_ID = "4815438540890951"
+CLIENT_SECRET = "OHuCBlVIxzUki07MaRYXpW4wWdxl9g0y"
+
 class PurchaseSummary(LoginRequiredMixin,TemplateView):
     """
     Summary of purchase
@@ -75,23 +79,27 @@ class PaymentAddress(LoginRequiredMixin,TemplateView):
 
         return redirect('ManageAddress')
 
-class IpnMP(TemplateView):   
+    def IpnMP(req, **kwargs):
+        mp = mercadopago.MP(CLIENT_ID, CLIENT_SECRET)
 
-    def get(self, request):
-        print("GET")
-        topic = request.GET.get('topic',None)
-        id = request.GET.get('id',None)
-        print(topic)
-        print(id)
-        return HttpResponse(status=200)
+        topic = kwargs["topic"]
+        merchant_order_info = None
 
-    def post(self, request, *args, **kwargs):
-        print("POST")
-        topic = request.POST.get('topic',None)
-        id = request.POST.get('id',None)       
-        print(topic)
-        print(id)
-        return HttpResponse(status=200)
+        if topic == "payment"
+            payment_info = mp.get("/collections/notifications/"+kwargs["id"])
+            merchant_order_info = mp.get("/merchant_orders/"+payment_info["response"]["collection"]["merchant_order_id"])
+            print(merchant_order_info)
+        elif topic == "merchant_order"
+            merchant_order_info = mp.get("/merchant_orders/"+kwargs["id"])
+            print(merchant_order_info)
+        if merchant_order_info == None
+            raise ValueError("Error obtaining the merchant_order")
+
+        if merchant_order_info["status"] == 200
+            return {
+                "payment": merchant_order_info["response"]["payments"],
+                "shipment": merchant_order_info["response"]["shipments"]
+            }
 
 
 
@@ -123,10 +131,6 @@ class PayMp(LoginRequiredMixin,TemplateView):
         context['products'] = products
         context['date'] = datetime.today()
 
-
-        ##Mercado Pago
-        CLIENT_ID = "4815438540890951"
-        CLIENT_SECRET = "OHuCBlVIxzUki07MaRYXpW4wWdxl9g0y"
         mp = mercadopago.MP(CLIENT_ID, CLIENT_SECRET)
 
         
