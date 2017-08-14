@@ -85,17 +85,17 @@ class PaymentAddress(LoginRequiredMixin,TemplateView):
         topic = kwargs["topic"]
         merchant_order_info = None
 
-        if topic == "payment"
+        if topic == "payment":
             payment_info = mp.get("/collections/notifications/"+kwargs["id"])
             merchant_order_info = mp.get("/merchant_orders/"+payment_info["response"]["collection"]["merchant_order_id"])
             print(merchant_order_info)
-        elif topic == "merchant_order"
+        elif topic == "merchant_order":
             merchant_order_info = mp.get("/merchant_orders/"+kwargs["id"])
             print(merchant_order_info)
-        if merchant_order_info == None
+        if merchant_order_info == None:
             raise ValueError("Error obtaining the merchant_order")
 
-        if merchant_order_info["status"] == 200
+        if merchant_order_info["status"] == 200:
             return {
                 "payment": merchant_order_info["response"]["payments"],
                 "shipment": merchant_order_info["response"]["shipments"]
