@@ -9,4 +9,6 @@ urlpatterns = [
     url(r'^edit_address/(?P<pk>\d+)/$', PaymentAddress.as_view(), name='EditAddress'),
     #Pay
     url(r'^pay/(?P<pk>\d+)/$', PayMp.as_view(), name='PayMp'),
+    #IPN (Notificaciones de pago)
+    url(r'^ipn/$', IpnMP.as_view(), name='IpnMP'),    
 ]

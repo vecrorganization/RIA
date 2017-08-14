@@ -75,6 +75,16 @@ class PaymentAddress(LoginRequiredMixin,TemplateView):
 
         return redirect('ManageAddress')
 
+class IpnMP(TemplateView):   
+
+    def get(self, request):
+        topic = request.GET.get('topic',None)
+        id = request.GET.get('id',None)
+        print(topic)
+        print(id)
+        return HttpResponse(status=200)
+
+
 
 class PayMp(LoginRequiredMixin,TemplateView):
     """
@@ -174,7 +184,7 @@ class PayMp(LoginRequiredMixin,TemplateView):
             "default_installments": 'null'
         },
         "notification_url": "https://ria-development.herokuapp.com/payment/ipn",
-        "external_reference": "Reference_1234",
+        "external_reference": "1234",
         "expires": True,
         "expiration_date_from": "2016-02-01T12:00:00.000-04:00",
         "expiration_date_to": "2019-02-28T12:00:00.000-04:00"
