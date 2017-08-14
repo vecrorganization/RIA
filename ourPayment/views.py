@@ -78,8 +78,17 @@ class PaymentAddress(LoginRequiredMixin,TemplateView):
 class IpnMP(TemplateView):   
 
     def get(self, request):
+        print("GET")
         topic = request.GET.get('topic',None)
         id = request.GET.get('id',None)
+        print(topic)
+        print(id)
+        return HttpResponse(status=200)
+
+    def post(self, request, *args, **kwargs):
+        print("POST")
+        topic = request.POST.get('topic',None)
+        id = request.POST.get('id',None)       
         print(topic)
         print(id)
         return HttpResponse(status=200)
@@ -183,7 +192,7 @@ class PayMp(LoginRequiredMixin,TemplateView):
             "default_payment_method_id": 'null',
             "default_installments": 'null'
         },
-        "notification_url": "https://ria-development.herokuapp.com/payment/ipn",
+        "notification_url": "https://ria-development.herokuapp.com/payment/ipn/",
         "external_reference": "1234",
         "expires": True,
         "expiration_date_from": "2016-02-01T12:00:00.000-04:00",
