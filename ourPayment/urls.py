@@ -10,5 +10,5 @@ urlpatterns = [
     #Pay
     url(r'^pay/(?P<pk>\d+)/$', PayMp.as_view(), name='PayMp'),
     #IPN (Notificaciones de pago)
-    url(r'^ipn/$', IpnMP.as_view(), name='IpnMP'),    
+    url(r'^ipn/$', IpnMP, name='IpnMP'),
 ]
