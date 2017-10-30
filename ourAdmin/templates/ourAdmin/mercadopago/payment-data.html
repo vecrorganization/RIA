@@ -1,5 +1,6 @@
 {% extends "ourAdmin/base.html" %}
 {% load static %}
+{% load l10n %}
 
 {% block content-bar %}{% endblock %}
 {% block content %}
@@ -13,28 +14,29 @@
 https://www.mercadopago.com.ar/developers/es/api-docs/custom-checkout/create-payments/
 -->
 
-{% if payment %}
-
+{% if response %}
+{% with response.collection as payment%}
 <ul>
-  <li>{{response.id}}</li>
-  <li>{{response.date_created|date:"d/m/Y" }}</li>
-  <li>{{response.date_approved|date:"d/m/Y" }}</li>
+  <li>{{payment.id | unlocalize}}</li>
+  <li>{{payment.date_created }}</li>
+  <li>{{payment.date_approved }}</li>
   <li>
-    {% with p as response.payer %}
-      <a href="#conf-part-{{p.id}}" data-toggle="collapse">{{p.first_name}} {{p.last_name}}</a>
-      <ul class="collapse" id="conf-part-{{p.id}}">
-        <li>ID: {{p.id}}</li>
+    {% with payment.payer as p%}
+      <a href="#conf-part-{{payment.id| unlocalize}}" data-toggle="collapse">{{p.first_name}} {{p.last_name}}</a>
+      <ul class="collapse" id="conf-part-{{payment.id| unlocalize}}">
+        <li>ID: {{p.id| unlocalize}}</li>
         {% if p.email %}<li>Email: {{p.email}}</li>{% endif %}
         {% if p.phone %}<li>Telf.: {{p.phone}}</li>{% endif %}
       </ul>              
     {% endwith %}
   </li>
-  <li>{{response.transaction_amount}}</li>
-  <li>{{response.currency_id}}</li>
-  <li>{{response.payment_type_id}}</li>
-  <li>{{response.status}}</li>
+  <li>{{payment.transaction_amount}}</li>
+  <li>{{payment.currency_id}}</li>
+  <li>{{payment.payment_type}}</li>
+  <li>{{payment.status}}</li>
 </ul>
 
+{% endwith %}
 {% endif %}
 
 </section>

@@ -81,11 +81,7 @@
                     </tbody>
                 </table>
                 <div class="col-centered" style="text-align: center;"> 
-                <a href="{% url 'PurchaseSummary' %}">
-                <button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-chevron-left"></span>
-                    Regresar
-                </button></a>
-                <a href="{{mp_url}}"  class="btn btn-primary btn-lg " name="MP-Checkout" mp-mode="modal" onreturn="execute_my_onreturn">Pagar ahora <span class="glyphicon glyphicon-chevron-right"></span> </a>
+                <h2>Estado: <span style="color:green">{{order.get_status_display}}</span></h2>
                 </div>
             </div>
         </div>
@@ -93,16 +89,4 @@
 {% endblock %}
 
 {% block custom_script %}
-<script type="text/javascript">
-(function(){function $MPC_load(){window.$MPC_loaded !== true && (function(){var s = document.createElement("script");s.type = "text/javascript";s.async = true;s.src = document.location.protocol+"//secure.mlstatic.com/mptools/render.js";var x = document.getElementsByTagName('script')[0];x.parentNode.insertBefore(s, x);window.$MPC_loaded = true;})();}window.$MPC_loaded !== true ? (window.attachEvent ?window.attachEvent('onload', $MPC_load) : window.addEventListener('load', $MPC_load, false)) : null;})();
-
-function execute_my_onreturn (json) {
-    if (json.collection_status==null) {
-        alert ('No se completó el proceso, no se ha generado ningún pago');
-    }
-    else if(json.collection_status=='rejected'){
-        alert ('El pago fué rechazado, puede intentar nuevamente');
-    }
-}
-</script>
 {% endblock %} 

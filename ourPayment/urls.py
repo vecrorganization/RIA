@@ -11,4 +11,6 @@ urlpatterns = [
     url(r'^pay/(?P<pk>\d+)/$', PayMp.as_view(), name='PayMp'),
     #IPN (Notificaciones de pago)
     url(r'^ipn/$', IpnMP, name='IpnMP'),
+    url(r'^success/$', SuccessMP.as_view(), name='SuccessMP'),
+    url(r'^pending/$', PendingMP, name='PendingMP'),
 ]

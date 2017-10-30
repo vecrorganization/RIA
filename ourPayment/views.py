@@ -12,15 +12,12 @@ from django.contrib.auth.models import User
 
 # Project
 import os, sys
-import mercadopago
+import ourPayment.mercadopago as mercadopago
 from ourWeb.models import ProdOrder
 from ourAuth.models import AddressUser
-from ourAdmin.models import Address
+from ourAdmin.models import Address, PaymentMethod
 from ourAdmin.forms import AddressForm
-
-##Mercado Pago
-CLIENT_ID = "4815438540890951"
-CLIENT_SECRET = "OHuCBlVIxzUki07MaRYXpW4wWdxl9g0y"
+from ourWeb.models import Order
 
 class PurchaseSummary(LoginRequiredMixin,TemplateView):
     """
@@ -34,8 +31,6 @@ class PurchaseSummary(LoginRequiredMixin,TemplateView):
         context['Title'] = "Información de pago"
 
         return context
-
-
 
 class PaymentAddress(LoginRequiredMixin,TemplateView):
     """
@@ -78,20 +73,57 @@ class PaymentAddress(LoginRequiredMixin,TemplateView):
             return render(request, self.template_name, {'form':form,'Title':title})
 
         return redirect('ManageAddress')
-        
-#IPN (Notificaciones de pago)
-def IpnMP(req, **kwargs):
-    mp = mercadopago.MP(CLIENT_ID, CLIENT_SECRET)
 
-    topic = kwargs["topic"]
+#############################IPN (Notificaciones de pago)#############################################
+class SuccessMP(LoginRequiredMixin,TemplateView):
+    template_name = 'ourPayment/success.html'
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        qd = request.GET
+        collection_id = qd.get("collection_id")
+        payment_type = qd.get("payment_type")
+
+        payment = mercadopago._getPaymentData(collection_id)
+        payment = payment['response']['collection']
+
+        if payment['status'] == 'approved':
+            #Order
+            order_id = payment['external_reference']
+            order = Order.objects.get(id=int(order_id))
+            order.status = Order.COMPLETED
+            order.date = datetime.now()
+            order.save()
+            print(order.status)
+            
+            #Payment
+
+
+            #context
+            products = ProdOrder.objects.filter(order = order)
+            context['products'] = products
+            context['payment'] = payment
+            context['order'] = order
+            context['Title'] = "Resumen pago"
+        return self.render_to_response(context)
+
+
+class PendingMP(LoginRequiredMixin,TemplateView):
+    
+    def get (self, request):
+        pass
+
+def IpnMP(req, **kwargs):
+
+    pass
+    '''topic = kwargs["topic"]
     merchant_order_info = None
 
     if topic == "payment":
-        payment_info = mp.get("/collections/notifications/"+kwargs["id"])
-        merchant_order_info = mp.get("/merchant_orders/"+payment_info["response"]["collection"]["merchant_order_id"])
+        payment_info = mercadopago.mp.get("/collections/notifications/"+kwargs["id"])
+        merchant_order_info = mercadopago.mp.get("/merchant_orders/"+payment_info["response"]["collection"]["merchant_order_id"])
         print(merchant_order_info)
     elif topic == "merchant_order":
-        merchant_order_info = mp.get("/merchant_orders/"+kwargs["id"])
+        merchant_order_info = mercadopago.mp.get("/merchant_orders/"+kwargs["id"])
         print(merchant_order_info)
     if merchant_order_info == None:
         raise ValueError("Error obtaining the merchant_order")
@@ -101,8 +133,8 @@ def IpnMP(req, **kwargs):
             "payment": merchant_order_info["response"]["payments"],
             "shipment": merchant_order_info["response"]["shipments"]
         }
-
-
+    '''
+########################################################################################################################
 
 class PayMp(LoginRequiredMixin,TemplateView):
     """
@@ -131,8 +163,6 @@ class PayMp(LoginRequiredMixin,TemplateView):
         context['order'] = order
         context['products'] = products
         context['date'] = datetime.today()
-
-        mp = mercadopago.MP(CLIENT_ID, CLIENT_SECRET)
 
         
         desc = ""
@@ -183,33 +213,23 @@ class PayMp(LoginRequiredMixin,TemplateView):
         },
         "auto_return": "approved",
         "payment_methods": {
-            "excluded_payment_methods": [
-                {
-                    "id": "master"
-                }
-            ],
-            "excluded_payment_types": [
-                {
-                    "id": "ticket"
-                }
-            ],
             "installments": 12,
             "default_payment_method_id": 'null',
             "default_installments": 'null'
         },
         "notification_url": "https://ria-development.herokuapp.com/payment/ipn/",
-        "external_reference": "1234",
+        "external_reference": order.id,
         "expires": True,
-        "expiration_date_from": "2016-02-01T12:00:00.000-04:00",
-        "expiration_date_to": "2019-02-28T12:00:00.000-04:00"
+        "expiration_date_from": mercadopago.format_mptime(datetime.now()),
+        "expiration_date_to": mercadopago.format_mptime(datetime.now(),27)
         }
 
 
 
 
-        preferenceResult = mp.create_preference(preference)
+        preferenceResult = mercadopago.mp.create_preference(preference)
 
-        url = preferenceResult["response"]["sandbox_init_point"]
+        url = preferenceResult["response"]["init_point"]
         context['mp_url'] = url
 
         return context 

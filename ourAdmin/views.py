@@ -389,8 +389,8 @@ class MPPayments(LoginRequiredMixin,StaffuserRequiredMixin,TemplateView):
     def get_context_data(self, **kwargs):
         context = super(MPPayments, self).get_context_data(**kwargs)
 
-        from ourPayment.mercadopago import _searchPayments
-        payments = _searchPayments()
+        from ourPayment.mercadopago import _getReceivedPayments
+        payments = _getReceivedPayments()
         print(payments)
 
         context['Title'] = 'MP - Pagos'
